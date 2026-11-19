@@ -298,7 +298,8 @@
       border-radius: 14px; padding: 10px 8px; text-align: center;
     }
     .stat-box small { color: var(--text-muted); font-size: 0.72rem; display: block; margin-bottom: 4px; }
-    .stat-box strong { font-size: 0.9rem; direction: ltr; display: block; }
+    .stat-box strong { font-size: 0.92rem; direction: ltr; display: block; }
+    .stat-box .sub-stat { font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
 
     /* Project Detail Sub-Sections */
     .detail-subcard {
@@ -651,6 +652,27 @@
       <h3 class="section-title">الشركات الراعية والباقات</h3>
       <button class="btn-secondary" onclick="switchTab('settings')">تعديل الباقات</button>
     </div>
+
+    <!-- Total Sponsors Amount Summary -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <small>إجمالي الرعايات (دولار)</small>
+        <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalUSD">$0.00</strong>
+        <div class="sub-stat">
+          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalUSD">$0.00</span><br/>
+          متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalUSD">$0.00</span>
+        </div>
+      </div>
+      <div class="stat-box">
+        <small>إجمالي الرعايات (دينار)</small>
+        <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalIQD">0 IQD</strong>
+        <div class="sub-stat">
+          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalIQD">0 IQD</span><br/>
+          متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalIQD">0 IQD</span>
+        </div>
+      </div>
+    </div>
+
     <div class="form-card">
       <div class="form-group">
         <label>اسم الشركة الراعية</label>
@@ -1988,7 +2010,28 @@
     });
     if (prevRepVal) repProjSelect.value = prevRepVal;
 
-    // Sponsors
+    // Sponsors & Grand Totals
+    let spGrandUSD = 0, spPaidUSD = 0;
+    let spGrandIQD = 0, spPaidIQD = 0;
+
+    appData.sponsors.forEach(s => {
+      if (s.currency === 'USD') {
+        spGrandUSD += Number(s.totalAmount) || 0;
+        spPaidUSD += Number(s.paidAmount) || 0;
+      } else {
+        spGrandIQD += Number(s.totalAmount) || 0;
+        spPaidIQD += Number(s.paidAmount) || 0;
+      }
+    });
+
+    document.getElementById('spGrandTotalUSD').textContent = formatMoney(spGrandUSD, 'USD');
+    document.getElementById('spPaidTotalUSD').textContent = formatMoney(spPaidUSD, 'USD');
+    document.getElementById('spRemTotalUSD').textContent = formatMoney(Math.max(0, spGrandUSD - spPaidUSD), 'USD');
+
+    document.getElementById('spGrandTotalIQD').textContent = formatMoney(spGrandIQD, 'IQD');
+    document.getElementById('spPaidTotalIQD').textContent = formatMoney(spPaidIQD, 'IQD');
+    document.getElementById('spRemTotalIQD').textContent = formatMoney(Math.max(0, spGrandIQD - spPaidIQD), 'IQD');
+
     const spList = document.getElementById('sponsorsList');
     const tierNames = { diamond: 'باقة ماسية', gold: 'باقة ذهبية', silver: 'باقة فضية' };
     const statusLabels = { paid: 'مدفوعة بالكامل', partial: 'دفعة جزئية', unpaid: 'مستحقة' };
