@@ -45,9 +45,9 @@
     }
 
     .container {
-      max-width: 480px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 20px;
     }
 
     /* PIN Lock Screen */
@@ -75,82 +75,286 @@
     }
 
     /* Header */
-    .header { text-align: center; padding: 8px 0 14px; }
-    .logo-svg { width: 48px; height: 48px; margin: 0 auto 6px; display: block; }
-    .org-title { font-size: 1.3rem; font-weight: 800; }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 10px 0 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 20px;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-svg { width: 44px; height: 44px; flex-shrink: 0; }
+    .org-title { font-size: 1.4rem; font-weight: 800; }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .desktop-nav {
+      display: none;
+      gap: 8px;
+    }
+
+    .d-nav-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d-nav-btn:hover, .d-nav-btn.active {
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+      background: rgba(46, 230, 197, 0.1);
+    }
 
     .currency-switcher {
       display: inline-flex;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 3px;
-      margin-top: 8px;
+      padding: 4px;
     }
 
     .currency-btn {
       border: none; background: transparent; color: var(--text-muted);
-      padding: 5px 14px; border-radius: 16px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      padding: 6px 16px; border-radius: 16px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
     }
     .currency-btn.active { background: var(--accent-teal); color: #0b1320; }
+
+    /* Top Dashboard Row (Balance + Quick Vouchers) */
+    .top-dashboard {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
 
     /* Balance Card */
     .balance-card {
       background: linear-gradient(135deg, #1b8c82 0%, #3d489e 55%, #5b4899 100%);
       border-radius: 20px;
-      padding: 18px 20px;
+      padding: 22px 26px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-      margin-bottom: 12px;
     }
 
-    .balance-right { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .wallet-icon { width: 34px; height: 34px; fill: var(--accent-teal); }
-    .balance-label { font-size: 0.82rem; font-weight: 700; color: #e2e8f0; }
+    .balance-right { display: flex; align-items: center; gap: 12px; }
+    .wallet-icon { width: 40px; height: 40px; fill: var(--accent-teal); }
+    .balance-label { font-size: 1rem; font-weight: 800; color: #f8fafc; }
     .balance-left { text-align: left; }
-    .balance-amount { font-size: 1.7rem; font-weight: 800; direction: ltr; display: block; }
-    .balance-sub { font-size: 0.76rem; color: var(--accent-teal); font-weight: 600; }
+    .balance-amount { font-size: 2rem; font-weight: 900; direction: ltr; display: block; }
+    .balance-sub { font-size: 0.8rem; color: var(--accent-teal); font-weight: 700; }
 
     /* Quick Actions */
-    .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .quick-btn {
-      padding: 10px; border-radius: 14px; border: 1px solid var(--card-border);
-      background: var(--card-bg); font-weight: 700; font-size: 0.84rem;
-      display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
-    }
-    .quick-btn.in { border-color: rgba(46, 230, 197, 0.4); color: var(--accent-teal); }
-    .quick-btn.out { border-color: rgba(255, 92, 117, 0.4); color: var(--danger); }
-
-    /* Menu Grid */
-    .menu-grid {
+    .quick-actions {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .menu-item {
+    .quick-btn {
+      padding: 14px; border-radius: 16px; border: 1px solid var(--card-border);
+      background: var(--card-bg); font-weight: 800; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+      transition: transform 0.15s, border-color 0.2s;
+    }
+    .quick-btn:hover { transform: translateY(-2px); }
+    .quick-btn.in { border-color: rgba(46, 230, 197, 0.45); color: var(--accent-teal); background: rgba(46, 230, 197, 0.06); }
+    .quick-btn.out { border-color: rgba(255, 92, 117, 0.45); color: var(--danger); background: rgba(255, 92, 117, 0.06); }
+
+    /* MAIN MODULES LAYOUT: 2 Wide Rectangles (Revenues & Expenses) + 4 Squares */
+    .modules-wrapper {
+      margin-bottom: 24px;
+    }
+
+    /* Wide Rectangles for Revenues & Expenses */
+    .rect-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .rect-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 12px 6px;
+      border-radius: 18px;
+      padding: 18px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rect-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .rect-card.rect-rev {
+      border-color: rgba(46, 230, 197, 0.35);
+      background: linear-gradient(135deg, rgba(46, 230, 197, 0.12), var(--card-bg) 70%);
+    }
+
+    .rect-card.rect-exp {
+      border-color: rgba(255, 92, 117, 0.35);
+      background: linear-gradient(135deg, rgba(255, 92, 117, 0.12), var(--card-bg) 70%);
+    }
+
+    .rect-card.active-tab {
+      box-shadow: 0 0 0 2px var(--accent-teal);
+    }
+
+    .rect-card.rect-exp.active-tab {
+      box-shadow: 0 0 0 2px var(--danger);
+    }
+
+    .rect-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .rect-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .rect-rev .rect-icon-box { background: rgba(46, 230, 197, 0.18); }
+    .rect-exp .rect-icon-box { background: rgba(255, 92, 117, 0.18); }
+
+    .rect-rev .menu-icon { fill: var(--accent-teal); width: 26px; height: 26px; }
+    .rect-exp .menu-icon { fill: var(--danger); width: 26px; height: 26px; }
+
+    .rect-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #fff;
+      display: block;
+    }
+
+    .rect-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .rect-total {
+      font-size: 1.05rem;
+      font-weight: 800;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* Squares Grid for the Other 4 Modules */
+    .squares-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .square-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px 12px;
+      aspect-ratio: 1.35 / 1;
       text-align: center;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
     }
 
-    .menu-item.active-tab {
+    .square-card:hover {
+      border-color: rgba(46, 230, 197, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .square-card.active-tab {
       border-color: var(--accent-teal);
-      background: rgba(46, 230, 197, 0.09);
+      background: rgba(46, 230, 197, 0.1);
+      box-shadow: 0 6px 18px rgba(46, 230, 197, 0.12);
+    }
+
+    .square-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(46, 230, 197, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .menu-icon { width: 24px; height: 24px; fill: var(--accent-teal); }
-    .menu-title { font-size: 0.78rem; font-weight: 700; color: #f1f5f9; }
+    .menu-title { font-size: 0.88rem; font-weight: 800; color: #f1f5f9; }
+    .square-count { font-size: 0.74rem; color: var(--text-muted); }
+
+    /* Laptop & Desktop Responsive Grid */
+    @media (min-width: 768px) {
+      body { padding-bottom: 30px; }
+      .bottom-nav { display: none; }
+      .desktop-nav { display: flex; }
+
+      .top-dashboard {
+        grid-template-columns: 1.4fr 1fr;
+        align-items: stretch;
+      }
+
+      .squares-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .square-card {
+        aspect-ratio: 1.15 / 1;
+      }
+
+      .section-workspace {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .rect-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     /* Sections */
     .section { display: none; animation: fadeIn 0.2s ease; }
@@ -159,48 +363,48 @@
 
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
     }
-    .section-title { font-size: 1.02rem; font-weight: 800; }
+    .section-title { font-size: 1.1rem; font-weight: 800; }
 
     /* Forms */
     .form-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 14px;
+      padding: 16px;
       margin-bottom: 14px;
     }
 
-    .form-group { margin-bottom: 10px; }
-    label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+    .form-group { margin-bottom: 11px; }
+    label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
     input, select {
       width: 100%; padding: 10px 12px; border-radius: 10px;
       border: 1px solid var(--card-border); background: #0f1626;
-      color: #fff; font-size: 0.88rem; outline: none;
+      color: #fff; font-size: 0.9rem; outline: none;
     }
     input:focus, select:focus { border-color: var(--accent-teal); }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
     .btn-primary {
-      width: 100%; padding: 11px; border: none; border-radius: 12px;
+      width: 100%; padding: 12px; border: none; border-radius: 12px;
       background: linear-gradient(90deg, var(--accent-teal), #22b8cf);
-      color: #09111e; font-weight: 800; font-size: 0.9rem; cursor: pointer; margin-top: 4px;
+      color: #09111e; font-weight: 800; font-size: 0.92rem; cursor: pointer; margin-top: 4px;
     }
 
     .btn-secondary {
-      padding: 7px 11px; border-radius: 10px; border: 1px solid var(--card-border);
-      background: #1e293b; color: #fff; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      padding: 8px 12px; border-radius: 10px; border: 1px solid var(--card-border);
+      background: #1e293b; color: #fff; font-size: 0.8rem; font-weight: 700; cursor: pointer;
     }
 
     .btn-voucher {
       background: rgba(107, 92, 231, 0.22);
       color: #c4b5fd;
       border: 1px solid rgba(107, 92, 231, 0.45);
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -209,9 +413,9 @@
       background: rgba(46, 230, 197, 0.16);
       color: var(--accent-teal);
       border: 1px solid rgba(46, 230, 197, 0.35);
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -220,9 +424,9 @@
       background: rgba(251, 191, 36, 0.16);
       color: var(--warning);
       border: 1px solid rgba(251, 191, 36, 0.35);
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -231,9 +435,9 @@
       background: rgba(255, 92, 117, 0.15);
       color: var(--danger);
       border: 1px solid rgba(255, 92, 117, 0.3);
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       cursor: pointer;
     }
 
@@ -242,25 +446,25 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 14px 16px;
       margin-bottom: 10px;
     }
 
-    .list-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .item-right { display: flex; align-items: center; gap: 10px; }
+    .list-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .item-right { display: flex; align-items: center; gap: 12px; }
 
     .badge-icon {
-      width: 32px; height: 32px; border-radius: 50%;
+      width: 34px; height: 34px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 1.05rem; flex-shrink: 0;
+      font-weight: 900; font-size: 1.1rem; flex-shrink: 0;
     }
     .badge-plus { background: rgba(46, 230, 197, 0.18); color: var(--accent-teal); }
     .badge-minus { background: rgba(255, 92, 117, 0.18); color: var(--danger); }
     .badge-xfer { background: rgba(107, 92, 231, 0.22); color: #c4b5fd; }
 
-    .item-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
-    .item-sub { font-size: 0.74rem; color: var(--text-muted); }
-    .item-amount { font-weight: 800; font-size: 0.94rem; direction: ltr; text-align: left; }
+    .item-title { font-size: 0.94rem; font-weight: 700; margin-bottom: 3px; }
+    .item-sub { font-size: 0.76rem; color: var(--text-muted); }
+    .item-amount { font-weight: 800; font-size: 0.98rem; direction: ltr; text-align: left; }
     .amt-plus { color: var(--accent-teal); }
     .amt-minus { color: var(--danger); }
 
@@ -268,7 +472,7 @@
       display: flex;
       gap: 6px;
       justify-content: flex-end;
-      margin-top: 8px;
+      margin-top: 10px;
       padding-top: 8px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       flex-wrap: wrap;
@@ -279,10 +483,10 @@
     .progress-fill { height: 100%; background: var(--accent-teal); transition: width 0.3s; }
     .progress-fill.warn { background: var(--warning); }
     .progress-fill.over { background: var(--danger); }
-    .proj-meta { display: flex; justify-content: space-between; font-size: 0.73rem; color: var(--text-muted); margin-top: 6px; }
+    .proj-meta { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-muted); margin-top: 6px; }
 
     /* Pills */
-    .pill { padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: inline-block; margin-left: 4px; }
+    .pill { padding: 3px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; display: inline-block; margin-left: 4px; }
     .tier-diamond { background: rgba(56, 189, 248, 0.2); color: var(--diamond); }
     .tier-gold { background: rgba(251, 191, 36, 0.2); color: var(--gold); }
     .tier-silver { background: rgba(203, 213, 225, 0.2); color: var(--silver); }
@@ -295,22 +499,22 @@
     .stats-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
     .stat-box {
       background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: 14px; padding: 10px 8px; text-align: center;
+      border-radius: 14px; padding: 12px 10px; text-align: center;
     }
-    .stat-box small { color: var(--text-muted); font-size: 0.72rem; display: block; margin-bottom: 4px; }
-    .stat-box strong { font-size: 0.92rem; direction: ltr; display: block; }
-    .stat-box .sub-stat { font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+    .stat-box small { color: var(--text-muted); font-size: 0.74rem; display: block; margin-bottom: 4px; }
+    .stat-box strong { font-size: 0.96rem; direction: ltr; display: block; }
+    .stat-box .sub-stat { font-size: 0.72rem; color: var(--text-muted); margin-top: 5px; line-height: 1.45; }
 
     /* Project Detail Sub-Sections */
     .detail-subcard {
       background: #0f1626;
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 10px;
+      padding: 12px;
       margin-top: 10px;
     }
     .detail-subcard-title {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 800;
       color: var(--accent-teal);
       margin-bottom: 8px;
@@ -320,20 +524,20 @@
     }
 
     /* Filter Chips */
-    .filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; }
+    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; }
     .chip {
       background: var(--card-bg); border: 1px solid var(--card-border);
-      color: var(--text-muted); padding: 6px 12px; border-radius: 16px;
-      font-size: 0.76rem; white-space: nowrap; cursor: pointer;
+      color: var(--text-muted); padding: 7px 14px; border-radius: 16px;
+      font-size: 0.78rem; white-space: nowrap; cursor: pointer;
     }
     .chip.active { background: var(--accent-teal); color: #0b1320; font-weight: 700; border-color: var(--accent-teal); }
 
-    /* Bottom Navigation */
+    /* Bottom Navigation (Mobile) */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #131b2e; border-top: 1px solid var(--card-border);
       display: flex; justify-content: space-around; padding: 8px 0 10px;
-      z-index: 100; max-width: 480px; margin: 0 auto;
+      z-index: 100;
     }
     .nav-btn {
       background: none; border: none; color: var(--text-muted);
@@ -343,7 +547,7 @@
     .nav-btn svg { width: 22px; height: 22px; fill: currentColor; }
     .nav-btn.active { color: var(--accent-teal); }
 
-    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.84rem; padding: 14px; }
+    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.86rem; padding: 18px; }
 
     /* A4 VOUCHER & STATEMENT MODAL */
     #voucherModal {
@@ -540,73 +744,126 @@
 <div class="container">
   <!-- Header -->
   <div class="header">
-    <svg class="logo-svg" viewBox="0 0 64 64" fill="none">
-      <path d="M32 6L36 22L28 22L32 6Z" fill="#ffffff"/>
-      <path d="M16 14L27 25L22 30L16 14Z" fill="#ffffff"/>
-      <path d="M48 14L42 30L37 25L48 14Z" fill="#ffffff"/>
-      <path d="M10 32L24 29L24 35L10 32Z" fill="#ffffff"/>
-      <path d="M54 32L40 35L40 29L54 32Z" fill="#ffffff"/>
-      <path d="M18 48L27 36L31 40L18 48Z" fill="#ffffff"/>
-      <path d="M34 36L46 54L39 57L34 36Z" fill="#ffffff"/>
-    </svg>
-    <div class="org-title" id="displayOrgName">مؤسسة اليم</div>
-
-    <div class="currency-switcher">
-      <button class="currency-btn active" id="btnUSD" onclick="setDisplayCurrency('USD')">دولار ($)</button>
-      <button class="currency-btn" id="btnIQD" onclick="setDisplayCurrency('IQD')">دينار (د.ع)</button>
-    </div>
-  </div>
-
-  <!-- Balance Card -->
-  <div class="balance-card">
-    <div class="balance-right">
-      <svg class="wallet-icon" viewBox="0 0 24 24">
-        <path d="M21 7H5a2 2 0 0 1 0-4h14v2H5v.01h16V7zm1 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a3.99 3.99 0 0 0 3 3.87V11h17zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+    <div class="header-brand">
+      <svg class="logo-svg" viewBox="0 0 64 64" fill="none">
+        <path d="M32 6L36 22L28 22L32 6Z" fill="#ffffff"/>
+        <path d="M16 14L27 25L22 30L16 14Z" fill="#ffffff"/>
+        <path d="M48 14L42 30L37 25L48 14Z" fill="#ffffff"/>
+        <path d="M10 32L24 29L24 35L10 32Z" fill="#ffffff"/>
+        <path d="M54 32L40 35L40 29L54 32Z" fill="#ffffff"/>
+        <path d="M18 48L27 36L31 40L18 48Z" fill="#ffffff"/>
+        <path d="M34 36L46 54L39 57L34 36Z" fill="#ffffff"/>
       </svg>
-      <span class="balance-label">الصندوق المالي</span>
+      <div>
+        <div class="org-title" id="displayOrgName">مؤسسة اليم</div>
+        <div style="font-size:0.75rem; color:var(--text-muted);">النظام المحاسبي وإدارة المشاريع</div>
+      </div>
     </div>
-    <div class="balance-left">
-      <span class="balance-amount en-num" id="totalBalanceDisplay">0.00</span>
-      <span class="balance-sub" id="balanceSubText">USD ($) • محدث الآن</span>
+
+    <div class="header-controls">
+      <!-- Desktop Navigation -->
+      <div class="desktop-nav">
+        <button class="d-nav-btn active" onclick="switchTab('projects', null, this)">الرئيسية</button>
+        <button class="d-nav-btn" onclick="switchTab('reports', null, this)">التقارير والكشوفات</button>
+        <button class="d-nav-btn" onclick="switchTab('employees', null, this)">الموظفين</button>
+        <button class="d-nav-btn" onclick="switchTab('settings', null, this)">الإعدادات</button>
+      </div>
+
+      <div class="currency-switcher">
+        <button class="currency-btn active" id="btnUSD" onclick="setDisplayCurrency('USD')">دولار ($)</button>
+        <button class="currency-btn" id="btnIQD" onclick="setDisplayCurrency('IQD')">دينار (د.ع)</button>
+      </div>
     </div>
   </div>
 
-  <!-- Quick Actions -->
-  <div class="quick-actions">
-    <button class="quick-btn in" onclick="quickJump('revenues', 'revParty')">+ سند قبض (إيراد)</button>
-    <button class="quick-btn out" onclick="quickJump('expenses', 'expParty')">− سند صرف (مصروف)</button>
+  <!-- Top Dashboard: Balance + Quick Actions -->
+  <div class="top-dashboard">
+    <div class="balance-card">
+      <div class="balance-right">
+        <svg class="wallet-icon" viewBox="0 0 24 24">
+          <path d="M21 7H5a2 2 0 0 1 0-4h14v2H5v.01h16V7zm1 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a3.99 3.99 0 0 0 3 3.87V11h17zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+        </svg>
+        <div>
+          <span class="balance-label">صافي الصندوق المالي</span>
+          <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;">الرصيد المتاح حالياً</div>
+        </div>
+      </div>
+      <div class="balance-left">
+        <span class="balance-amount en-num" id="totalBalanceDisplay">0.00</span>
+        <span class="balance-sub" id="balanceSubText">USD ($) • محدث الآن</span>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="quick-btn in" onclick="quickJump('revenues', 'revParty')">+ سند قبض سريع</button>
+      <button class="quick-btn out" onclick="quickJump('expenses', 'expParty')">− سند صرف سريع</button>
+    </div>
   </div>
 
-  <!-- Main Modules Grid -->
-  <div class="menu-grid">
-    <div class="menu-item active-tab" onclick="switchTab('projects', this)">
-      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-      <span class="menu-title">المشاريع</span>
+  <!-- MAIN MODULES: 2 Main Rectangles (Revenues & Expenses) + 4 Squares -->
+  <div class="modules-wrapper">
+    <!-- 1. Main Rectangles: Revenues & Expenses -->
+    <div class="rect-grid">
+      <div class="rect-card rect-rev" onclick="switchTab('revenues', this)">
+        <div class="rect-info">
+          <div class="rect-icon-box">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+          </div>
+          <div>
+            <span class="rect-title">الإيرادات الكلية</span>
+            <span class="rect-sub">سندات القبض والمقبوضات</span>
+          </div>
+        </div>
+        <div class="rect-total amt-plus en-num" id="cardRevTotal">$0.00</div>
+      </div>
+
+      <div class="rect-card rect-exp" onclick="switchTab('expenses', this)">
+        <div class="rect-info">
+          <div class="rect-icon-box">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6h-6z"/></svg>
+          </div>
+          <div>
+            <span class="rect-title">المصروفات</span>
+            <span class="rect-sub">سندات الصرف والنفقات</span>
+          </div>
+        </div>
+        <div class="rect-total amt-minus en-num" id="cardExpTotal">$0.00</div>
+      </div>
     </div>
 
-    <div class="menu-item" onclick="switchTab('sponsors', this)">
-      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-5zm0 10.99h6c-.53 4.12-3.28 7.79-6 8.94V13H6V8.3l6-3.75v8.44z"/></svg>
-      <span class="menu-title">الشركات الراعية</span>
-    </div>
+    <!-- 2. Four Squares: Projects, Sponsors, Employees, Accounts -->
+    <div class="squares-grid">
+      <div class="square-card active-tab" onclick="switchTab('projects', this)">
+        <div class="square-icon-box">
+          <svg class="menu-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+        </div>
+        <span class="menu-title">المشاريع</span>
+        <span class="square-count en-num" id="sqProjCount">0 مشاريع</span>
+      </div>
 
-    <div class="menu-item" onclick="switchTab('expenses', this)">
-      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6h-6z"/></svg>
-      <span class="menu-title">المصاريف</span>
-    </div>
+      <div class="square-card" onclick="switchTab('sponsors', this)">
+        <div class="square-icon-box">
+          <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-5zm0 10.99h6c-.53 4.12-3.28 7.79-6 8.94V13H6V8.3l6-3.75v8.44z"/></svg>
+        </div>
+        <span class="menu-title">الشركات الراعية</span>
+        <span class="square-count en-num" id="sqSponsorCount">0 شركات</span>
+      </div>
 
-    <div class="menu-item" onclick="switchTab('revenues', this)">
-      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
-      <span class="menu-title">الإيرادات الكلية</span>
-    </div>
+      <div class="square-card" onclick="switchTab('employees', this)">
+        <div class="square-icon-box">
+          <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <span class="menu-title">الموظفين</span>
+        <span class="square-count en-num" id="sqEmpCount">0 موظفين</span>
+      </div>
 
-    <div class="menu-item" onclick="switchTab('employees', this)">
-      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      <span class="menu-title">الموظفين</span>
-    </div>
-
-    <div class="menu-item" onclick="switchTab('accounts', this)">
-      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z"/></svg>
-      <span class="menu-title">الحسابات والتحويل</span>
+      <div class="square-card" onclick="switchTab('accounts', this)">
+        <div class="square-icon-box">
+          <svg class="menu-icon" viewBox="0 0 24 24"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z"/></svg>
+        </div>
+        <span class="menu-title">الحسابات والتحويل</span>
+        <span class="square-count">USD / IQD</span>
+      </div>
     </div>
   </div>
 
@@ -615,35 +872,37 @@
     <div class="section-header">
       <h3 class="section-title">المشاريع والكلفة المتوقعة</h3>
     </div>
-    <div class="form-card">
-      <div class="form-group">
-        <label>اسم المشروع</label>
-        <input type="text" id="projName" placeholder="مثال: مؤتمر التكنولوجيا السنوي" />
-      </div>
-      <div class="row-2">
+    <div class="section-workspace">
+      <div class="form-card">
         <div class="form-group">
-          <label>الكلفة المتوقعة</label>
-          <input type="number" id="projCost" placeholder="0" />
+          <label>اسم المشروع</label>
+          <input type="text" id="projName" placeholder="مثال: مؤتمر التكنولوجيا السنوي" />
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label>الكلفة المتوقعة</label>
+            <input type="number" id="projCost" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>العملة</label>
+            <select id="projCurrency">
+              <option value="USD">دولار ($)</option>
+              <option value="IQD">دينار (د.ع)</option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
-          <label>العملة</label>
-          <select id="projCurrency">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
+          <label>حالة المشروع</label>
+          <select id="projStatus">
+            <option value="قيد التنفيذ">قيد التنفيذ</option>
+            <option value="مكتمل">مكتمل</option>
+            <option value="متوقف">متوقف</option>
           </select>
         </div>
+        <button class="btn-primary" onclick="addProject()">+ إضافة مشروع</button>
       </div>
-      <div class="form-group">
-        <label>حالة المشروع</label>
-        <select id="projStatus">
-          <option value="قيد التنفيذ">قيد التنفيذ</option>
-          <option value="مكتمل">مكتمل</option>
-          <option value="متوقف">متوقف</option>
-        </select>
-      </div>
-      <button class="btn-primary" onclick="addProject()">+ إضافة مشروع</button>
+      <div id="projectsList"></div>
     </div>
-    <div id="projectsList"></div>
   </div>
 
   <!-- 2. SECTION: SPONSORS -->
@@ -659,7 +918,7 @@
         <small>إجمالي الرعايات (دولار)</small>
         <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalUSD">$0.00</strong>
         <div class="sub-stat">
-          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalUSD">$0.00</span><br/>
+          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalUSD">$0.00</span> |
           متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalUSD">$0.00</span>
         </div>
       </div>
@@ -667,103 +926,107 @@
         <small>إجمالي الرعايات (دينار)</small>
         <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalIQD">0 IQD</strong>
         <div class="sub-stat">
-          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalIQD">0 IQD</span><br/>
+          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalIQD">0 IQD</span> |
           متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalIQD">0 IQD</span>
         </div>
       </div>
     </div>
 
-    <div class="form-card">
-      <div class="form-group">
-        <label>اسم الشركة الراعية</label>
-        <input type="text" id="sponsorName" placeholder="مثال: شركة النور للاتصالات" />
-      </div>
-      <div class="row-2">
+    <div class="section-workspace">
+      <div class="form-card">
         <div class="form-group">
-          <label>فئة الباقة</label>
-          <select id="sponsorTier" onchange="updateSponsorPreview()">
-            <option value="diamond">الباقة الماسية</option>
-            <option value="gold">الباقة الذهبية</option>
-            <option value="silver">الباقة الفضية</option>
+          <label>اسم الشركة الراعية</label>
+          <input type="text" id="sponsorName" placeholder="مثال: شركة النور للاتصالات" />
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label>فئة الباقة</label>
+            <select id="sponsorTier" onchange="updateSponsorPreview()">
+              <option value="diamond">الباقة الماسية</option>
+              <option value="gold">الباقة الذهبية</option>
+              <option value="silver">الباقة الفضية</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>العملة</label>
+            <select id="sponsorCurrency" onchange="updateSponsorPreview()">
+              <option value="USD">دولار ($)</option>
+              <option value="IQD">دينار (د.ع)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ربط بمشروع محدد (اختياري)</label>
+          <select id="sponsorProject">
+            <option value="">رعاية عامة للمؤسسة</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>العملة</label>
-          <select id="sponsorCurrency" onchange="updateSponsorPreview()">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
-          </select>
+        <div class="row-2">
+          <div class="form-group">
+            <label>قيمة الباقة</label>
+            <input type="text" id="sponsorPricePreview" readonly style="color: var(--accent-teal); font-weight: bold;" />
+          </div>
+          <div class="form-group">
+            <label>حالة الدفع</label>
+            <select id="sponsorPayStatus" onchange="togglePartialInput()">
+              <option value="paid">مدفوعة بالكامل</option>
+              <option value="partial">دفعة جزئية</option>
+              <option value="unpaid">مستحقة (غير مدفوعة)</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>ربط بمشروع محدد (اختياري)</label>
-        <select id="sponsorProject">
-          <option value="">رعاية عامة للمؤسسة</option>
-        </select>
-      </div>
-      <div class="row-2">
-        <div class="form-group">
-          <label>قيمة الباقة</label>
-          <input type="text" id="sponsorPricePreview" readonly style="color: var(--accent-teal); font-weight: bold;" />
+        <div class="form-group" id="partialWrap" style="display:none;">
+          <label>المبلغ المستلم حالياً</label>
+          <input type="number" id="sponsorPaidAmount" placeholder="0" />
         </div>
         <div class="form-group">
-          <label>حالة الدفع</label>
-          <select id="sponsorPayStatus" onchange="togglePartialInput()">
-            <option value="paid">مدفوعة بالكامل</option>
-            <option value="partial">دفعة جزئية</option>
-            <option value="unpaid">مستحقة (غير مدفوعة)</option>
-          </select>
+          <label>ملاحظات / مدة العقد</label>
+          <input type="text" id="sponsorNotes" placeholder="مثال: رعاية سنوية" />
         </div>
+        <button class="btn-primary" onclick="addSponsor()">+ تسجيل الشركة وإصدار سند قبض</button>
       </div>
-      <div class="form-group" id="partialWrap" style="display:none;">
-        <label>المبلغ المستلم حالياً</label>
-        <input type="number" id="sponsorPaidAmount" placeholder="0" />
-      </div>
-      <div class="form-group">
-        <label>ملاحظات / مدة العقد</label>
-        <input type="text" id="sponsorNotes" placeholder="مثال: رعاية سنوية" />
-      </div>
-      <button class="btn-primary" onclick="addSponsor()">+ تسجيل الشركة وإصدار سند قبض</button>
+      <div id="sponsorsList"></div>
     </div>
-    <div id="sponsorsList"></div>
   </div>
 
   <!-- 3. SECTION: EXPENSES -->
   <div id="sec-expenses" class="section">
     <div class="section-header">
-      <h3 class="section-title">مصاريف المؤسسة (سندات الصرف)</h3>
+      <h3 class="section-title">مصروفات المؤسسة (سندات الصرف)</h3>
     </div>
-    <div class="form-card">
-      <div class="form-group">
-        <label>يصرف إلى السيد / الجهة (المستفيد)</label>
-        <input type="text" id="expParty" placeholder="اسم المستلم أو الشركة المجهزة" />
-      </div>
-      <div class="form-group">
-        <label>وذلك عن (بيان المصروف)</label>
-        <input type="text" id="expTitle" placeholder="مثال: إيجار المقر / ضيافة / مطبوعات" />
-      </div>
-      <div class="row-2">
+    <div class="section-workspace">
+      <div class="form-card">
         <div class="form-group">
-          <label>المبلغ</label>
-          <input type="number" id="expAmount" placeholder="0" />
+          <label>يصرف إلى السيد / الجهة (المستفيد)</label>
+          <input type="text" id="expParty" placeholder="اسم المستلم أو الشركة المجهزة" />
         </div>
         <div class="form-group">
-          <label>العملة</label>
-          <select id="expCurrency">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
+          <label>وذلك عن (بيان المصروف)</label>
+          <input type="text" id="expTitle" placeholder="مثال: إيجار المقر / ضيافة / مطبوعات" />
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label>المبلغ</label>
+            <input type="number" id="expAmount" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>العملة</label>
+            <select id="expCurrency">
+              <option value="USD">دولار ($)</option>
+              <option value="IQD">دينار (د.ع)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>خصم من ميزانية مشروع (اختياري)</label>
+          <select id="expProject">
+            <option value="">مصروف عام للمؤسسة</option>
           </select>
         </div>
+        <button class="btn-primary" onclick="addExpense()">+ حفظ وإصدار سند صرف</button>
       </div>
-      <div class="form-group">
-        <label>خصم من ميزانية مشروع (اختياري)</label>
-        <select id="expProject">
-          <option value="">مصروف عام للمؤسسة</option>
-        </select>
-      </div>
-      <button class="btn-primary" onclick="addExpense()">+ حفظ وإصدار سند صرف</button>
+      <div id="expensesList"></div>
     </div>
-    <div id="expensesList"></div>
   </div>
 
   <!-- 4. SECTION: REVENUES -->
@@ -781,31 +1044,33 @@
         <strong class="en-num" style="color: var(--accent-teal);" id="revTotalIQD">0 IQD</strong>
       </div>
     </div>
-    <div class="form-card">
-      <div class="form-group">
-        <label>استلمنا من السيد / الجهة (الدافع)</label>
-        <input type="text" id="revParty" placeholder="اسم الجهة أو الشخص الدافع" />
-      </div>
-      <div class="form-group">
-        <label>وذلك عن (بيان الإيراد)</label>
-        <input type="text" id="revTitle" placeholder="مثال: دعم مالي / مبيعات / اشتراكات" />
-      </div>
-      <div class="row-2">
+    <div class="section-workspace">
+      <div class="form-card">
         <div class="form-group">
-          <label>المبلغ</label>
-          <input type="number" id="revAmount" placeholder="0" />
+          <label>استلمنا من السيد / الجهة (الدافع)</label>
+          <input type="text" id="revParty" placeholder="اسم الجهة أو الشخص الدافع" />
         </div>
         <div class="form-group">
-          <label>العملة</label>
-          <select id="revCurrency">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
-          </select>
+          <label>وذلك عن (بيان الإيراد)</label>
+          <input type="text" id="revTitle" placeholder="مثال: دعم مالي / مبيعات / اشتراكات" />
         </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label>المبلغ</label>
+            <input type="number" id="revAmount" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>العملة</label>
+            <select id="revCurrency">
+              <option value="USD">دولار ($)</option>
+              <option value="IQD">دينار (د.ع)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addRevenue()">+ حفظ وإصدار سند قبض</button>
       </div>
-      <button class="btn-primary" onclick="addRevenue()">+ حفظ وإصدار سند قبض</button>
+      <div id="revenuesList"></div>
     </div>
-    <div id="revenuesList"></div>
   </div>
 
   <!-- 5. SECTION: EMPLOYEES -->
@@ -813,33 +1078,35 @@
     <div class="section-header">
       <h3 class="section-title">الموظفين والرواتب والسلف</h3>
     </div>
-    <div class="form-card">
-      <div class="row-2">
-        <div class="form-group">
-          <label>اسم الموظف</label>
-          <input type="text" id="empName" placeholder="الاسم الكامل" />
+    <div class="section-workspace">
+      <div class="form-card">
+        <div class="row-2">
+          <div class="form-group">
+            <label>اسم الموظف</label>
+            <input type="text" id="empName" placeholder="الاسم الكامل" />
+          </div>
+          <div class="form-group">
+            <label>المنصب / الوظيفة</label>
+            <input type="text" id="empRole" placeholder="مثال: محاسب / منسق" />
+          </div>
         </div>
-        <div class="form-group">
-          <label>المنصب / الوظيفة</label>
-          <input type="text" id="empRole" placeholder="مثال: محاسب / منسق" />
+        <div class="row-2">
+          <div class="form-group">
+            <label>الراتب الشهري الأساسي</label>
+            <input type="number" id="empSalary" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>العملة</label>
+            <select id="empCurrency">
+              <option value="USD">دولار ($)</option>
+              <option value="IQD">دينار (د.ع)</option>
+            </select>
+          </div>
         </div>
+        <button class="btn-primary" onclick="addEmployee()">+ إضافة موظف</button>
       </div>
-      <div class="row-2">
-        <div class="form-group">
-          <label>الراتب الشهري الأساسي</label>
-          <input type="number" id="empSalary" placeholder="0" />
-        </div>
-        <div class="form-group">
-          <label>العملة</label>
-          <select id="empCurrency">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
-          </select>
-        </div>
-      </div>
-      <button class="btn-primary" onclick="addEmployee()">+ إضافة موظف</button>
+      <div id="employeesList"></div>
     </div>
-    <div id="employeesList"></div>
   </div>
 
   <!-- 6. SECTION: ACCOUNTS & TRANSFERS -->
@@ -858,58 +1125,62 @@
       </div>
     </div>
 
-    <div class="form-card" style="border-color: rgba(107, 92, 231, 0.45);">
-      <p style="font-size:0.85rem; font-weight:700; color:#c4b5fd; margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
-      <div class="row-2">
-        <div class="form-group">
-          <label>من عملة</label>
-          <select id="xferFromCurr" onchange="previewConversion()">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
-          </select>
+    <div class="section-workspace">
+      <div>
+        <div class="form-card" style="border-color: rgba(107, 92, 231, 0.45);">
+          <p style="font-size:0.88rem; font-weight:700; color:#c4b5fd; margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
+          <div class="row-2">
+            <div class="form-group">
+              <label>من عملة</label>
+              <select id="xferFromCurr" onchange="previewConversion()">
+                <option value="USD">دولار ($)</option>
+                <option value="IQD">دينار (د.ع)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>إلى عملة</label>
+              <select id="xferToCurr" onchange="previewConversion()">
+                <option value="IQD">دينار (د.ع)</option>
+                <option value="USD">دولار ($)</option>
+              </select>
+            </div>
+          </div>
+          <div class="row-2">
+            <div class="form-group">
+              <label>المبلغ المحول</label>
+              <input type="number" id="xferAmount" placeholder="0" oninput="previewConversion()" />
+            </div>
+            <div class="form-group">
+              <label>الناتج التقديري</label>
+              <input type="text" id="xferPreview" readonly class="en-num" style="color:var(--accent-teal); font-weight:bold;" value="0" />
+            </div>
+          </div>
+          <button class="btn-primary" onclick="executeCurrencyTransfer()">تنفيذ التحويل وتحديث الصناديق</button>
         </div>
-        <div class="form-group">
-          <label>إلى عملة</label>
-          <select id="xferToCurr" onchange="previewConversion()">
-            <option value="IQD">دينار (د.ع)</option>
-            <option value="USD">دولار ($)</option>
-          </select>
-        </div>
-      </div>
-      <div class="row-2">
-        <div class="form-group">
-          <label>المبلغ المحول</label>
-          <input type="number" id="xferAmount" placeholder="0" oninput="previewConversion()" />
-        </div>
-        <div class="form-group">
-          <label>الناتج التقديري</label>
-          <input type="text" id="xferPreview" readonly class="en-num" style="color:var(--accent-teal); font-weight:bold;" value="0" />
-        </div>
-      </div>
-      <button class="btn-primary" onclick="executeCurrencyTransfer()">تنفيذ التحويل وتحديث الصناديق</button>
-    </div>
 
-    <div class="form-card">
-      <div class="form-group">
-        <label>إضافة حساب / جهة مالية</label>
-        <input type="text" id="accName" placeholder="مثال: حساب مصرف الرافدين" />
-      </div>
-      <div class="row-2">
-        <div class="form-group">
-          <label>الرصيد</label>
-          <input type="number" id="accBalance" placeholder="0" />
+        <div class="form-card">
+          <div class="form-group">
+            <label>إضافة حساب / جهة مالية</label>
+            <input type="text" id="accName" placeholder="مثال: حساب مصرف الرافدين" />
+          </div>
+          <div class="row-2">
+            <div class="form-group">
+              <label>الرصيد</label>
+              <input type="number" id="accBalance" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label>العملة</label>
+              <select id="accCurrency">
+                <option value="USD">دولار ($)</option>
+                <option value="IQD">دينار (د.ع)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="addAccount()">+ حفظ الحساب</button>
         </div>
-        <div class="form-group">
-          <label>العملة</label>
-          <select id="accCurrency">
-            <option value="USD">دولار ($)</option>
-            <option value="IQD">دينار (د.ع)</option>
-          </select>
-        </div>
       </div>
-      <button class="btn-primary" onclick="addAccount()">+ حفظ الحساب</button>
+      <div id="accountsList"></div>
     </div>
-    <div id="accountsList"></div>
   </div>
 
   <!-- 7. SECTION: REPORTS -->
@@ -992,7 +1263,7 @@
     </div>
 
     <!-- Search & Filters -->
-    <div class="form-card" style="padding:10px;">
+    <div class="form-card" style="padding:12px;">
       <div class="form-group" style="margin-bottom:8px;">
         <input type="text" id="reportSearch" placeholder="🔍 ابحث برقم السند، الاسم، المشروع، أو البيان..." oninput="renderReports()" />
       </div>
@@ -1024,75 +1295,77 @@
     <div class="section-header">
       <h3 class="section-title">الإعدادات والحماية والنسخ</h3>
     </div>
-    <div class="form-card">
-      <div class="form-group">
-        <label>اسم المؤسسة</label>
-        <input type="text" id="setOrgName" value="مؤسسة اليم" />
+    <div class="section-workspace">
+      <div class="form-card">
+        <div class="form-group">
+          <label>اسم المؤسسة</label>
+          <input type="text" id="setOrgName" value="مؤسسة اليم" />
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label>سعر صرف 100$ بالدينار</label>
+            <input type="number" id="setExchangeRate" value="150000" />
+          </div>
+          <div class="form-group">
+            <label>رمز قفل PIN (4 أرقام)</label>
+            <input type="password" maxlength="4" inputmode="numeric" id="setPinCode" placeholder="بدون قفل" />
+          </div>
+        </div>
+
+        <hr style="border-color: var(--card-border); margin: 14px 0;">
+        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">تحديد قيم باقات الشركات الراعية</p>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>الباقة الماسية ($)</label>
+            <input type="number" id="setDiamondUSD" value="5000" />
+          </div>
+          <div class="form-group">
+            <label>الباقة الماسية (د.ع)</label>
+            <input type="number" id="setDiamondIQD" value="7500000" />
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>الباقة الذهبية ($)</label>
+            <input type="number" id="setGoldUSD" value="3000" />
+          </div>
+          <div class="form-group">
+            <label>الباقة الذهبية (د.ع)</label>
+            <input type="number" id="setGoldIQD" value="4500000" />
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>الباقة الفضية ($)</label>
+            <input type="number" id="setSilverUSD" value="1500" />
+          </div>
+          <div class="form-group">
+            <label>الباقة الفضية (د.ع)</label>
+            <input type="number" id="setSilverIQD" value="2250000" />
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
       </div>
-      <div class="row-2">
-        <div class="form-group">
-          <label>سعر صرف 100$ بالدينار</label>
-          <input type="number" id="setExchangeRate" value="150000" />
-        </div>
-        <div class="form-group">
-          <label>رمز قفل PIN (4 أرقام)</label>
-          <input type="password" maxlength="4" inputmode="numeric" id="setPinCode" placeholder="بدون قفل" />
-        </div>
-      </div>
 
-      <hr style="border-color: var(--card-border); margin: 14px 0;">
-      <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">تحديد قيم باقات الشركات الراعية</p>
-
-      <div class="row-2">
-        <div class="form-group">
-          <label>الباقة الماسية ($)</label>
-          <input type="number" id="setDiamondUSD" value="5000" />
+      <div class="form-card">
+        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات</p>
+        <div class="row-2">
+          <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
+          <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
+            ⬆ استيراد نسخة
+            <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
+          </label>
         </div>
-        <div class="form-group">
-          <label>الباقة الماسية (د.ع)</label>
-          <input type="number" id="setDiamondIQD" value="7500000" />
-        </div>
-      </div>
-
-      <div class="row-2">
-        <div class="form-group">
-          <label>الباقة الذهبية ($)</label>
-          <input type="number" id="setGoldUSD" value="3000" />
-        </div>
-        <div class="form-group">
-          <label>الباقة الذهبية (د.ع)</label>
-          <input type="number" id="setGoldIQD" value="4500000" />
-        </div>
-      </div>
-
-      <div class="row-2">
-        <div class="form-group">
-          <label>الباقة الفضية ($)</label>
-          <input type="number" id="setSilverUSD" value="1500" />
-        </div>
-        <div class="form-group">
-          <label>الباقة الفضية (د.ع)</label>
-          <input type="number" id="setSilverIQD" value="2250000" />
-        </div>
-      </div>
-
-      <button class="btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
-    </div>
-
-    <div class="form-card">
-      <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات</p>
-      <div class="row-2">
-        <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
-        <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
-          ⬆ استيراد نسخة
-          <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
-        </label>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bottom Navigation Bar -->
+<!-- Bottom Navigation Bar (Mobile) -->
 <div class="bottom-nav">
   <button class="nav-btn active" onclick="switchTab('projects', null, this)">
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -1216,17 +1489,17 @@
     return num.toLocaleString('en-US') + ' IQD';
   }
 
-  function switchTab(tabName, gridEl, navEl) {
+  function switchTab(tabName, cardEl, navEl) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('sec-' + tabName);
     if (target) target.classList.add('active');
 
-    if (gridEl) {
-      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-tab'));
-      gridEl.classList.add('active-tab');
+    if (cardEl) {
+      document.querySelectorAll('.rect-card, .square-card').forEach(m => m.classList.remove('active-tab'));
+      cardEl.classList.add('active-tab');
     }
     if (navEl) {
-      document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.nav-btn, .d-nav-btn').forEach(n => n.classList.remove('active'));
       navEl.classList.add('active');
     }
   }
@@ -1935,10 +2208,19 @@
       document.getElementById('totalBalanceDisplay').textContent =
         totals.netUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       document.getElementById('balanceSubText').textContent = 'USD ($) • محدث الآن';
+      document.getElementById('cardRevTotal').textContent = formatMoney(totals.inUSD, 'USD');
+      document.getElementById('cardExpTotal').textContent = formatMoney(totals.outUSD, 'USD');
     } else {
       document.getElementById('totalBalanceDisplay').textContent = totals.netIQD.toLocaleString('en-US');
       document.getElementById('balanceSubText').textContent = 'IQD (د.ع) • محدث الآن';
+      document.getElementById('cardRevTotal').textContent = formatMoney(totals.inIQD, 'IQD');
+      document.getElementById('cardExpTotal').textContent = formatMoney(totals.outIQD, 'IQD');
     }
+
+    // Update Square Counts
+    document.getElementById('sqProjCount').textContent = appData.projects.length + ' مشاريع';
+    document.getElementById('sqSponsorCount').textContent = appData.sponsors.length + ' شركات';
+    document.getElementById('sqEmpCount').textContent = appData.employees.length + ' موظفين';
 
     document.getElementById('setOrgName').value = appData.settings.orgName;
     document.getElementById('setExchangeRate').value = appData.settings.rate100;
