@@ -1,2 +1,0 @@
-# yam2026
-index.html

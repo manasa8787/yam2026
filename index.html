@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>مؤسسة اليم - النظام المحاسبي المتكامل</title>
+  <style>
+    :root {
+      --bg-dark: #0e1320;
+      --card-bg: #172035;
+      --card-border: #23304d;
+      --accent-teal: #2ee6c5;
+      --accent-purple: #6b5ce7;
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+      --danger: #ff5c75;
+      --warning: #fbbf24;
+      --gold: #fbbf24;
+      --silver: #cbd5e1;
+      --diamond: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 85px;
+      background-image:
+        radial-gradient(circle at 10% 35%, rgba(46, 230, 197, 0.14), transparent 45%),
+        radial-gradient(circle at 90% 10%, rgba(107, 92, 231, 0.16), transparent 45%);
+    }
+
+    .en-num {
+      font-variant-numeric: tabular-nums;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* PIN Lock Screen */
+    #pinLockScreen {
+      position: fixed;
+      inset: 0;
+      background: #0b0f1a;
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .pin-dots { display: flex; gap: 14px; margin: 22px 0; }
+    .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--accent-teal); }
+    .pin-dot.filled { background: var(--accent-teal); }
+    .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 14px; direction: ltr; }
+    .pin-key {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      color: #fff; font-size: 1.4rem; font-weight: 700; cursor: pointer;
+    }
+
+    /* Header */
+    .header { text-align: center; padding: 8px 0 14px; }
+    .logo-svg { width: 48px; height: 48px; margin: 0 auto 6px; display: block; }
+    .org-title { font-size: 1.3rem; font-weight: 800; }
+
+    .currency-switcher {
+      display: inline-flex;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 3px;
+      margin-top: 8px;
+    }
+
+    .currency-btn {
+      border: none; background: transparent; color: var(--text-muted);
+      padding: 5px 14px; border-radius: 16px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+    }
+    .currency-btn.active { background: var(--accent-teal); color: #0b1320; }
+
+    /* Balance Card */
+    .balance-card {
+      background: linear-gradient(135deg, #1b8c82 0%, #3d489e 55%, #5b4899 100%);
+      border-radius: 20px;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      margin-bottom: 12px;
+    }
+
+    .balance-right { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .wallet-icon { width: 34px; height: 34px; fill: var(--accent-teal); }
+    .balance-label { font-size: 0.82rem; font-weight: 700; color: #e2e8f0; }
+    .balance-left { text-align: left; }
+    .balance-amount { font-size: 1.7rem; font-weight: 800; direction: ltr; display: block; }
+    .balance-sub { font-size: 0.76rem; color: var(--accent-teal); font-weight: 600; }
+
+    /* Quick Actions */
+    .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .quick-btn {
+      padding: 10px; border-radius: 14px; border: 1px solid var(--card-border);
+      background: var(--card-bg); font-weight: 700; font-size: 0.84rem;
+      display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
+    }
+    .quick-btn.in { border-color: rgba(46, 230, 197, 0.4); color: var(--accent-teal); }
+    .quick-btn.out { border-color: rgba(255, 92, 117, 0.4); color: var(--danger); }
+
+    /* Menu Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .menu-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 12px 6px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .menu-item.active-tab {
+      border-color: var(--accent-teal);
+      background: rgba(46, 230, 197, 0.09);
+    }
+
+    .menu-icon { width: 24px; height: 24px; fill: var(--accent-teal); }
+    .menu-title { font-size: 0.78rem; font-weight: 700; color: #f1f5f9; }
+
+    /* Sections */
+    .section { display: none; animation: fadeIn 0.2s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    .section-title { font-size: 1.02rem; font-weight: 800; }
+
+    /* Forms */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-group { margin-bottom: 10px; }
+    label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+    input, select {
+      width: 100%; padding: 10px 12px; border-radius: 10px;
+      border: 1px solid var(--card-border); background: #0f1626;
+      color: #fff; font-size: 0.88rem; outline: none;
+    }
+    input:focus, select:focus { border-color: var(--accent-teal); }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+    .btn-primary {
+      width: 100%; padding: 11px; border: none; border-radius: 12px;
+      background: linear-gradient(90deg, var(--accent-teal), #22b8cf);
+      color: #09111e; font-weight: 800; font-size: 0.9rem; cursor: pointer; margin-top: 4px;
+    }
+
+    .btn-secondary {
+      padding: 7px 11px; border-radius: 10px; border: 1px solid var(--card-border);
+      background: #1e293b; color: #fff; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    }
+
+    .btn-voucher {
+      background: rgba(107, 92, 231, 0.22);
+      color: #c4b5fd;
+      border: 1px solid rgba(107, 92, 231, 0.45);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-sm-success {
+      background: rgba(46, 230, 197, 0.16);
+      color: var(--accent-teal);
+      border: 1px solid rgba(46, 230, 197, 0.35);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-sm-warn {
+      background: rgba(251, 191, 36, 0.16);
+      color: var(--warning);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background: rgba(255, 92, 117, 0.15);
+      color: var(--danger);
+      border: 1px solid rgba(255, 92, 117, 0.3);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+
+    /* List Cards */
+    .list-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+
+    .list-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .item-right { display: flex; align-items: center; gap: 10px; }
+
+    .badge-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.05rem; flex-shrink: 0;
+    }
+    .badge-plus { background: rgba(46, 230, 197, 0.18); color: var(--accent-teal); }
+    .badge-minus { background: rgba(255, 92, 117, 0.18); color: var(--danger); }
+    .badge-xfer { background: rgba(107, 92, 231, 0.22); color: #c4b5fd; }
+
+    .item-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
+    .item-sub { font-size: 0.74rem; color: var(--text-muted); }
+    .item-amount { font-weight: 800; font-size: 0.94rem; direction: ltr; text-align: left; }
+    .amt-plus { color: var(--accent-teal); }
+    .amt-minus { color: var(--danger); }
+
+    .actions-row {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      flex-wrap: wrap;
+    }
+
+    /* Progress Bar */
+    .progress-wrap { margin-top: 10px; background: #0f1626; border-radius: 8px; height: 8px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent-teal); transition: width 0.3s; }
+    .progress-fill.warn { background: var(--warning); }
+    .progress-fill.over { background: var(--danger); }
+    .proj-meta { display: flex; justify-content: space-between; font-size: 0.73rem; color: var(--text-muted); margin-top: 6px; }
+
+    /* Pills */
+    .pill { padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: inline-block; margin-left: 4px; }
+    .tier-diamond { background: rgba(56, 189, 248, 0.2); color: var(--diamond); }
+    .tier-gold { background: rgba(251, 191, 36, 0.2); color: var(--gold); }
+    .tier-silver { background: rgba(203, 213, 225, 0.2); color: var(--silver); }
+    .status-paid { background: rgba(46, 230, 197, 0.18); color: var(--accent-teal); }
+    .status-partial { background: rgba(251, 191, 36, 0.18); color: var(--warning); }
+    .status-unpaid { background: rgba(255, 92, 117, 0.18); color: var(--danger); }
+
+    /* Summary Boxes */
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .stats-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+    .stat-box {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 10px 8px; text-align: center;
+    }
+    .stat-box small { color: var(--text-muted); font-size: 0.72rem; display: block; margin-bottom: 4px; }
+    .stat-box strong { font-size: 0.9rem; direction: ltr; display: block; }
+
+    /* Project Detail Sub-Sections */
+    .detail-subcard {
+      background: #0f1626;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .detail-subcard-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--accent-teal);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Filter Chips */
+    .filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; }
+    .chip {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      color: var(--text-muted); padding: 6px 12px; border-radius: 16px;
+      font-size: 0.76rem; white-space: nowrap; cursor: pointer;
+    }
+    .chip.active { background: var(--accent-teal); color: #0b1320; font-weight: 700; border-color: var(--accent-teal); }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #131b2e; border-top: 1px solid var(--card-border);
+      display: flex; justify-content: space-around; padding: 8px 0 10px;
+      z-index: 100; max-width: 480px; margin: 0 auto;
+    }
+    .nav-btn {
+      background: none; border: none; color: var(--text-muted);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 0.74rem; font-weight: 600; cursor: pointer;
+    }
+    .nav-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .nav-btn.active { color: var(--accent-teal); }
+
+    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.84rem; padding: 14px; }
+
+    /* A4 VOUCHER & STATEMENT MODAL */
+    #voucherModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.84);
+      z-index: 5000;
+      display: none;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .voucher-controls {
+      max-width: 794px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #172035;
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .a4-sheet {
+      width: 100%;
+      max-width: 794px;
+      min-height: 540px;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #111827;
+      padding: 34px 38px;
+      border-radius: 6px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+      border: 2px solid #1e293b;
+    }
+
+    .v-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #1e293b;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .v-title-badge {
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      border: 2px solid #1e293b;
+    }
+
+    .v-receipt { background: #ecfdf5; color: #065f46; border-color: #059669; }
+    .v-payment { background: #fef2f2; color: #991b1b; border-color: #dc2626; }
+    .v-statement { background: #eff6ff; color: #1e40af; border-color: #2563eb; }
+
+    .v-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 0.92rem;
+    }
+
+    .v-box {
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: #f8fafc;
+    }
+
+    .v-body-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+    }
+
+    .v-body-table th, .v-body-table td {
+      border: 1px solid #94a3b8;
+      padding: 10px 12px;
+      text-align: right;
+      font-size: 0.88rem;
+    }
+
+    .v-body-table th {
+      background: #f1f5f9;
+      font-weight: 800;
+    }
+
+    .v-signatures {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 38px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .v-sig-line {
+      margin-top: 40px;
+      border-top: 1px dashed #64748b;
+      padding-top: 6px;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 12mm;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      body { background: #fff !important; padding: 0 !important; }
+      body.printing-voucher #voucherModal,
+      body.printing-voucher #voucherModal .a4-sheet,
+      body.printing-voucher #voucherModal .a4-sheet * {
+        visibility: visible;
+      }
+      body.printing-voucher #voucherModal {
+        position: absolute; left: 0; top: 0; width: 100%; background: #fff; padding: 0;
+      }
+      body.printing-voucher .a4-sheet {
+        box-shadow: none; max-width: 100%; width: 100%; min-height: 265mm; border: 2px solid #000;
+      }
+      body.printing-report #sec-reports,
+      body.printing-report #sec-reports * {
+        visibility: visible;
+      }
+      body.printing-report #sec-reports {
+        position: absolute; left: 0; top: 0; width: 100%; background: #fff; color: #000;
+      }
+      body.printing-report .form-card,
+      body.printing-report .filters,
+      body.printing-report button {
+        display: none !important;
+      }
+      body.printing-report .list-item,
+      body.printing-report .stat-box,
+      body.printing-report .detail-subcard {
+        background: #fff !important; color: #000 !important; border: 1px solid #999 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PIN Lock Screen -->
+<div id="pinLockScreen">
+  <svg class="logo-svg" viewBox="0 0 64 64" fill="none">
+    <path d="M32 6L36 22L28 22L32 6Z" fill="#2ee6c5"/>
+    <path d="M16 14L27 25L22 30L16 14Z" fill="#2ee6c5"/>
+    <path d="M48 14L42 30L37 25L48 14Z" fill="#2ee6c5"/>
+    <path d="M10 32L24 29L24 35L10 32Z" fill="#2ee6c5"/>
+    <path d="M54 32L40 35L40 29L54 32Z" fill="#2ee6c5"/>
+    <path d="M18 48L27 36L31 40L18 48Z" fill="#2ee6c5"/>
+    <path d="M34 36L46 54L39 57L34 36Z" fill="#2ee6c5"/>
+  </svg>
+  <h3 style="margin-bottom: 4px;">مؤسسة اليم - نظام محمي</h3>
+  <p class="item-sub" id="pinHint">أدخل رمز الدخول المكون من <span class="en-num">4</span> أرقام</p>
+  <div class="pin-dots" id="pinDots">
+    <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+  </div>
+  <div class="pin-pad">
+    <button class="pin-key" onclick="enterPin('1')">1</button>
+    <button class="pin-key" onclick="enterPin('2')">2</button>
+    <button class="pin-key" onclick="enterPin('3')">3</button>
+    <button class="pin-key" onclick="enterPin('4')">4</button>
+    <button class="pin-key" onclick="enterPin('5')">5</button>
+    <button class="pin-key" onclick="enterPin('6')">6</button>
+    <button class="pin-key" onclick="enterPin('7')">7</button>
+    <button class="pin-key" onclick="enterPin('8')">8</button>
+    <button class="pin-key" onclick="enterPin('9')">9</button>
+    <button class="pin-key" style="font-size:0.9rem;" onclick="clearPin()">مسح</button>
+    <button class="pin-key" onclick="enterPin('0')">0</button>
+    <button class="pin-key" style="font-size:0.9rem;" onclick="backspacePin()">⌫</button>
+  </div>
+</div>
+
+<!-- A4 Voucher & Statement Modal -->
+<div id="voucherModal">
+  <div class="voucher-controls">
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="btn-primary" style="width:auto; padding:8px 14px; margin:0;" onclick="printVoucherA4()">🖨️ طباعة A4 / PDF</button>
+      <button class="btn-secondary" id="shareVoucherBtn" onclick="shareCurrentVoucher()">📤 مشاركة</button>
+    </div>
+    <button class="btn-danger" style="padding:8px 14px; font-size:0.85rem;" onclick="closeVoucherModal()">إغلاق ✕</button>
+  </div>
+  <div class="a4-sheet" id="voucherContent"></div>
+</div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <svg class="logo-svg" viewBox="0 0 64 64" fill="none">
+      <path d="M32 6L36 22L28 22L32 6Z" fill="#ffffff"/>
+      <path d="M16 14L27 25L22 30L16 14Z" fill="#ffffff"/>
+      <path d="M48 14L42 30L37 25L48 14Z" fill="#ffffff"/>
+      <path d="M10 32L24 29L24 35L10 32Z" fill="#ffffff"/>
+      <path d="M54 32L40 35L40 29L54 32Z" fill="#ffffff"/>
+      <path d="M18 48L27 36L31 40L18 48Z" fill="#ffffff"/>
+      <path d="M34 36L46 54L39 57L34 36Z" fill="#ffffff"/>
+    </svg>
+    <div class="org-title" id="displayOrgName">مؤسسة اليم</div>
+
+    <div class="currency-switcher">
+      <button class="currency-btn active" id="btnUSD" onclick="setDisplayCurrency('USD')">دولار ($)</button>
+      <button class="currency-btn" id="btnIQD" onclick="setDisplayCurrency('IQD')">دينار (د.ع)</button>
+    </div>
+  </div>
+
+  <!-- Balance Card -->
+  <div class="balance-card">
+    <div class="balance-right">
+      <svg class="wallet-icon" viewBox="0 0 24 24">
+        <path d="M21 7H5a2 2 0 0 1 0-4h14v2H5v.01h16V7zm1 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a3.99 3.99 0 0 0 3 3.87V11h17zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+      </svg>
+      <span class="balance-label">الصندوق المالي</span>
+    </div>
+    <div class="balance-left">
+      <span class="balance-amount en-num" id="totalBalanceDisplay">0.00</span>
+      <span class="balance-sub" id="balanceSubText">USD ($) • محدث الآن</span>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <button class="quick-btn in" onclick="quickJump('revenues', 'revParty')">+ سند قبض (إيراد)</button>
+    <button class="quick-btn out" onclick="quickJump('expenses', 'expParty')">− سند صرف (مصروف)</button>
+  </div>
+
+  <!-- Main Modules Grid -->
+  <div class="menu-grid">
+    <div class="menu-item active-tab" onclick="switchTab('projects', this)">
+      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+      <span class="menu-title">المشاريع</span>
+    </div>
+
+    <div class="menu-item" onclick="switchTab('sponsors', this)">
+      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-5zm0 10.99h6c-.53 4.12-3.28 7.79-6 8.94V13H6V8.3l6-3.75v8.44z"/></svg>
+      <span class="menu-title">الشركات الراعية</span>
+    </div>
+
+    <div class="menu-item" onclick="switchTab('expenses', this)">
+      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6h-6z"/></svg>
+      <span class="menu-title">المصاريف</span>
+    </div>
+
+    <div class="menu-item" onclick="switchTab('revenues', this)">
+      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+      <span class="menu-title">الإيرادات الكلية</span>
+    </div>
+
+    <div class="menu-item" onclick="switchTab('employees', this)">
+      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span class="menu-title">الموظفين</span>
+    </div>
+
+    <div class="menu-item" onclick="switchTab('accounts', this)">
+      <svg class="menu-icon" viewBox="0 0 24 24"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z"/></svg>
+      <span class="menu-title">الحسابات والتحويل</span>
+    </div>
+  </div>
+
+  <!-- 1. SECTION: PROJECTS -->
+  <div id="sec-projects" class="section active">
+    <div class="section-header">
+      <h3 class="section-title">المشاريع والكلفة المتوقعة</h3>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label>اسم المشروع</label>
+        <input type="text" id="projName" placeholder="مثال: مؤتمر التكنولوجيا السنوي" />
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>الكلفة المتوقعة</label>
+          <input type="number" id="projCost" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label>العملة</label>
+          <select id="projCurrency">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>حالة المشروع</label>
+        <select id="projStatus">
+          <option value="قيد التنفيذ">قيد التنفيذ</option>
+          <option value="مكتمل">مكتمل</option>
+          <option value="متوقف">متوقف</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="addProject()">+ إضافة مشروع</button>
+    </div>
+    <div id="projectsList"></div>
+  </div>
+
+  <!-- 2. SECTION: SPONSORS -->
+  <div id="sec-sponsors" class="section">
+    <div class="section-header">
+      <h3 class="section-title">الشركات الراعية والباقات</h3>
+      <button class="btn-secondary" onclick="switchTab('settings')">تعديل الباقات</button>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label>اسم الشركة الراعية</label>
+        <input type="text" id="sponsorName" placeholder="مثال: شركة النور للاتصالات" />
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>فئة الباقة</label>
+          <select id="sponsorTier" onchange="updateSponsorPreview()">
+            <option value="diamond">الباقة الماسية</option>
+            <option value="gold">الباقة الذهبية</option>
+            <option value="silver">الباقة الفضية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>العملة</label>
+          <select id="sponsorCurrency" onchange="updateSponsorPreview()">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ربط بمشروع محدد (اختياري)</label>
+        <select id="sponsorProject">
+          <option value="">رعاية عامة للمؤسسة</option>
+        </select>
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>قيمة الباقة</label>
+          <input type="text" id="sponsorPricePreview" readonly style="color: var(--accent-teal); font-weight: bold;" />
+        </div>
+        <div class="form-group">
+          <label>حالة الدفع</label>
+          <select id="sponsorPayStatus" onchange="togglePartialInput()">
+            <option value="paid">مدفوعة بالكامل</option>
+            <option value="partial">دفعة جزئية</option>
+            <option value="unpaid">مستحقة (غير مدفوعة)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="partialWrap" style="display:none;">
+        <label>المبلغ المستلم حالياً</label>
+        <input type="number" id="sponsorPaidAmount" placeholder="0" />
+      </div>
+      <div class="form-group">
+        <label>ملاحظات / مدة العقد</label>
+        <input type="text" id="sponsorNotes" placeholder="مثال: رعاية سنوية" />
+      </div>
+      <button class="btn-primary" onclick="addSponsor()">+ تسجيل الشركة وإصدار سند قبض</button>
+    </div>
+    <div id="sponsorsList"></div>
+  </div>
+
+  <!-- 3. SECTION: EXPENSES -->
+  <div id="sec-expenses" class="section">
+    <div class="section-header">
+      <h3 class="section-title">مصاريف المؤسسة (سندات الصرف)</h3>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label>يصرف إلى السيد / الجهة (المستفيد)</label>
+        <input type="text" id="expParty" placeholder="اسم المستلم أو الشركة المجهزة" />
+      </div>
+      <div class="form-group">
+        <label>وذلك عن (بيان المصروف)</label>
+        <input type="text" id="expTitle" placeholder="مثال: إيجار المقر / ضيافة / مطبوعات" />
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>المبلغ</label>
+          <input type="number" id="expAmount" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label>العملة</label>
+          <select id="expCurrency">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>خصم من ميزانية مشروع (اختياري)</label>
+        <select id="expProject">
+          <option value="">مصروف عام للمؤسسة</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="addExpense()">+ حفظ وإصدار سند صرف</button>
+    </div>
+    <div id="expensesList"></div>
+  </div>
+
+  <!-- 4. SECTION: REVENUES -->
+  <div id="sec-revenues" class="section">
+    <div class="section-header">
+      <h3 class="section-title">الإيرادات الكلية (سندات القبض)</h3>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <small>إجمالي إيرادات الدولار</small>
+        <strong class="en-num" style="color: var(--accent-teal);" id="revTotalUSD">$0.00</strong>
+      </div>
+      <div class="stat-box">
+        <small>إجمالي إيرادات الدينار</small>
+        <strong class="en-num" style="color: var(--accent-teal);" id="revTotalIQD">0 IQD</strong>
+      </div>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label>استلمنا من السيد / الجهة (الدافع)</label>
+        <input type="text" id="revParty" placeholder="اسم الجهة أو الشخص الدافع" />
+      </div>
+      <div class="form-group">
+        <label>وذلك عن (بيان الإيراد)</label>
+        <input type="text" id="revTitle" placeholder="مثال: دعم مالي / مبيعات / اشتراكات" />
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>المبلغ</label>
+          <input type="number" id="revAmount" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label>العملة</label>
+          <select id="revCurrency">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addRevenue()">+ حفظ وإصدار سند قبض</button>
+    </div>
+    <div id="revenuesList"></div>
+  </div>
+
+  <!-- 5. SECTION: EMPLOYEES -->
+  <div id="sec-employees" class="section">
+    <div class="section-header">
+      <h3 class="section-title">الموظفين والرواتب والسلف</h3>
+    </div>
+    <div class="form-card">
+      <div class="row-2">
+        <div class="form-group">
+          <label>اسم الموظف</label>
+          <input type="text" id="empName" placeholder="الاسم الكامل" />
+        </div>
+        <div class="form-group">
+          <label>المنصب / الوظيفة</label>
+          <input type="text" id="empRole" placeholder="مثال: محاسب / منسق" />
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>الراتب الشهري الأساسي</label>
+          <input type="number" id="empSalary" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label>العملة</label>
+          <select id="empCurrency">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addEmployee()">+ إضافة موظف</button>
+    </div>
+    <div id="employeesList"></div>
+  </div>
+
+  <!-- 6. SECTION: ACCOUNTS & TRANSFERS -->
+  <div id="sec-accounts" class="section">
+    <div class="section-header">
+      <h3 class="section-title">الحسابات والتحويل وتصريف العملة</h3>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <small>صندوق الدولار الأمريكي</small>
+        <strong class="en-num" style="color: var(--accent-teal);" id="accBoxUSD">$0.00</strong>
+      </div>
+      <div class="stat-box">
+        <small>صندوق الدينار العراقي</small>
+        <strong class="en-num" style="color: var(--accent-teal);" id="accBoxIQD">0 IQD</strong>
+      </div>
+    </div>
+
+    <div class="form-card" style="border-color: rgba(107, 92, 231, 0.45);">
+      <p style="font-size:0.85rem; font-weight:700; color:#c4b5fd; margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
+      <div class="row-2">
+        <div class="form-group">
+          <label>من عملة</label>
+          <select id="xferFromCurr" onchange="previewConversion()">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>إلى عملة</label>
+          <select id="xferToCurr" onchange="previewConversion()">
+            <option value="IQD">دينار (د.ع)</option>
+            <option value="USD">دولار ($)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>المبلغ المحول</label>
+          <input type="number" id="xferAmount" placeholder="0" oninput="previewConversion()" />
+        </div>
+        <div class="form-group">
+          <label>الناتج التقديري</label>
+          <input type="text" id="xferPreview" readonly class="en-num" style="color:var(--accent-teal); font-weight:bold;" value="0" />
+        </div>
+      </div>
+      <button class="btn-primary" onclick="executeCurrencyTransfer()">تنفيذ التحويل وتحديث الصناديق</button>
+    </div>
+
+    <div class="form-card">
+      <div class="form-group">
+        <label>إضافة حساب / جهة مالية</label>
+        <input type="text" id="accName" placeholder="مثال: حساب مصرف الرافدين" />
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>الرصيد</label>
+          <input type="number" id="accBalance" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label>العملة</label>
+          <select id="accCurrency">
+            <option value="USD">دولار ($)</option>
+            <option value="IQD">دينار (د.ع)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addAccount()">+ حفظ الحساب</button>
+    </div>
+    <div id="accountsList"></div>
+  </div>
+
+  <!-- 7. SECTION: REPORTS -->
+  <div id="sec-reports" class="section">
+    <div class="section-header">
+      <h3 class="section-title">التقارير وحركات المؤسسة</h3>
+      <div style="display:flex; gap:6px;">
+        <button class="btn-secondary" onclick="exportCSV()">Excel</button>
+        <button class="btn-secondary" onclick="printReportA4()">طباعة A4</button>
+      </div>
+    </div>
+
+    <!-- Detailed Project Report Selector & Full Breakdown -->
+    <div class="form-card" style="border-color: rgba(46, 230, 197, 0.4);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <label style="color: var(--accent-teal); font-weight: 800; margin:0;">📊 تقرير تفصيلي كامل للمشروع:</label>
+        <button class="btn-voucher" id="openProjA4Btn" style="display:none;" onclick="openProjectFullA4()">📄 تقرير A4 / PDF</button>
+      </div>
+      <select id="reportProjectSelect" onchange="renderReports()">
+        <option value="ALL">جميع مشاريع وحركات المؤسسة</option>
+      </select>
+
+      <div id="projectReportSummary" style="display:none; margin-top:12px;">
+        <div class="stats-row-3">
+          <div class="stat-box">
+            <small>الكلفة المتوقعة</small>
+            <strong class="en-num" id="pRepTotal" style="color:#fff;">0</strong>
+          </div>
+          <div class="stat-box">
+            <small>المصاريف</small>
+            <strong class="en-num" id="pRepSpent" style="color:var(--danger);">0</strong>
+          </div>
+          <div class="stat-box">
+            <small>الباقي من الميزانية</small>
+            <strong class="en-num" id="pRepRem" style="color:var(--accent-teal);">0</strong>
+          </div>
+        </div>
+
+        <div class="stats-row" style="margin-bottom:8px;">
+          <div class="stat-box">
+            <small>رعايات المشروع</small>
+            <strong class="en-num" id="pRepSponsors" style="color:var(--accent-teal);">0</strong>
+          </div>
+          <div class="stat-box">
+            <small>صافي موقف المشروع</small>
+            <strong class="en-num" id="pRepNet">0</strong>
+          </div>
+        </div>
+
+        <!-- Sponsors Linked to Project -->
+        <div class="detail-subcard">
+          <div class="detail-subcard-title">
+            <span>🤝 الشركات الراعية للمشروع</span>
+            <span class="en-num" id="pRepSponsorsCount">0</span>
+          </div>
+          <div id="pRepSponsorsList"></div>
+        </div>
+
+        <!-- Expenses & Movements Linked to Project -->
+        <div class="detail-subcard">
+          <div class="detail-subcard-title">
+            <span>🧾 مصاريف وحركات المشروع</span>
+            <span class="en-num" id="pRepTxCount">0</span>
+          </div>
+          <div id="pRepTxList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Net Surplus Summary -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <small>صافي الصندوق (دولار)</small>
+        <strong class="en-num" id="netSurplusUSD">$0.00</strong>
+      </div>
+      <div class="stat-box">
+        <small>صافي الصندوق (دينار)</small>
+        <strong class="en-num" id="netSurplusIQD">0 IQD</strong>
+      </div>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="form-card" style="padding:10px;">
+      <div class="form-group" style="margin-bottom:8px;">
+        <input type="text" id="reportSearch" placeholder="🔍 ابحث برقم السند، الاسم، المشروع، أو البيان..." oninput="renderReports()" />
+      </div>
+      <div class="row-2">
+        <div>
+          <label>من تاريخ</label>
+          <input type="date" id="dateFrom" onchange="renderReports()" />
+        </div>
+        <div>
+          <label>إلى تاريخ</label>
+          <input type="date" id="dateTo" onchange="renderReports()" />
+        </div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <button class="chip active" onclick="filterReports('ALL', this)">الكل</button>
+      <button class="chip" onclick="filterReports('IN', this)">سندات القبض</button>
+      <button class="chip" onclick="filterReports('OUT', this)">سندات الصرف</button>
+      <button class="chip" onclick="filterReports('XFER', this)">تحويلات</button>
+      <button class="chip" onclick="filterReports('USD', this)">USD ($)</button>
+      <button class="chip" onclick="filterReports('IQD', this)">IQD (د.ع)</button>
+    </div>
+    <div id="reportsList"></div>
+  </div>
+
+  <!-- 8. SECTION: SETTINGS & BACKUP -->
+  <div id="sec-settings" class="section">
+    <div class="section-header">
+      <h3 class="section-title">الإعدادات والحماية والنسخ</h3>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label>اسم المؤسسة</label>
+        <input type="text" id="setOrgName" value="مؤسسة اليم" />
+      </div>
+      <div class="row-2">
+        <div class="form-group">
+          <label>سعر صرف 100$ بالدينار</label>
+          <input type="number" id="setExchangeRate" value="150000" />
+        </div>
+        <div class="form-group">
+          <label>رمز قفل PIN (4 أرقام)</label>
+          <input type="password" maxlength="4" inputmode="numeric" id="setPinCode" placeholder="بدون قفل" />
+        </div>
+      </div>
+
+      <hr style="border-color: var(--card-border); margin: 14px 0;">
+      <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">تحديد قيم باقات الشركات الراعية</p>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>الباقة الماسية ($)</label>
+          <input type="number" id="setDiamondUSD" value="5000" />
+        </div>
+        <div class="form-group">
+          <label>الباقة الماسية (د.ع)</label>
+          <input type="number" id="setDiamondIQD" value="7500000" />
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>الباقة الذهبية ($)</label>
+          <input type="number" id="setGoldUSD" value="3000" />
+        </div>
+        <div class="form-group">
+          <label>الباقة الذهبية (د.ع)</label>
+          <input type="number" id="setGoldIQD" value="4500000" />
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>الباقة الفضية ($)</label>
+          <input type="number" id="setSilverUSD" value="1500" />
+        </div>
+        <div class="form-group">
+          <label>الباقة الفضية (د.ع)</label>
+          <input type="number" id="setSilverIQD" value="2250000" />
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
+    </div>
+
+    <div class="form-card">
+      <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات</p>
+      <div class="row-2">
+        <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
+        <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
+          ⬆ استيراد نسخة
+          <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navigation Bar -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="switchTab('projects', null, this)">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>الرئيسية</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('reports', null, this)">
+    <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+    <span>التقارير</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('employees', null, this)">
+    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    <span>الموظفين</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('settings', null, this)">
+    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    <span>الإعدادات</span>
+  </button>
+</div>
+
+<script>
+  function toEnDigits(str) {
+    return String(str).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  }
+
+  const todayISO = () => toEnDigits(new Date().toISOString().split('T')[0]);
+  const currentMonthStr = () => todayISO().slice(0, 7);
+
+  function getNowEnString() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    return `${y}-${m}-${d} | ${hh}:${mm}`;
+  }
+
+  const defaultState = {
+    displayCurrency: 'USD',
+    voucherSeq: 1004,
+    settings: {
+      orgName: 'مؤسسة اليم',
+      rate100: 150000,
+      pin: '',
+      tiers: {
+        diamond: { USD: 5000, IQD: 7500000 },
+        gold: { USD: 3000, IQD: 4500000 },
+        silver: { USD: 1500, IQD: 2250000 }
+      }
+    },
+    projects: [
+      { id: 1, name: 'مؤتمر الابتكار المؤسسي', expectedCost: 12000, currency: 'USD', status: 'قيد التنفيذ', date: todayISO() }
+    ],
+    sponsors: [
+      { id: 1, name: 'شركة الأفق الذهبي', project: 'مؤتمر الابتكار المؤسسي', tier: 'diamond', totalAmount: 5000, paidAmount: 5000, currency: 'USD', payStatus: 'paid', notes: 'رعاية رئيسية', date: todayISO() }
+    ],
+    employees: [
+      { id: 1, name: 'أحمد كريم', role: 'محاسب المؤسسة', salary: 800, currency: 'USD', advances: 0, bonuses: 0, deductions: 0, paidMonths: [] }
+    ],
+    transactions: [
+      { id: 101, voucherNo: 1001, type: 'IN', category: 'رعاية (ماسية)', party: 'شركة الأفق الذهبي', title: 'باقة رعاية ماسية', project: 'مؤتمر الابتكار المؤسسي', amount: 5000, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
+      { id: 102, voucherNo: 1002, type: 'OUT', category: 'مصروف', party: 'شركة القاعات الحديثة', title: 'تجهيز قاعة المؤتمر', project: 'مؤتمر الابتكار المؤسسي', amount: 3200, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
+      { id: 103, voucherNo: 1003, type: 'IN', category: 'إيراد', party: 'صندوق الدعم', title: 'دعم تشغيلي بالدينار', project: '', amount: 4500000, currency: 'IQD', isoDate: todayISO(), date: getNowEnString() }
+    ],
+    accounts: [
+      { id: 1, name: 'الصندوق الرئيسي - دولار', balance: 1800, currency: 'USD' },
+      { id: 2, name: 'الصندوق الرئيسي - دينار', balance: 4500000, currency: 'IQD' }
+    ]
+  };
+
+  let appData = JSON.parse(localStorage.getItem('alyam_accounting_v5')) || defaultState;
+  let currentReportFilter = 'ALL';
+  let enteredPin = '';
+  let lastShareText = '';
+
+  function saveData() {
+    localStorage.setItem('alyam_accounting_v5', JSON.stringify(appData));
+    renderAll();
+  }
+
+  function nextVoucherNo() {
+    appData.voucherSeq = (appData.voucherSeq || 1000) + 1;
+    return appData.voucherSeq;
+  }
+
+  // PIN Lock
+  function checkPinLock() {
+    if (appData.settings.pin && appData.settings.pin.length === 4) {
+      document.getElementById('pinLockScreen').style.display = 'flex';
+    }
+  }
+  function enterPin(num) {
+    if (enteredPin.length < 4) {
+      enteredPin += num;
+      updatePinDots();
+      if (enteredPin.length === 4) {
+        if (enteredPin === appData.settings.pin) {
+          document.getElementById('pinLockScreen').style.display = 'none';
+          enteredPin = '';
+        } else {
+          document.getElementById('pinHint').textContent = 'رمز خاطئ، حاول مرة أخرى';
+          document.getElementById('pinHint').style.color = '#ff5c75';
+          setTimeout(() => { enteredPin = ''; updatePinDots(); }, 350);
+        }
+      }
+    }
+  }
+  function backspacePin() { enteredPin = enteredPin.slice(0, -1); updatePinDots(); }
+  function clearPin() { enteredPin = ''; updatePinDots(); }
+  function updatePinDots() {
+    document.querySelectorAll('#pinDots .pin-dot').forEach((dot, idx) => {
+      dot.classList.toggle('filled', idx < enteredPin.length);
+    });
+  }
+
+  function formatMoney(amount, currency) {
+    const num = Number(amount) || 0;
+    if (currency === 'USD') {
+      return '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    return num.toLocaleString('en-US') + ' IQD';
+  }
+
+  function switchTab(tabName, gridEl, navEl) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('sec-' + tabName);
+    if (target) target.classList.add('active');
+
+    if (gridEl) {
+      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active-tab'));
+      gridEl.classList.add('active-tab');
+    }
+    if (navEl) {
+      document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+      navEl.classList.add('active');
+    }
+  }
+
+  function quickJump(tab, inputId) {
+    switchTab(tab);
+    setTimeout(() => {
+      const el = document.getElementById(inputId);
+      if (el) el.focus();
+    }, 100);
+  }
+
+  function setDisplayCurrency(curr) {
+    appData.displayCurrency = curr;
+    document.getElementById('btnUSD').classList.toggle('active', curr === 'USD');
+    document.getElementById('btnIQD').classList.toggle('active', curr === 'IQD');
+    saveData();
+  }
+
+  function calculateTotals() {
+    let inUSD = 0, outUSD = 0, inIQD = 0, outIQD = 0;
+    appData.transactions.forEach(t => {
+      if (t.type === 'XFER') return;
+      if (t.currency === 'USD') {
+        t.type === 'IN' ? inUSD += Number(t.amount) : outUSD += Number(t.amount);
+      } else {
+        t.type === 'IN' ? inIQD += Number(t.amount) : outIQD += Number(t.amount);
+      }
+    });
+    return { inUSD, outUSD, netUSD: inUSD - outUSD, inIQD, outIQD, netIQD: inIQD - outIQD };
+  }
+
+  // A4 Voucher Modal
+  function openVoucher(txId) {
+    const tx = appData.transactions.find(t => t.id === txId);
+    if (!tx) return;
+
+    const isReceipt = tx.type === 'IN';
+    const voucherTitle = isReceipt ? 'سند قبض (Receipt Voucher)' : 'سند صرف (Payment Voucher)';
+    const badgeClass = isReceipt ? 'v-receipt' : 'v-payment';
+    const partyLabel = isReceipt ? 'استلمنا من السيد / الجهة:' : 'يصرف إلى السيد / الجهة:';
+    const partyName = tx.party || tx.title;
+
+    lastShareText = `${appData.settings.orgName}\n${voucherTitle}\nرقم السند: #${tx.voucherNo || tx.id}\nالطرف: ${partyName}\nالبيان: ${tx.title}\nالمبلغ: ${formatMoney(tx.amount, tx.currency)}\nالتاريخ: ${tx.date}`;
+
+    const html = `
+      <div class="v-header">
+        <div>
+          <h2 style="font-size:1.35rem; margin-bottom:4px;">${appData.settings.orgName}</h2>
+          <p style="font-size:0.85rem; color:#475569;">الإدارة المالية والحسابات</p>
+        </div>
+        <div class="v-title-badge ${badgeClass}">${voucherTitle}</div>
+        <div style="text-align:left; font-size:0.9rem;">
+          <div>رقم السند: <strong class="en-num">#${tx.voucherNo || tx.id}</strong></div>
+          <div>التاريخ: <strong class="en-num">${tx.isoDate || tx.date}</strong></div>
+        </div>
+      </div>
+
+      <div class="v-meta-grid">
+        <div class="v-box">
+          <span style="color:#64748b; font-size:0.8rem;">المبلغ رقماً:</span><br/>
+          <strong class="en-num" style="font-size:1.35rem; color:#0f172a;">${formatMoney(tx.amount, tx.currency)}</strong>
+        </div>
+        <div class="v-box">
+          <span style="color:#64748b; font-size:0.8rem;">العملة / التصنيف:</span><br/>
+          <strong>${tx.currency === 'USD' ? 'دولار أمريكي (USD)' : 'دينار عراقي (IQD)'} — ${tx.category}</strong>
+        </div>
+      </div>
+
+      <table class="v-body-table">
+        <tr>
+          <th style="width:28%;">${partyLabel}</th>
+          <td><strong>${partyName}</strong></td>
+        </tr>
+        <tr>
+          <th>وذلك عن (البيان):</th>
+          <td>${tx.title}</td>
+        </tr>
+        <tr>
+          <th>المشروع المرتبط:</th>
+          <td>${tx.project || 'حساب عام للمؤسسة'}</td>
+        </tr>
+        <tr>
+          <th>وقت التسجيل:</th>
+          <td class="en-num">${tx.date}</td>
+        </tr>
+      </table>
+
+      <div class="v-signatures">
+        <div><div>المحاسب</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>${isReceipt ? 'أمين الصندوق' : 'المستلم'}</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>اعتماد الإدارة</div><div class="v-sig-line">الختم والتوقيع</div></div>
+      </div>
+    `;
+
+    document.getElementById('voucherContent').innerHTML = html;
+    document.getElementById('voucherModal').style.display = 'block';
+  }
+
+  // Full Project A4 Report
+  function openProjectFullA4() {
+    const selectedProj = document.getElementById('reportProjectSelect').value;
+    const proj = appData.projects.find(p => p.name === selectedProj);
+    if (!proj) return;
+
+    const projSponsors = appData.sponsors.filter(s => s.project === proj.name);
+    const projTxs = appData.transactions.filter(t => t.project === proj.name && t.type !== 'XFER');
+    const spent = projTxs
+      .filter(t => t.type === 'OUT' && t.currency === proj.currency)
+      .reduce((sum, t) => sum + Number(t.amount), 0);
+    const spRev = projSponsors
+      .filter(s => s.currency === proj.currency)
+      .reduce((sum, s) => sum + Number(s.paidAmount), 0);
+    const rem = proj.expectedCost - spent;
+
+    lastShareText = `تقرير مشروع: ${proj.name}\nالكلفة المتوقعة: ${formatMoney(proj.expectedCost, proj.currency)}\nالمصاريف: ${formatMoney(spent, proj.currency)}\nالباقي: ${formatMoney(rem, proj.currency)}\nرعايات المشروع: ${formatMoney(spRev, proj.currency)}`;
+
+    const sponsorRows = projSponsors.length ? projSponsors.map(s => `
+      <tr>
+        <td>${s.name}</td>
+        <td>${s.tier}</td>
+        <td class="en-num">${formatMoney(s.totalAmount, s.currency)}</td>
+        <td class="en-num">${formatMoney(s.paidAmount, s.currency)}</td>
+        <td class="en-num">${formatMoney(s.totalAmount - s.paidAmount, s.currency)}</td>
+      </tr>
+    `).join('') : '<tr><td colspan="5" style="text-align:center;">لا توجد شركات راعية مرتبطة بهذا المشروع</td></tr>';
+
+    const txRows = projTxs.length ? projTxs.map(t => `
+      <tr>
+        <td class="en-num">#${t.voucherNo || t.id}</td>
+        <td class="en-num">${t.date}</td>
+        <td>${t.type === 'IN' ? 'إيراد/رعاية' : 'مصروف'}</td>
+        <td>${t.party || '-'} — ${t.title}</td>
+        <td class="en-num">${formatMoney(t.amount, t.currency)}</td>
+      </tr>
+    `).join('') : '<tr><td colspan="5" style="text-align:center;">لا توجد حركات مالية مسجلة للمشروع</td></tr>';
+
+    const html = `
+      <div class="v-header">
+        <div>
+          <h2 style="font-size:1.35rem; margin-bottom:4px;">${appData.settings.orgName}</h2>
+          <p style="font-size:0.85rem; color:#475569;">تقرير تفصيلي شامل للمشروع</p>
+        </div>
+        <div class="v-title-badge v-statement">تقرير مشروع (Project Report)</div>
+        <div style="text-align:left; font-size:0.88rem;">
+          <div>التاريخ: <strong class="en-num">${todayISO()}</strong></div>
+          <div>الحالة: <strong>${proj.status}</strong></div>
+        </div>
+      </div>
+
+      <div class="v-meta-grid">
+        <div class="v-box">اسم المشروع: <strong>${proj.name}</strong></div>
+        <div class="v-box">الكلفة المتوقعة: <strong class="en-num">${formatMoney(proj.expectedCost, proj.currency)}</strong></div>
+        <div class="v-box">إجمالي المصاريف: <strong class="en-num" style="color:#dc2626;">${formatMoney(spent, proj.currency)}</strong></div>
+        <div class="v-box">المتبقي من الكلفة: <strong class="en-num" style="color:#059669;">${formatMoney(rem, proj.currency)}</strong></div>
+      </div>
+
+      <h4 style="margin-bottom:8px; font-size:0.95rem;">أولاً: الشركات الراعية للمشروع (المجموع: <span class="en-num">${formatMoney(spRev, proj.currency)}</span>)</h4>
+      <table class="v-body-table">
+        <thead>
+          <tr>
+            <th>الشركة</th>
+            <th>الباقة</th>
+            <th>القيمة</th>
+            <th>المدفوع</th>
+            <th>المتبقي</th>
+          </tr>
+        </thead>
+        <tbody>${sponsorRows}</tbody>
+      </table>
+
+      <h4 style="margin-bottom:8px; font-size:0.95rem;">ثانياً: المصاريف والحركات المالية للمشروع</h4>
+      <table class="v-body-table">
+        <thead>
+          <tr>
+            <th>رقم السند</th>
+            <th>التاريخ</th>
+            <th>النوع</th>
+            <th>البيان</th>
+            <th>المبلغ</th>
+          </tr>
+        </thead>
+        <tbody>${txRows}</tbody>
+      </table>
+
+      <div class="v-signatures">
+        <div><div>مدير المشروع</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>المحاسب</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>اعتماد الإدارة</div><div class="v-sig-line">الختم والتوقيع</div></div>
+      </div>
+    `;
+
+    document.getElementById('voucherContent').innerHTML = html;
+    document.getElementById('voucherModal').style.display = 'block';
+  }
+
+  // Detailed A4 Statement for Employee or Sponsor
+  function openEntityStatement(type, name) {
+    let rowsHtml = '';
+    let summaryHtml = '';
+    lastShareText = `كشف حساب - ${appData.settings.orgName}\nالجهة: ${name}\nالتاريخ: ${todayISO()}`;
+
+    if (type === 'employee') {
+      const emp = appData.employees.find(e => e.name === name);
+      if (!emp) return;
+      const netSal = Math.max(0, emp.salary + (emp.bonuses || 0) - (emp.advances || 0) - (emp.deductions || 0));
+      const txs = appData.transactions.filter(t => t.party === emp.name);
+
+      summaryHtml = `
+        <div class="v-meta-grid">
+          <div class="v-box">الموظف: <strong>${emp.name}</strong> (${emp.role})</div>
+          <div class="v-box">الراتب الأساسي: <strong class="en-num">${formatMoney(emp.salary, emp.currency)}</strong></div>
+          <div class="v-box">السلف / الخصومات: <strong class="en-num">${formatMoney((emp.advances||0)+(emp.deductions||0), emp.currency)}</strong> | المكافآت: <strong class="en-num">${formatMoney(emp.bonuses||0, emp.currency)}</strong></div>
+          <div class="v-box">صافي الراتب المستحق: <strong class="en-num">${formatMoney(netSal, emp.currency)}</strong></div>
+        </div>
+      `;
+      rowsHtml = txs.length ? txs.map(t => `
+        <tr>
+          <td class="en-num">#${t.voucherNo || t.id}</td>
+          <td class="en-num">${t.date}</td>
+          <td>${t.title}</td>
+          <td class="en-num">${formatMoney(t.amount, t.currency)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="4" style="text-align:center;">لا توجد حركات مسجلة</td></tr>';
+    } else if (type === 'sponsor') {
+      const sp = appData.sponsors.find(s => s.name === name);
+      if (!sp) return;
+      const rem = sp.totalAmount - sp.paidAmount;
+      const txs = appData.transactions.filter(t => t.party === sp.name);
+
+      summaryHtml = `
+        <div class="v-meta-grid">
+          <div class="v-box">الشركة الراعية: <strong>${sp.name}</strong></div>
+          <div class="v-box">قيمة الباقة: <strong class="en-num">${formatMoney(sp.totalAmount, sp.currency)}</strong></div>
+          <div class="v-box">المدفوع: <strong class="en-num">${formatMoney(sp.paidAmount, sp.currency)}</strong></div>
+          <div class="v-box">المتبقي: <strong class="en-num">${formatMoney(rem, sp.currency)}</strong></div>
+        </div>
+      `;
+      rowsHtml = txs.length ? txs.map(t => `
+        <tr>
+          <td class="en-num">#${t.voucherNo || t.id}</td>
+          <td class="en-num">${t.date}</td>
+          <td>${t.title}</td>
+          <td class="en-num">${formatMoney(t.amount, t.currency)}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="4" style="text-align:center;">لا توجد دفعات مقبوضة بعد</td></tr>';
+    }
+
+    const html = `
+      <div class="v-header">
+        <div>
+          <h2 style="font-size:1.35rem; margin-bottom:4px;">${appData.settings.orgName}</h2>
+          <p style="font-size:0.85rem; color:#475569;">كشف حساب تفصيلي</p>
+        </div>
+        <div class="v-title-badge v-statement">كشف حساب (Statement)</div>
+        <div style="text-align:left; font-size:0.88rem;">
+          <div>التاريخ: <strong class="en-num">${todayISO()}</strong></div>
+        </div>
+      </div>
+      ${summaryHtml}
+      <table class="v-body-table">
+        <thead>
+          <tr>
+            <th>رقم السند</th>
+            <th>التاريخ</th>
+            <th>البيان</th>
+            <th>المبلغ</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+      <div class="v-signatures">
+        <div><div>المحاسب</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>المدقق</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>اعتماد الإدارة</div><div class="v-sig-line">الختم والتوقيع</div></div>
+      </div>
+    `;
+
+    document.getElementById('voucherContent').innerHTML = html;
+    document.getElementById('voucherModal').style.display = 'block';
+  }
+
+  function shareCurrentVoucher() {
+    if (!lastShareText) return;
+    if (navigator.share) {
+      navigator.share({ title: appData.settings.orgName, text: lastShareText }).catch(() => {});
+    } else {
+      const waUrl = 'https://wa.me/?text=' + encodeURIComponent(lastShareText);
+      window.open(waUrl, '_blank');
+    }
+  }
+
+  function closeVoucherModal() {
+    document.getElementById('voucherModal').style.display = 'none';
+    document.body.classList.remove('printing-voucher');
+  }
+
+  function printVoucherA4() {
+    document.body.classList.remove('printing-report');
+    document.body.classList.add('printing-voucher');
+    window.print();
+  }
+
+  function printReportA4() {
+    document.body.classList.remove('printing-voucher');
+    document.body.classList.add('printing-report');
+    window.print();
+  }
+
+  // Projects
+  function addProject() {
+    const name = document.getElementById('projName').value.trim();
+    const cost = parseFloat(document.getElementById('projCost').value);
+    const currency = document.getElementById('projCurrency').value;
+    const status = document.getElementById('projStatus').value;
+    if (!name || isNaN(cost)) return alert('يرجى إدخال اسم المشروع والكلفة المتوقعة');
+
+    appData.projects.unshift({
+      id: Date.now(), name, expectedCost: cost, currency, status, date: todayISO()
+    });
+    document.getElementById('projName').value = '';
+    document.getElementById('projCost').value = '';
+    saveData();
+  }
+
+  function changeProjectStatus(id, newStatus) {
+    const p = appData.projects.find(item => item.id === id);
+    if (p) { p.status = newStatus; saveData(); }
+  }
+
+  function viewProjectReport(projName) {
+    switchTab('reports');
+    setTimeout(() => {
+      const sel = document.getElementById('reportProjectSelect');
+      sel.value = projName;
+      renderReports();
+    }, 80);
+  }
+
+  // Sponsors
+  function updateSponsorPreview() {
+    const tier = document.getElementById('sponsorTier').value;
+    const curr = document.getElementById('sponsorCurrency').value;
+    const val = appData.settings.tiers[tier][curr];
+    document.getElementById('sponsorPricePreview').value = formatMoney(val, curr);
+  }
+
+  function togglePartialInput() {
+    const st = document.getElementById('sponsorPayStatus').value;
+    document.getElementById('partialWrap').style.display = st === 'partial' ? 'block' : 'none';
+  }
+
+  function addSponsor() {
+    const name = document.getElementById('sponsorName').value.trim();
+    const tier = document.getElementById('sponsorTier').value;
+    const currency = document.getElementById('sponsorCurrency').value;
+    const project = document.getElementById('sponsorProject').value;
+    const payStatus = document.getElementById('sponsorPayStatus').value;
+    const notes = document.getElementById('sponsorNotes').value.trim();
+    if (!name) return alert('يرجى إدخال اسم الشركة الراعية');
+
+    const totalAmount = appData.settings.tiers[tier][currency];
+    let paidAmount = 0;
+    if (payStatus === 'paid') paidAmount = totalAmount;
+    if (payStatus === 'partial') paidAmount = parseFloat(document.getElementById('sponsorPaidAmount').value) || 0;
+
+    const tierLabels = { diamond: 'ماسية', gold: 'ذهبية', silver: 'فضية' };
+
+    appData.sponsors.unshift({
+      id: Date.now(), name, project, tier, totalAmount, paidAmount, currency, payStatus, notes, date: todayISO()
+    });
+
+    if (paidAmount > 0) {
+      const txId = Date.now() + 1;
+      appData.transactions.unshift({
+        id: txId,
+        voucherNo: nextVoucherNo(),
+        type: 'IN',
+        category: 'رعاية (' + tierLabels[tier] + ')',
+        party: name,
+        title: `باقة رعاية ${tierLabels[tier]} - ${name}`,
+        project,
+        amount: paidAmount,
+        currency,
+        isoDate: todayISO(),
+        date: getNowEnString()
+      });
+      saveData();
+      openVoucher(txId);
+    } else {
+      saveData();
+    }
+
+    document.getElementById('sponsorName').value = '';
+    document.getElementById('sponsorNotes').value = '';
+    document.getElementById('sponsorPaidAmount').value = '';
+  }
+
+  function recordSponsorPayment(spId) {
+    const sp = appData.sponsors.find(s => s.id === spId);
+    if (!sp) return;
+    const remaining = sp.totalAmount - sp.paidAmount;
+    if (remaining <= 0) return alert('تم سداد كامل قيمة الباقة');
+
+    const input = prompt(`المتبقي على (${sp.name}): ${remaining}\nأدخل مبلغ الدفعة المستلمة الآن:`, remaining);
+    if (input === null) return;
+    const payAmt = parseFloat(toEnDigits(input));
+    if (isNaN(payAmt) || payAmt <= 0 || payAmt > remaining) return alert('مبلغ غير صالح');
+
+    sp.paidAmount += payAmt;
+    sp.payStatus = sp.paidAmount >= sp.totalAmount ? 'paid' : 'partial';
+
+    const tierLabels = { diamond: 'ماسية', gold: 'ذهبية', silver: 'فضية' };
+    const txId = Date.now();
+    appData.transactions.unshift({
+      id: txId,
+      voucherNo: nextVoucherNo(),
+      type: 'IN',
+      category: 'دفعة رعاية (' + tierLabels[sp.tier] + ')',
+      party: sp.name,
+      title: `دفعة رعاية ${tierLabels[sp.tier]} - ${sp.name}`,
+      project: sp.project || '',
+      amount: payAmt,
+      currency: sp.currency,
+      isoDate: todayISO(),
+      date: getNowEnString()
+    });
+    saveData();
+    openVoucher(txId);
+  }
+
+  // Expenses & Revenues
+  function addExpense() {
+    const party = document.getElementById('expParty').value.trim();
+    const title = document.getElementById('expTitle').value.trim();
+    const amount = parseFloat(document.getElementById('expAmount').value);
+    const currency = document.getElementById('expCurrency').value;
+    const project = document.getElementById('expProject').value;
+    if (!title || isNaN(amount) || amount <= 0) return alert('يرجى إدخال بيان المصروف والمبلغ');
+
+    const txId = Date.now();
+    appData.transactions.unshift({
+      id: txId,
+      voucherNo: nextVoucherNo(),
+      type: 'OUT',
+      category: 'مصروف',
+      party: party || title,
+      title,
+      project,
+      amount,
+      currency,
+      isoDate: todayISO(),
+      date: getNowEnString()
+    });
+
+    document.getElementById('expParty').value = '';
+    document.getElementById('expTitle').value = '';
+    document.getElementById('expAmount').value = '';
+    saveData();
+    openVoucher(txId);
+  }
+
+  function addRevenue() {
+    const party = document.getElementById('revParty').value.trim();
+    const title = document.getElementById('revTitle').value.trim();
+    const amount = parseFloat(document.getElementById('revAmount').value);
+    const currency = document.getElementById('revCurrency').value;
+    if (!title || isNaN(amount) || amount <= 0) return alert('يرجى إدخال بيان الإيراد والمبلغ');
+
+    const txId = Date.now();
+    appData.transactions.unshift({
+      id: txId,
+      voucherNo: nextVoucherNo(),
+      type: 'IN',
+      category: 'إيراد',
+      party: party || title,
+      title,
+      project: '',
+      amount,
+      currency,
+      isoDate: todayISO(),
+      date: getNowEnString()
+    });
+
+    document.getElementById('revParty').value = '';
+    document.getElementById('revTitle').value = '';
+    document.getElementById('revAmount').value = '';
+    saveData();
+    openVoucher(txId);
+  }
+
+  // Employees
+  function addEmployee() {
+    const name = document.getElementById('empName').value.trim();
+    const role = document.getElementById('empRole').value.trim() || 'موظف';
+    const salary = parseFloat(document.getElementById('empSalary').value);
+    const currency = document.getElementById('empCurrency').value;
+    if (!name || isNaN(salary) || salary <= 0) return alert('يرجى إدخال اسم الموظف والراتب');
+
+    appData.employees.unshift({
+      id: Date.now(), name, role, salary, currency, advances: 0, bonuses: 0, deductions: 0, paidMonths: []
+    });
+    document.getElementById('empName').value = '';
+    document.getElementById('empRole').value = '';
+    document.getElementById('empSalary').value = '';
+    saveData();
+  }
+
+  function adjustEmployee(empId, kind) {
+    const emp = appData.employees.find(e => e.id === empId);
+    if (!emp) return;
+    const labels = { advance: 'سلفة', bonus: 'مكافأة', deduction: 'خصم' };
+    const valStr = prompt(`أدخل مبلغ (${labels[kind]}) للموظف ${emp.name} (${emp.currency}):`);
+    if (valStr === null) return;
+    const amt = parseFloat(toEnDigits(valStr));
+    if (isNaN(amt) || amt <= 0) return alert('مبلغ غير صالح');
+
+    if (kind === 'advance') {
+      emp.advances = (emp.advances || 0) + amt;
+      const txId = Date.now();
+      appData.transactions.unshift({
+        id: txId, voucherNo: nextVoucherNo(), type: 'OUT', category: 'سلفة موظف',
+        party: emp.name, title: `سلفة للموظف - ${emp.name}`, project: '',
+        amount: amt, currency: emp.currency, isoDate: todayISO(), date: getNowEnString()
+      });
+      saveData();
+      openVoucher(txId);
+    } else if (kind === 'bonus') {
+      emp.bonuses = (emp.bonuses || 0) + amt;
+      saveData();
+    } else if (kind === 'deduction') {
+      emp.deductions = (emp.deductions || 0) + amt;
+      saveData();
+    }
+  }
+
+  function payEmployeeSalary(empId) {
+    const emp = appData.employees.find(e => e.id === empId);
+    if (!emp) return;
+    const monthKey = currentMonthStr();
+    if ((emp.paidMonths || []).includes(monthKey)) {
+      if (!confirm(`تم صرف راتب شهر ${monthKey} مسبقاً للموظف ${emp.name}. هل تريد الصرف مرة أخرى؟`)) return;
+    }
+
+    const netSalary = Math.max(0, emp.salary + (emp.bonuses || 0) - (emp.advances || 0) - (emp.deductions || 0));
+    if (netSalary <= 0) return alert('صافي الراتب المستحق صفر بعد السلف والخصومات');
+
+    emp.paidMonths = [...(emp.paidMonths || []), monthKey];
+    emp.advances = 0;
+    emp.bonuses = 0;
+    emp.deductions = 0;
+
+    const txId = Date.now();
+    appData.transactions.unshift({
+      id: txId,
+      voucherNo: nextVoucherNo(),
+      type: 'OUT',
+      category: 'رواتب',
+      party: emp.name,
+      title: `صرف راتب (${monthKey}) - ${emp.name} (${emp.role})`,
+      project: '',
+      amount: netSalary,
+      currency: emp.currency,
+      isoDate: todayISO(),
+      date: getNowEnString()
+    });
+    saveData();
+    openVoucher(txId);
+  }
+
+  // Currency Conversion
+  function previewConversion() {
+    const fromC = document.getElementById('xferFromCurr').value;
+    const toC = document.getElementById('xferToCurr').value;
+    const amt = parseFloat(document.getElementById('xferAmount').value) || 0;
+    const rate100 = Number(appData.settings.rate100) || 150000;
+
+    let result = amt;
+    if (fromC === 'USD' && toC === 'IQD') {
+      result = (amt / 100) * rate100;
+    } else if (fromC === 'IQD' && toC === 'USD') {
+      result = (amt / rate100) * 100;
+    }
+    document.getElementById('xferPreview').value = formatMoney(result, toC);
+  }
+
+  function executeCurrencyTransfer() {
+    const fromC = document.getElementById('xferFromCurr').value;
+    const toC = document.getElementById('xferToCurr').value;
+    const amt = parseFloat(document.getElementById('xferAmount').value);
+    if (isNaN(amt) || amt <= 0) return alert('يرجى إدخال المبلغ');
+    if (fromC === toC) return alert('يرجى اختيار عملتين مختلفتين للتصريف');
+
+    const rate100 = Number(appData.settings.rate100) || 150000;
+    const converted = fromC === 'USD' ? (amt / 100) * rate100 : (amt / rate100) * 100;
+
+    const baseId = Date.now();
+    appData.transactions.unshift({
+      id: baseId, voucherNo: nextVoucherNo(), type: 'OUT', category: 'تحويل/تصريف',
+      party: 'الصندوق المالي', title: `تصريف ${formatMoney(amt, fromC)} إلى ${toC}`,
+      project: '', amount: amt, currency: fromC, isoDate: todayISO(), date: getNowEnString()
+    });
+    appData.transactions.unshift({
+      id: baseId + 1, voucherNo: nextVoucherNo(), type: 'IN', category: 'تحويل/تصريف',
+      party: 'الصندوق المالي', title: `مقابل تصريف من ${fromC} (${formatMoney(amt, fromC)})`,
+      project: '', amount: converted, currency: toC, isoDate: todayISO(), date: getNowEnString()
+    });
+
+    document.getElementById('xferAmount').value = '';
+    previewConversion();
+    saveData();
+  }
+
+  // Accounts & Settings
+  function addAccount() {
+    const name = document.getElementById('accName').value.trim();
+    const balance = parseFloat(document.getElementById('accBalance').value) || 0;
+    const currency = document.getElementById('accCurrency').value;
+    if (!name) return alert('يرجى إدخال اسم الحساب');
+
+    appData.accounts.push({ id: Date.now(), name, balance, currency });
+    document.getElementById('accName').value = '';
+    document.getElementById('accBalance').value = '';
+    saveData();
+  }
+
+  function saveSettings() {
+    appData.settings.orgName = document.getElementById('setOrgName').value.trim() || 'مؤسسة اليم';
+    appData.settings.rate100 = parseFloat(document.getElementById('setExchangeRate').value) || 150000;
+    const pinVal = toEnDigits(document.getElementById('setPinCode').value.trim());
+    if (pinVal && pinVal.length !== 4) return alert('رمز PIN يجب أن يتكون من 4 أرقام أو يترك فارغاً');
+    appData.settings.pin = pinVal;
+
+    appData.settings.tiers.diamond.USD = parseFloat(document.getElementById('setDiamondUSD').value) || 0;
+    appData.settings.tiers.diamond.IQD = parseFloat(document.getElementById('setDiamondIQD').value) || 0;
+    appData.settings.tiers.gold.USD = parseFloat(document.getElementById('setGoldUSD').value) || 0;
+    appData.settings.tiers.gold.IQD = parseFloat(document.getElementById('setGoldIQD').value) || 0;
+    appData.settings.tiers.silver.USD = parseFloat(document.getElementById('setSilverUSD').value) || 0;
+    appData.settings.tiers.silver.IQD = parseFloat(document.getElementById('setSilverIQD').value) || 0;
+
+    saveData();
+    alert('تم حفظ الإعدادات بنجاح');
+  }
+
+  function deleteItem(collection, id) {
+    if (!confirm('هل أنت متأكد من الحذف؟')) return;
+    appData[collection] = appData[collection].filter(item => item.id !== id);
+    saveData();
+  }
+
+  function exportBackup() {
+    const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `alyam_backup_${todayISO()}.json`;
+    a.click();
+  }
+
+  function importBackup(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        if (parsed.transactions && parsed.settings) {
+          appData = parsed;
+          saveData();
+          alert('تمت استعادة النسخة الاحتياطية بنجاح!');
+        } else {
+          alert('ملف النسخة الاحتياطية غير صالح');
+        }
+      } catch (err) {
+        alert('خطأ في قراءة الملف');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function exportCSV() {
+    let csv = '\uFEFFرقم السند,النوع,التصنيف,الطرف,البيان,المشروع,المبلغ,العملة,التاريخ\n';
+    appData.transactions.forEach(t => {
+      const typeLabel = t.type === 'IN' ? 'سند قبض' : (t.type === 'OUT' ? 'سند صرف' : 'تحويل');
+      csv += `${t.voucherNo || t.id},${typeLabel},"${t.category}","${t.party || '-'}","${t.title}","${t.project || '-'}",${t.amount},${t.currency},"${t.date}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `alyam_report_${todayISO()}.csv`;
+    a.click();
+  }
+
+  function filterReports(filter, btn) {
+    currentReportFilter = filter;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    renderReports();
+  }
+
+  // Rendering
+  function renderAll() {
+    const totals = calculateTotals();
+    document.getElementById('displayOrgName').textContent = appData.settings.orgName;
+
+    if (appData.displayCurrency === 'USD') {
+      document.getElementById('totalBalanceDisplay').textContent =
+        totals.netUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('balanceSubText').textContent = 'USD ($) • محدث الآن';
+    } else {
+      document.getElementById('totalBalanceDisplay').textContent = totals.netIQD.toLocaleString('en-US');
+      document.getElementById('balanceSubText').textContent = 'IQD (د.ع) • محدث الآن';
+    }
+
+    document.getElementById('setOrgName').value = appData.settings.orgName;
+    document.getElementById('setExchangeRate').value = appData.settings.rate100;
+    document.getElementById('setPinCode').value = appData.settings.pin || '';
+    document.getElementById('setDiamondUSD').value = appData.settings.tiers.diamond.USD;
+    document.getElementById('setDiamondIQD').value = appData.settings.tiers.diamond.IQD;
+    document.getElementById('setGoldUSD').value = appData.settings.tiers.gold.USD;
+    document.getElementById('setGoldIQD').value = appData.settings.tiers.gold.IQD;
+    document.getElementById('setSilverUSD').value = appData.settings.tiers.silver.USD;
+    document.getElementById('setSilverIQD').value = appData.settings.tiers.silver.IQD;
+    updateSponsorPreview();
+    previewConversion();
+
+    // Projects & Dropdowns
+    const projList = document.getElementById('projectsList');
+    const expProjSelect = document.getElementById('expProject');
+    const spProjSelect = document.getElementById('sponsorProject');
+    const repProjSelect = document.getElementById('reportProjectSelect');
+    const prevRepVal = repProjSelect.value;
+
+    expProjSelect.innerHTML = '<option value="">مصروف عام للمؤسسة</option>';
+    spProjSelect.innerHTML = '<option value="">رعاية عامة للمؤسسة</option>';
+    repProjSelect.innerHTML = '<option value="ALL">جميع مشاريع وحركات المؤسسة</option>';
+    projList.innerHTML = appData.projects.length ? '' : '<div class="empty-msg">لا توجد مشاريع مضافة حالياً</div>';
+
+    appData.projects.forEach(p => {
+      expProjSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+      spProjSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+      repProjSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+
+      const spent = appData.transactions
+        .filter(t => t.type === 'OUT' && t.project === p.name && t.currency === p.currency)
+        .reduce((sum, t) => sum + Number(t.amount), 0);
+
+      const remaining = p.expectedCost - spent;
+      const pct = p.expectedCost > 0 ? Math.min(100, Math.round((spent / p.expectedCost) * 100)) : 0;
+      const barClass = spent > p.expectedCost ? 'over' : (pct >= 80 ? 'warn' : '');
+
+      projList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div>
+              <div class="item-title">${p.name}</div>
+              <div class="item-sub">المتوقع: <span class="en-num">${formatMoney(p.expectedCost, p.currency)}</span></div>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <select style="padding:4px 6px; font-size:0.75rem; width:auto;" onchange="changeProjectStatus(${p.id}, this.value)">
+                <option value="قيد التنفيذ" ${p.status==='قيد التنفيذ'?'selected':''}>قيد التنفيذ</option>
+                <option value="مكتمل" ${p.status==='مكتمل'?'selected':''}>مكتمل</option>
+                <option value="متوقف" ${p.status==='متوقف'?'selected':''}>متوقف</option>
+              </select>
+              <button class="btn-danger" onclick="deleteItem('projects', ${p.id})">حذف</button>
+            </div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-fill ${barClass}" style="width:${pct}%"></div>
+          </div>
+          <div class="proj-meta">
+            <span>المصروف: <b class="en-num">${formatMoney(spent, p.currency)}</b> (<span class="en-num">${pct}%</span>)</span>
+            <span style="color:${remaining < 0 ? 'var(--danger)' : 'var(--accent-teal)'}">
+              الباقي: <b class="en-num">${formatMoney(remaining, p.currency)}</b>
+            </span>
+          </div>
+          <div class="actions-row">
+            <button class="btn-voucher" onclick="viewProjectReport('${p.name.replace(/'/g, "\\'")}')">📊 تقرير المشروع التفصيلي</button>
+          </div>
+        </div>
+      `;
+    });
+    if (prevRepVal) repProjSelect.value = prevRepVal;
+
+    // Sponsors
+    const spList = document.getElementById('sponsorsList');
+    const tierNames = { diamond: 'باقة ماسية', gold: 'باقة ذهبية', silver: 'باقة فضية' };
+    const statusLabels = { paid: 'مدفوعة بالكامل', partial: 'دفعة جزئية', unpaid: 'مستحقة' };
+    spList.innerHTML = appData.sponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية مسجلة</div>';
+
+    appData.sponsors.forEach(s => {
+      const rem = s.totalAmount - s.paidAmount;
+      spList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div>
+              <div class="item-title">${s.name}</div>
+              <div style="margin-top:4px;">
+                <span class="pill tier-${s.tier}">${tierNames[s.tier]}</span>
+                <span class="pill status-${s.payStatus}">${statusLabels[s.payStatus]}</span>
+              </div>
+              ${s.project ? `<div class="item-sub" style="margin-top:4px;">مشروع: ${s.project}</div>` : ''}
+              ${s.notes ? `<div class="item-sub">${s.notes}</div>` : ''}
+            </div>
+            <div style="text-align:left;">
+              <div class="item-amount amt-plus en-num">${formatMoney(s.totalAmount, s.currency)}</div>
+              <div class="item-sub">المدفوع: <span class="en-num">${formatMoney(s.paidAmount, s.currency)}</span></div>
+              <div class="item-sub">المتبقي: <span class="en-num">${formatMoney(rem, s.currency)}</span></div>
+            </div>
+          </div>
+          <div class="actions-row">
+            ${rem > 0 ? `<button class="btn-sm-success" onclick="recordSponsorPayment(${s.id})">+ تسجيل دفعة</button>` : ''}
+            <button class="btn-voucher" onclick="openEntityStatement('sponsor', '${s.name.replace(/'/g, "\\'")}')">📄 كشف حساب A4</button>
+            <button class="btn-danger" onclick="deleteItem('sponsors', ${s.id})">حذف</button>
+          </div>
+        </div>
+      `;
+    });
+
+    // Expenses
+    const expList = document.getElementById('expensesList');
+    const expenses = appData.transactions.filter(t => t.type === 'OUT');
+    expList.innerHTML = expenses.length ? '' : '<div class="empty-msg">لا توجد مصاريف مسجلة</div>';
+    expenses.forEach(e => {
+      expList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div class="item-right">
+              <div class="badge-icon badge-minus">−</div>
+              <div>
+                <div class="item-title">${e.title} <span class="item-sub en-num">#${e.voucherNo || e.id}</span></div>
+                <div class="item-sub">المستفيد: ${e.party || '-'} ${e.project ? '• مشروع: ' + e.project : ''}</div>
+                <div class="item-sub en-num">${e.date}</div>
+              </div>
+            </div>
+            <div class="item-amount amt-minus en-num">-${formatMoney(e.amount, e.currency)}</div>
+          </div>
+          <div class="actions-row">
+            <button class="btn-voucher" onclick="openVoucher(${e.id})">🧾 سند صرف A4 / PDF</button>
+            <button class="btn-danger" onclick="deleteItem('transactions', ${e.id})">حذف</button>
+          </div>
+        </div>
+      `;
+    });
+
+    // Revenues
+    document.getElementById('revTotalUSD').textContent = formatMoney(totals.inUSD, 'USD');
+    document.getElementById('revTotalIQD').textContent = formatMoney(totals.inIQD, 'IQD');
+    const revList = document.getElementById('revenuesList');
+    const revenues = appData.transactions.filter(t => t.type === 'IN' && t.category !== 'تحويل/تصريف');
+    revList.innerHTML = revenues.length ? '' : '<div class="empty-msg">لا توجد إيرادات مسجلة</div>';
+    revenues.forEach(r => {
+      revList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div class="item-right">
+              <div class="badge-icon badge-plus">+</div>
+              <div>
+                <div class="item-title">${r.title} <span class="item-sub en-num">#${r.voucherNo || r.id}</span></div>
+                <div class="item-sub">من: ${r.party || '-'} • ${r.category}</div>
+                <div class="item-sub en-num">${r.date}</div>
+              </div>
+            </div>
+            <div class="item-amount amt-plus en-num">+${formatMoney(r.amount, r.currency)}</div>
+          </div>
+          <div class="actions-row">
+            <button class="btn-voucher" onclick="openVoucher(${r.id})">🧾 سند قبض A4 / PDF</button>
+            <button class="btn-danger" onclick="deleteItem('transactions', ${r.id})">حذف</button>
+          </div>
+        </div>
+      `;
+    });
+
+    // Employees
+    const empList = document.getElementById('employeesList');
+    empList.innerHTML = appData.employees.length ? '' : '<div class="empty-msg">لا يوجد موظفون مسجلون</div>';
+    appData.employees.forEach(emp => {
+      const adv = emp.advances || 0;
+      const bon = emp.bonuses || 0;
+      const ded = emp.deductions || 0;
+      const netSal = Math.max(0, emp.salary + bon - adv - ded);
+      const monthsText = (emp.paidMonths && emp.paidMonths.length) ? emp.paidMonths.join(', ') : 'لم يُصرف بعد';
+
+      empList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div>
+              <div class="item-title">${emp.name}</div>
+              <div class="item-sub">${emp.role} • الراتب: <span class="en-num">${formatMoney(emp.salary, emp.currency)}</span></div>
+              <div class="item-sub">سلفة: <span class="en-num">${formatMoney(adv, emp.currency)}</span> | مكافأة: <span class="en-num">${formatMoney(bon, emp.currency)}</span> | خصم: <span class="en-num">${formatMoney(ded, emp.currency)}</span></div>
+              <div class="item-sub">الأشهر المصروفة: <span class="en-num">${monthsText}</span></div>
+            </div>
+            <div style="text-align:left;">
+              <div class="item-sub">صافي المستحق</div>
+              <div class="item-amount amt-plus en-num">${formatMoney(netSal, emp.currency)}</div>
+            </div>
+          </div>
+          <div class="actions-row">
+            <button class="btn-sm-success" onclick="payEmployeeSalary(${emp.id})">صرف راتب</button>
+            <button class="btn-sm-warn" onclick="adjustEmployee(${emp.id}, 'advance')">+ سلفة</button>
+            <button class="btn-secondary" onclick="adjustEmployee(${emp.id}, 'bonus')">+ مكافأة</button>
+            <button class="btn-secondary" onclick="adjustEmployee(${emp.id}, 'deduction')">− خصم</button>
+            <button class="btn-voucher" onclick="openEntityStatement('employee', '${emp.name.replace(/'/g, "\\'")}')">📄 كشف A4</button>
+            <button class="btn-danger" onclick="deleteItem('employees', ${emp.id})">حذف</button>
+          </div>
+        </div>
+      `;
+    });
+
+    // Accounts
+    document.getElementById('accBoxUSD').textContent = formatMoney(totals.netUSD, 'USD');
+    document.getElementById('accBoxIQD').textContent = formatMoney(totals.netIQD, 'IQD');
+    const accList = document.getElementById('accountsList');
+    accList.innerHTML = '';
+    appData.accounts.forEach(a => {
+      accList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div>
+              <div class="item-title">${a.name}</div>
+              <div class="item-sub">العملة: ${a.currency}</div>
+            </div>
+            <div style="text-align:left;">
+              <div class="item-amount amt-plus en-num">${formatMoney(a.balance, a.currency)}</div>
+              <button class="btn-danger" style="margin-top:4px;" onclick="deleteItem('accounts', ${a.id})">حذف</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Net Surplus
+    const surpUSD = document.getElementById('netSurplusUSD');
+    const surpIQD = document.getElementById('netSurplusIQD');
+    surpUSD.textContent = formatMoney(totals.netUSD, 'USD');
+    surpUSD.style.color = totals.netUSD >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
+    surpIQD.textContent = formatMoney(totals.netIQD, 'IQD');
+    surpIQD.style.color = totals.netIQD >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
+
+    renderReports();
+  }
+
+  function renderReports() {
+    const repList = document.getElementById('reportsList');
+    const query = (document.getElementById('reportSearch').value || '').trim().toLowerCase();
+    const dFrom = document.getElementById('dateFrom').value;
+    const dTo = document.getElementById('dateTo').value;
+    const selectedProj = document.getElementById('reportProjectSelect').value;
+
+    const summaryBox = document.getElementById('projectReportSummary');
+    const openProjBtn = document.getElementById('openProjA4Btn');
+
+    if (selectedProj !== 'ALL') {
+      const projObj = appData.projects.find(p => p.name === selectedProj);
+      if (projObj) {
+        const projSponsors = appData.sponsors.filter(s => s.project === projObj.name);
+        const projTxs = appData.transactions.filter(t => t.project === projObj.name && t.type !== 'XFER');
+
+        const spent = projTxs
+          .filter(t => t.type === 'OUT' && t.currency === projObj.currency)
+          .reduce((sum, t) => sum + Number(t.amount), 0);
+        const spRev = projSponsors
+          .filter(s => s.currency === projObj.currency)
+          .reduce((sum, s) => sum + Number(s.paidAmount), 0);
+        const rem = projObj.expectedCost - spent;
+        const netProj = spRev - spent;
+
+        document.getElementById('pRepTotal').textContent = formatMoney(projObj.expectedCost, projObj.currency);
+        document.getElementById('pRepSpent').textContent = formatMoney(spent, projObj.currency);
+        document.getElementById('pRepRem').textContent = formatMoney(rem, projObj.currency);
+        document.getElementById('pRepRem').style.color = rem < 0 ? 'var(--danger)' : 'var(--accent-teal)';
+        document.getElementById('pRepSponsors').textContent = formatMoney(spRev, projObj.currency);
+        document.getElementById('pRepNet').textContent = formatMoney(netProj, projObj.currency);
+        document.getElementById('pRepNet').style.color = netProj >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
+
+        // Render Project Sponsors
+        document.getElementById('pRepSponsorsCount').textContent = projSponsors.length + ' شركة';
+        const spBox = document.getElementById('pRepSponsorsList');
+        spBox.innerHTML = projSponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية لهذا المشروع</div>';
+        projSponsors.forEach(s => {
+          spBox.innerHTML += `
+            <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+              <div><b>${s.name}</b> <span class="item-sub">(${s.tier})</span></div>
+              <div class="en-num" style="color:var(--accent-teal); font-weight:700;">مدفوع: ${formatMoney(s.paidAmount, s.currency)} / ${formatMoney(s.totalAmount, s.currency)}</div>
+            </div>
+          `;
+        });
+
+        // Render Project Transactions
+        document.getElementById('pRepTxCount').textContent = projTxs.length + ' حركة';
+        const txBox = document.getElementById('pRepTxList');
+        txBox.innerHTML = projTxs.length ? '' : '<div class="empty-msg">لا توجد مصاريف أو حركات لهذا المشروع</div>';
+        projTxs.forEach(t => {
+          const isPlus = t.type === 'IN';
+          txBox.innerHTML += `
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+              <div>
+                <div><b>${t.title}</b> <span class="item-sub en-num">#${t.voucherNo || t.id}</span></div>
+                <div class="item-sub en-num">${t.date}</div>
+              </div>
+              <div style="text-align:left;">
+                <div class="en-num ${isPlus ? 'amt-plus' : 'amt-minus'}" style="font-weight:700;">${isPlus ? '+' : '-'}${formatMoney(t.amount, t.currency)}</div>
+                <button class="btn-voucher" style="margin-top:3px;" onclick="openVoucher(${t.id})">سند A4</button>
+              </div>
+            </div>
+          `;
+        });
+
+        summaryBox.style.display = 'block';
+        openProjBtn.style.display = 'inline-block';
+      }
+    } else {
+      summaryBox.style.display = 'none';
+      openProjBtn.style.display = 'none';
+    }
+
+    let filtered = appData.transactions.filter(t => {
+      if (selectedProj !== 'ALL' && t.project !== selectedProj) return false;
+      if (currentReportFilter === 'IN' && t.type !== 'IN') return false;
+      if (currentReportFilter === 'OUT' && t.type !== 'OUT') return false;
+      if (currentReportFilter === 'XFER' && t.type !== 'XFER') return false;
+      if (currentReportFilter === 'USD' && t.currency !== 'USD') return false;
+      if (currentReportFilter === 'IQD' && t.currency !== 'IQD') return false;
+
+      if (query) {
+        const hay = `${t.voucherNo || ''} ${t.party || ''} ${t.title} ${t.category} ${t.project || ''}`.toLowerCase();
+        if (!hay.includes(query)) return false;
+      }
+
+      if (dFrom && t.isoDate && t.isoDate < dFrom) return false;
+      if (dTo && t.isoDate && t.isoDate > dTo) return false;
+      return true;
+    });
+
+    repList.innerHTML = filtered.length ? '' : '<div class="empty-msg">لا توجد حركات مطابقة للبحث أو الفلتر</div>';
+
+    filtered.forEach(t => {
+      const isPlus = t.type === 'IN';
+      const isXfer = t.type === 'XFER';
+      const badgeClass = isXfer ? 'badge-xfer' : (isPlus ? 'badge-plus' : 'badge-minus');
+      const badgeSymbol = isXfer ? '⇄' : (isPlus ? '+' : '−');
+      const amtClass = isXfer ? '' : (isPlus ? 'amt-plus' : 'amt-minus');
+      const sign = isXfer ? '' : (isPlus ? '+' : '-');
+
+      repList.innerHTML += `
+        <div class="list-item">
+          <div class="list-row">
+            <div class="item-right">
+              <div class="badge-icon ${badgeClass}">${badgeSymbol}</div>
+              <div>
+                <div class="item-title">${t.title} <span class="item-sub en-num">#${t.voucherNo || t.id}</span></div>
+                <div class="item-sub">${t.party || '-'} ${t.project ? '• مشروع: ' + t.project : ''}</div>
+                <div class="item-sub en-num">${t.date}</div>
+              </div>
+            </div>
+            <div class="item-amount ${amtClass} en-num">
+              ${sign}${formatMoney(t.amount, t.currency)}
+            </div>
+          </div>
+          ${!isXfer ? `
+          <div class="actions-row">
+            <button class="btn-voucher" onclick="openVoucher(${t.id})">🧾 ${isPlus ? 'سند قبض' : 'سند صرف'} A4 / PDF</button>
+          </div>` : ''}
+        </div>
+      `;
+    });
+  }
+
+  checkPinLock();
+  renderAll();
+</script>
+</body>
+</html>
