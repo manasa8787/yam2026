@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>مؤسسة اليم للتنمية المستدامة - النظام المحاسبي المتكامل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-dark: #0e1320;
@@ -59,11 +62,12 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
+      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
       min-height: 100vh;
@@ -72,6 +76,10 @@
         radial-gradient(circle at 10% 35%, var(--bg-glow-1), transparent 45%),
         radial-gradient(circle at 90% 10%, var(--bg-glow-2), transparent 45%);
       transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    button, input, select, textarea, table {
+      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
     }
 
     .en-num {
