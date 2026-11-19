@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>مؤسسة اليم - النظام المحاسبي المتكامل</title>
+  <title>مؤسسة اليم للتنمية المستدامة - النظام المحاسبي المتكامل</title>
   <style>
     :root {
       --bg-dark: #0e1320;
       --card-bg: #172035;
       --card-border: #23304d;
+      --input-bg: #0f1626;
+      --nav-bg: #131b2e;
       --accent-teal: #2ee6c5;
       --accent-purple: #6b5ce7;
+      --brand-blue: #1d4ed8;
       --text-main: #ffffff;
       --text-muted: #94a3b8;
       --danger: #ff5c75;
@@ -18,6 +21,36 @@
       --gold: #fbbf24;
       --silver: #cbd5e1;
       --diamond: #38bdf8;
+      --bg-glow-1: rgba(46, 230, 197, 0.14);
+      --bg-glow-2: rgba(29, 78, 216, 0.20);
+      --divider-color: rgba(255, 255, 255, 0.06);
+      --logo-badge-bg: #ffffff;
+      --secondary-btn-bg: #1e293b;
+      --voucher-text: #c4b5fd;
+    }
+
+    body.light-mode {
+      --bg-dark: #f1f5f9;
+      --card-bg: #ffffff;
+      --card-border: #cbd5e1;
+      --input-bg: #f8fafc;
+      --nav-bg: #ffffff;
+      --accent-teal: #0d9488;
+      --accent-purple: #4f46e5;
+      --brand-blue: #1e3a8a;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --gold: #b45309;
+      --silver: #475569;
+      --diamond: #0284c7;
+      --bg-glow-1: rgba(13, 148, 136, 0.08);
+      --bg-glow-2: rgba(30, 58, 138, 0.08);
+      --divider-color: rgba(15, 23, 42, 0.08);
+      --logo-badge-bg: #ffffff;
+      --secondary-btn-bg: #e2e8f0;
+      --voucher-text: #4338ca;
     }
 
     * {
@@ -34,8 +67,9 @@
       min-height: 100vh;
       padding-bottom: 85px;
       background-image:
-        radial-gradient(circle at 10% 35%, rgba(46, 230, 197, 0.14), transparent 45%),
-        radial-gradient(circle at 90% 10%, rgba(107, 92, 231, 0.16), transparent 45%);
+        radial-gradient(circle at 10% 35%, var(--bg-glow-1), transparent 45%),
+        radial-gradient(circle at 90% 10%, var(--bg-glow-2), transparent 45%);
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .en-num {
@@ -70,11 +104,11 @@
     .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 14px; direction: ltr; }
     .pin-key {
       width: 72px; height: 72px; border-radius: 50%;
-      background: var(--card-bg); border: 1px solid var(--card-border);
+      background: #172035; border: 1px solid #23304d;
       color: #fff; font-size: 1.4rem; font-weight: 700; cursor: pointer;
     }
 
-    /* Header */
+    /* Header & Brand Logo */
     .header {
       display: flex;
       justify-content: space-between;
@@ -82,18 +116,51 @@
       flex-wrap: wrap;
       gap: 14px;
       padding: 10px 0 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid var(--divider-color);
       margin-bottom: 20px;
     }
 
     .header-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .logo-svg { width: 44px; height: 44px; flex-shrink: 0; }
-    .org-title { font-size: 1.4rem; font-weight: 800; }
+    .brand-logo-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: var(--logo-badge-bg);
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.14);
+      flex-shrink: 0;
+      padding: 5px;
+    }
+
+    .logo-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .org-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .org-sub-en {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      direction: ltr;
+      text-align: right;
+      margin-top: 2px;
+    }
 
     .header-controls {
       display: flex;
@@ -122,7 +189,26 @@
     .d-nav-btn:hover, .d-nav-btn.active {
       border-color: var(--accent-teal);
       color: var(--accent-teal);
-      background: rgba(46, 230, 197, 0.1);
+      background: rgba(13, 148, 136, 0.1);
+    }
+
+    .theme-toggle-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-teal);
     }
 
     .currency-switcher {
@@ -137,7 +223,7 @@
       border: none; background: transparent; color: var(--text-muted);
       padding: 6px 16px; border-radius: 16px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
     }
-    .currency-btn.active { background: var(--accent-teal); color: #0b1320; }
+    .currency-btn.active { background: var(--accent-teal); color: #ffffff; }
 
     /* Top Dashboard Row (Balance + Quick Vouchers) */
     .top-dashboard {
@@ -149,21 +235,22 @@
 
     /* Balance Card */
     .balance-card {
-      background: linear-gradient(135deg, #1b8c82 0%, #3d489e 55%, #5b4899 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
       border-radius: 20px;
       padding: 22px 26px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+      color: #ffffff;
     }
 
     .balance-right { display: flex; align-items: center; gap: 12px; }
-    .wallet-icon { width: 40px; height: 40px; fill: var(--accent-teal); }
+    .wallet-icon { width: 40px; height: 40px; fill: #2ee6c5; }
     .balance-label { font-size: 1rem; font-weight: 800; color: #f8fafc; }
     .balance-left { text-align: left; }
-    .balance-amount { font-size: 2rem; font-weight: 900; direction: ltr; display: block; }
-    .balance-sub { font-size: 0.8rem; color: var(--accent-teal); font-weight: 700; }
+    .balance-amount { font-size: 2rem; font-weight: 900; direction: ltr; display: block; color: #ffffff; }
+    .balance-sub { font-size: 0.8rem; color: #5eead4; font-weight: 700; }
 
     /* Quick Actions */
     .quick-actions {
@@ -179,8 +266,8 @@
       transition: transform 0.15s, border-color 0.2s;
     }
     .quick-btn:hover { transform: translateY(-2px); }
-    .quick-btn.in { border-color: rgba(46, 230, 197, 0.45); color: var(--accent-teal); background: rgba(46, 230, 197, 0.06); }
-    .quick-btn.out { border-color: rgba(255, 92, 117, 0.45); color: var(--danger); background: rgba(255, 92, 117, 0.06); }
+    .quick-btn.in { border-color: rgba(13, 148, 136, 0.45); color: var(--accent-teal); background: rgba(13, 148, 136, 0.08); }
+    .quick-btn.out { border-color: rgba(220, 38, 38, 0.4); color: var(--danger); background: rgba(220, 38, 38, 0.08); }
 
     /* MAIN MODULES LAYOUT: 2 Wide Rectangles (Revenues & Expenses) + 4 Squares */
     .modules-wrapper {
@@ -215,13 +302,13 @@
     }
 
     .rect-card.rect-rev {
-      border-color: rgba(46, 230, 197, 0.35);
-      background: linear-gradient(135deg, rgba(46, 230, 197, 0.12), var(--card-bg) 70%);
+      border-color: rgba(13, 148, 136, 0.35);
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), var(--card-bg) 70%);
     }
 
     .rect-card.rect-exp {
-      border-color: rgba(255, 92, 117, 0.35);
-      background: linear-gradient(135deg, rgba(255, 92, 117, 0.12), var(--card-bg) 70%);
+      border-color: rgba(220, 38, 38, 0.35);
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.12), var(--card-bg) 70%);
     }
 
     .rect-card.active-tab {
@@ -248,8 +335,8 @@
       flex-shrink: 0;
     }
 
-    .rect-rev .rect-icon-box { background: rgba(46, 230, 197, 0.18); }
-    .rect-exp .rect-icon-box { background: rgba(255, 92, 117, 0.18); }
+    .rect-rev .rect-icon-box { background: rgba(13, 148, 136, 0.16); }
+    .rect-exp .rect-icon-box { background: rgba(220, 38, 38, 0.16); }
 
     .rect-rev .menu-icon { fill: var(--accent-teal); width: 26px; height: 26px; }
     .rect-exp .menu-icon { fill: var(--danger); width: 26px; height: 26px; }
@@ -257,7 +344,7 @@
     .rect-title {
       font-size: 1.02rem;
       font-weight: 800;
-      color: #fff;
+      color: var(--text-main);
       display: block;
     }
 
@@ -299,28 +386,28 @@
     }
 
     .square-card:hover {
-      border-color: rgba(46, 230, 197, 0.5);
+      border-color: var(--accent-teal);
       transform: translateY(-2px);
     }
 
     .square-card.active-tab {
       border-color: var(--accent-teal);
-      background: rgba(46, 230, 197, 0.1);
-      box-shadow: 0 6px 18px rgba(46, 230, 197, 0.12);
+      background: rgba(13, 148, 136, 0.1);
+      box-shadow: 0 6px 18px rgba(13, 148, 136, 0.12);
     }
 
     .square-icon-box {
       width: 44px;
       height: 44px;
       border-radius: 14px;
-      background: rgba(46, 230, 197, 0.12);
+      background: rgba(13, 148, 136, 0.14);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .menu-icon { width: 24px; height: 24px; fill: var(--accent-teal); }
-    .menu-title { font-size: 0.88rem; font-weight: 800; color: #f1f5f9; }
+    .menu-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); }
     .square-count { font-size: 0.74rem; color: var(--text-muted); }
 
     /* Laptop & Desktop Responsive Grid */
@@ -380,8 +467,8 @@
     label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
     input, select {
       width: 100%; padding: 10px 12px; border-radius: 10px;
-      border: 1px solid var(--card-border); background: #0f1626;
-      color: #fff; font-size: 0.9rem; outline: none;
+      border: 1px solid var(--card-border); background: var(--input-bg);
+      color: var(--text-main); font-size: 0.9rem; outline: none;
     }
     input:focus, select:focus { border-color: var(--accent-teal); }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -389,19 +476,19 @@
 
     .btn-primary {
       width: 100%; padding: 12px; border: none; border-radius: 12px;
-      background: linear-gradient(90deg, var(--accent-teal), #22b8cf);
+      background: linear-gradient(90deg, #2ee6c5, #22b8cf);
       color: #09111e; font-weight: 800; font-size: 0.92rem; cursor: pointer; margin-top: 4px;
     }
 
     .btn-secondary {
       padding: 8px 12px; border-radius: 10px; border: 1px solid var(--card-border);
-      background: #1e293b; color: #fff; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      background: var(--secondary-btn-bg); color: var(--text-main); font-size: 0.8rem; font-weight: 700; cursor: pointer;
     }
 
     .btn-voucher {
-      background: rgba(107, 92, 231, 0.22);
-      color: #c4b5fd;
-      border: 1px solid rgba(107, 92, 231, 0.45);
+      background: rgba(107, 92, 231, 0.16);
+      color: var(--voucher-text);
+      border: 1px solid rgba(107, 92, 231, 0.35);
       padding: 5px 10px;
       border-radius: 8px;
       font-size: 0.74rem;
@@ -410,9 +497,9 @@
     }
 
     .btn-sm-success {
-      background: rgba(46, 230, 197, 0.16);
+      background: rgba(13, 148, 136, 0.14);
       color: var(--accent-teal);
-      border: 1px solid rgba(46, 230, 197, 0.35);
+      border: 1px solid rgba(13, 148, 136, 0.35);
       padding: 5px 10px;
       border-radius: 8px;
       font-size: 0.74rem;
@@ -421,9 +508,9 @@
     }
 
     .btn-sm-warn {
-      background: rgba(251, 191, 36, 0.16);
+      background: rgba(217, 119, 6, 0.14);
       color: var(--warning);
-      border: 1px solid rgba(251, 191, 36, 0.35);
+      border: 1px solid rgba(217, 119, 6, 0.35);
       padding: 5px 10px;
       border-radius: 8px;
       font-size: 0.74rem;
@@ -432,9 +519,9 @@
     }
 
     .btn-danger {
-      background: rgba(255, 92, 117, 0.15);
+      background: rgba(220, 38, 38, 0.14);
       color: var(--danger);
-      border: 1px solid rgba(255, 92, 117, 0.3);
+      border: 1px solid rgba(220, 38, 38, 0.3);
       padding: 5px 10px;
       border-radius: 8px;
       font-size: 0.74rem;
@@ -458,9 +545,9 @@
       display: flex; align-items: center; justify-content: center;
       font-weight: 900; font-size: 1.1rem; flex-shrink: 0;
     }
-    .badge-plus { background: rgba(46, 230, 197, 0.18); color: var(--accent-teal); }
-    .badge-minus { background: rgba(255, 92, 117, 0.18); color: var(--danger); }
-    .badge-xfer { background: rgba(107, 92, 231, 0.22); color: #c4b5fd; }
+    .badge-plus { background: rgba(13, 148, 136, 0.16); color: var(--accent-teal); }
+    .badge-minus { background: rgba(220, 38, 38, 0.16); color: var(--danger); }
+    .badge-xfer { background: rgba(107, 92, 231, 0.18); color: var(--voucher-text); }
 
     .item-title { font-size: 0.94rem; font-weight: 700; margin-bottom: 3px; }
     .item-sub { font-size: 0.76rem; color: var(--text-muted); }
@@ -474,12 +561,12 @@
       justify-content: flex-end;
       margin-top: 10px;
       padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid var(--divider-color);
       flex-wrap: wrap;
     }
 
     /* Progress Bar */
-    .progress-wrap { margin-top: 10px; background: #0f1626; border-radius: 8px; height: 8px; overflow: hidden; }
+    .progress-wrap { margin-top: 10px; background: var(--input-bg); border-radius: 8px; height: 8px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--accent-teal); transition: width 0.3s; }
     .progress-fill.warn { background: var(--warning); }
     .progress-fill.over { background: var(--danger); }
@@ -487,12 +574,12 @@
 
     /* Pills */
     .pill { padding: 3px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; display: inline-block; margin-left: 4px; }
-    .tier-diamond { background: rgba(56, 189, 248, 0.2); color: var(--diamond); }
-    .tier-gold { background: rgba(251, 191, 36, 0.2); color: var(--gold); }
-    .tier-silver { background: rgba(203, 213, 225, 0.2); color: var(--silver); }
-    .status-paid { background: rgba(46, 230, 197, 0.18); color: var(--accent-teal); }
-    .status-partial { background: rgba(251, 191, 36, 0.18); color: var(--warning); }
-    .status-unpaid { background: rgba(255, 92, 117, 0.18); color: var(--danger); }
+    .tier-diamond { background: rgba(2, 132, 199, 0.16); color: var(--diamond); }
+    .tier-gold { background: rgba(217, 119, 6, 0.16); color: var(--gold); }
+    .tier-silver { background: rgba(100, 116, 139, 0.18); color: var(--silver); }
+    .status-paid { background: rgba(13, 148, 136, 0.16); color: var(--accent-teal); }
+    .status-partial { background: rgba(217, 119, 6, 0.16); color: var(--warning); }
+    .status-unpaid { background: rgba(220, 38, 38, 0.16); color: var(--danger); }
 
     /* Summary Boxes */
     .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
@@ -507,7 +594,7 @@
 
     /* Project Detail Sub-Sections */
     .detail-subcard {
-      background: #0f1626;
+      background: var(--input-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 12px;
@@ -530,12 +617,12 @@
       color: var(--text-muted); padding: 7px 14px; border-radius: 16px;
       font-size: 0.78rem; white-space: nowrap; cursor: pointer;
     }
-    .chip.active { background: var(--accent-teal); color: #0b1320; font-weight: 700; border-color: var(--accent-teal); }
+    .chip.active { background: var(--accent-teal); color: #ffffff; font-weight: 700; border-color: var(--accent-teal); }
 
     /* Bottom Navigation (Mobile) */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: #131b2e; border-top: 1px solid var(--card-border);
+      background: var(--nav-bg); border-top: 1px solid var(--card-border);
       display: flex; justify-content: space-around; padding: 8px 0 10px;
       z-index: 100;
     }
@@ -595,10 +682,26 @@
       gap: 10px;
     }
 
+    .v-brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .v-logo-wrap {
+      width: 52px;
+      height: 52px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 4px;
+      background: #fff;
+      flex-shrink: 0;
+    }
+
     .v-title-badge {
       padding: 7px 18px;
       border-radius: 8px;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 900;
       border: 2px solid #1e293b;
     }
@@ -697,18 +800,48 @@
 </head>
 <body>
 
+<!-- Reusable Al-Yam Foundation Logo SVG Template -->
+<svg id="alyamLogoTemplate" style="display:none;" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="alyamDoorDark" x1="25" y1="22" x2="72" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="65%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="alyamInnerPanel" x1="58" y1="30" x2="88" y2="92" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="55%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="alyamBeam" x1="54" y1="32" x2="66" y2="92" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+  <!-- Subtle shadow beneath gateway -->
+  <polygon points="36,96 86,96 98,108 48,108" fill="#cbd5e1" opacity="0.55"/>
+  <!-- Outer Doorway Frame -->
+  <path d="M36 96V24L54 18V90L36 96Z" fill="url(#alyamDoorDark)"/>
+  <path d="M54 18L84 28V96L54 90V18Z" fill="url(#alyamInnerPanel)"/>
+  <!-- Perspective Open Leaf -->
+  <path d="M54 18L65 26V98L54 90V18Z" fill="#0f172a"/>
+  <!-- Luminous Sustainable Gateway Beam -->
+  <polygon points="55,22 64,28 64,95 55,89" fill="url(#alyamBeam)"/>
+  <!-- Clean Architectural Accent -->
+  <line x1="36" y1="24" x2="54" y2="18" stroke="#1e293b" stroke-width="2"/>
+</svg>
+
 <!-- PIN Lock Screen -->
 <div id="pinLockScreen">
-  <svg class="logo-svg" viewBox="0 0 64 64" fill="none">
-    <path d="M32 6L36 22L28 22L32 6Z" fill="#2ee6c5"/>
-    <path d="M16 14L27 25L22 30L16 14Z" fill="#2ee6c5"/>
-    <path d="M48 14L42 30L37 25L48 14Z" fill="#2ee6c5"/>
-    <path d="M10 32L24 29L24 35L10 32Z" fill="#2ee6c5"/>
-    <path d="M54 32L40 35L40 29L54 32Z" fill="#2ee6c5"/>
-    <path d="M18 48L27 36L31 40L18 48Z" fill="#2ee6c5"/>
-    <path d="M34 36L46 54L39 57L34 36Z" fill="#2ee6c5"/>
-  </svg>
-  <h3 style="margin-bottom: 4px;">مؤسسة اليم - نظام محمي</h3>
+  <div class="brand-logo-box" style="margin-bottom: 12px;">
+    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+      <path d="M36 96V24L54 18V90L36 96Z" fill="#1e3a8a"/>
+      <path d="M54 18L84 28V96L54 90V18Z" fill="#2563eb"/>
+      <path d="M54 18L65 26V98L54 90V18Z" fill="#0f172a"/>
+      <polygon points="55,22 64,28 64,95 55,89" fill="#93c5fd" opacity="0.7"/>
+    </svg>
+  </div>
+  <h3 style="margin-bottom: 4px; color:#fff;">مؤسسة اليم للتنمية المستدامة</h3>
   <p class="item-sub" id="pinHint">أدخل رمز الدخول المكون من <span class="en-num">4</span> أرقام</p>
   <div class="pin-dots" id="pinDots">
     <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
@@ -745,18 +878,18 @@
   <!-- Header -->
   <div class="header">
     <div class="header-brand">
-      <svg class="logo-svg" viewBox="0 0 64 64" fill="none">
-        <path d="M32 6L36 22L28 22L32 6Z" fill="#ffffff"/>
-        <path d="M16 14L27 25L22 30L16 14Z" fill="#ffffff"/>
-        <path d="M48 14L42 30L37 25L48 14Z" fill="#ffffff"/>
-        <path d="M10 32L24 29L24 35L10 32Z" fill="#ffffff"/>
-        <path d="M54 32L40 35L40 29L54 32Z" fill="#ffffff"/>
-        <path d="M18 48L27 36L31 40L18 48Z" fill="#ffffff"/>
-        <path d="M34 36L46 54L39 57L34 36Z" fill="#ffffff"/>
-      </svg>
+      <div class="brand-logo-box" title="شعار مؤسسة اليم للتنمية المستدامة">
+        <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+          <polygon points="36,96 86,96 98,108 48,108" fill="#cbd5e1" opacity="0.6"/>
+          <path d="M36 96V24L54 18V90L36 96Z" fill="#0f172a"/>
+          <path d="M54 18L84 28V96L54 90V18Z" fill="#2563eb"/>
+          <path d="M54 18L65 26V98L54 90V18Z" fill="#172554"/>
+          <polygon points="55,22 64,28 64,95 55,89" fill="#93c5fd" opacity="0.75"/>
+        </svg>
+      </div>
       <div>
-        <div class="org-title" id="displayOrgName">مؤسسة اليم</div>
-        <div style="font-size:0.75rem; color:var(--text-muted);">النظام المحاسبي وإدارة المشاريع</div>
+        <div class="org-title" id="displayOrgName">مؤسسة اليم للتنمية المستدامة</div>
+        <div class="org-sub-en" id="displayOrgSubEn">AL-YAM FOUNDATION FOR SUSTAINABLE DEVELOPMENT</div>
       </div>
     </div>
 
@@ -768,6 +901,12 @@
         <button class="d-nav-btn" onclick="switchTab('employees', null, this)">الموظفين</button>
         <button class="d-nav-btn" onclick="switchTab('settings', null, this)">الإعدادات</button>
       </div>
+
+      <!-- Theme Switcher (Light / Dark) -->
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+        <span id="themeIcon">☀️</span>
+        <span id="themeLabel">الوضع النهاري</span>
+      </button>
 
       <div class="currency-switcher">
         <button class="currency-btn active" id="btnUSD" onclick="setDisplayCurrency('USD')">دولار ($)</button>
@@ -785,7 +924,7 @@
         </svg>
         <div>
           <span class="balance-label">صافي الصندوق المالي</span>
-          <div style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;">الرصيد المتاح حالياً</div>
+          <div style="font-size:0.75rem; color:#e2e8f0; margin-top:2px;">الرصيد المتاح حالياً</div>
         </div>
       </div>
       <div class="balance-left">
@@ -876,7 +1015,7 @@
       <div class="form-card">
         <div class="form-group">
           <label>اسم المشروع</label>
-          <input type="text" id="projName" placeholder="مثال: مؤتمر التكنولوجيا السنوي" />
+          <input type="text" id="projName" placeholder="مثال: مبادرة التنمية المستدامة" />
         </div>
         <div class="row-2">
           <div class="form-group">
@@ -1128,7 +1267,7 @@
     <div class="section-workspace">
       <div>
         <div class="form-card" style="border-color: rgba(107, 92, 231, 0.45);">
-          <p style="font-size:0.88rem; font-weight:700; color:#c4b5fd; margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
+          <p style="font-size:0.88rem; font-weight:700; color:var(--voucher-text); margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
           <div class="row-2">
             <div class="form-group">
               <label>من عملة</label>
@@ -1194,7 +1333,7 @@
     </div>
 
     <!-- Detailed Project Report Selector & Full Breakdown -->
-    <div class="form-card" style="border-color: rgba(46, 230, 197, 0.4);">
+    <div class="form-card" style="border-color: rgba(13, 148, 136, 0.4);">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
         <label style="color: var(--accent-teal); font-weight: 800; margin:0;">📊 تقرير تفصيلي كامل للمشروع:</label>
         <button class="btn-voucher" id="openProjA4Btn" style="display:none;" onclick="openProjectFullA4()">📄 تقرير A4 / PDF</button>
@@ -1207,7 +1346,7 @@
         <div class="stats-row-3">
           <div class="stat-box">
             <small>الكلفة المتوقعة</small>
-            <strong class="en-num" id="pRepTotal" style="color:#fff;">0</strong>
+            <strong class="en-num" id="pRepTotal" style="color:var(--text-main);">0</strong>
           </div>
           <div class="stat-box">
             <small>المصاريف</small>
@@ -1299,7 +1438,7 @@
       <div class="form-card">
         <div class="form-group">
           <label>اسم المؤسسة</label>
-          <input type="text" id="setOrgName" value="مؤسسة اليم" />
+          <input type="text" id="setOrgName" value="مؤسسة اليم للتنمية المستدامة" />
         </div>
         <div class="row-2">
           <div class="form-group">
@@ -1403,11 +1542,32 @@
     return `${y}-${m}-${d} | ${hh}:${mm}`;
   }
 
+  function getBrandHeaderHtml() {
+    return `
+      <div class="v-brand-row">
+        <div class="v-logo-wrap">
+          <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+            <polygon points="36,96 86,96 98,108 48,108" fill="#cbd5e1" opacity="0.6"/>
+            <path d="M36 96V24L54 18V90L36 96Z" fill="#0f172a"/>
+            <path d="M54 18L84 28V96L54 90V18Z" fill="#2563eb"/>
+            <path d="M54 18L65 26V98L54 90V18Z" fill="#172554"/>
+            <polygon points="55,22 64,28 64,95 55,89" fill="#93c5fd" opacity="0.75"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-size:1.25rem; margin-bottom:2px; color:#0f172a;">${appData.settings.orgName}</h2>
+          <p style="font-size:0.72rem; font-weight:700; color:#475569; letter-spacing:0.4px; direction:ltr; text-align:right;">AL-YAM FOUNDATION FOR SUSTAINABLE DEVELOPMENT</p>
+        </div>
+      </div>
+    `;
+  }
+
   const defaultState = {
+    theme: 'dark',
     displayCurrency: 'USD',
     voucherSeq: 1004,
     settings: {
-      orgName: 'مؤسسة اليم',
+      orgName: 'مؤسسة اليم للتنمية المستدامة',
       rate100: 150000,
       pin: '',
       tiers: {
@@ -1417,17 +1577,17 @@
       }
     },
     projects: [
-      { id: 1, name: 'مؤتمر الابتكار المؤسسي', expectedCost: 12000, currency: 'USD', status: 'قيد التنفيذ', date: todayISO() }
+      { id: 1, name: 'مبادرة التنمية المستدامة', expectedCost: 12000, currency: 'USD', status: 'قيد التنفيذ', date: todayISO() }
     ],
     sponsors: [
-      { id: 1, name: 'شركة الأفق الذهبي', project: 'مؤتمر الابتكار المؤسسي', tier: 'diamond', totalAmount: 5000, paidAmount: 5000, currency: 'USD', payStatus: 'paid', notes: 'رعاية رئيسية', date: todayISO() }
+      { id: 1, name: 'شركة الأفق الذهبي', project: 'مبادرة التنمية المستدامة', tier: 'diamond', totalAmount: 5000, paidAmount: 5000, currency: 'USD', payStatus: 'paid', notes: 'رعاية رئيسية', date: todayISO() }
     ],
     employees: [
       { id: 1, name: 'أحمد كريم', role: 'محاسب المؤسسة', salary: 800, currency: 'USD', advances: 0, bonuses: 0, deductions: 0, paidMonths: [] }
     ],
     transactions: [
-      { id: 101, voucherNo: 1001, type: 'IN', category: 'رعاية (ماسية)', party: 'شركة الأفق الذهبي', title: 'باقة رعاية ماسية', project: 'مؤتمر الابتكار المؤسسي', amount: 5000, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
-      { id: 102, voucherNo: 1002, type: 'OUT', category: 'مصروف', party: 'شركة القاعات الحديثة', title: 'تجهيز قاعة المؤتمر', project: 'مؤتمر الابتكار المؤسسي', amount: 3200, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
+      { id: 101, voucherNo: 1001, type: 'IN', category: 'رعاية (ماسية)', party: 'شركة الأفق الذهبي', title: 'باقة رعاية ماسية', project: 'مبادرة التنمية المستدامة', amount: 5000, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
+      { id: 102, voucherNo: 1002, type: 'OUT', category: 'مصروف', party: 'شركة القاعات الحديثة', title: 'تجهيز قاعة المبادرة', project: 'مبادرة التنمية المستدامة', amount: 3200, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
       { id: 103, voucherNo: 1003, type: 'IN', category: 'إيراد', party: 'صندوق الدعم', title: 'دعم تشغيلي بالدينار', project: '', amount: 4500000, currency: 'IQD', isoDate: todayISO(), date: getNowEnString() }
     ],
     accounts: [
@@ -1437,9 +1597,22 @@
   };
 
   let appData = JSON.parse(localStorage.getItem('alyam_accounting_v5')) || defaultState;
+  if (!appData.theme) appData.theme = 'dark';
   let currentReportFilter = 'ALL';
   let enteredPin = '';
   let lastShareText = '';
+
+  function applyTheme() {
+    const isLight = appData.theme === 'light';
+    document.body.classList.toggle('light-mode', isLight);
+    document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
+    document.getElementById('themeLabel').textContent = isLight ? 'الوضع الليلي' : 'الوضع النهاري';
+  }
+
+  function toggleTheme() {
+    appData.theme = appData.theme === 'light' ? 'dark' : 'light';
+    saveData();
+  }
 
   function saveData() {
     localStorage.setItem('alyam_accounting_v5', JSON.stringify(appData));
@@ -1547,10 +1720,7 @@
 
     const html = `
       <div class="v-header">
-        <div>
-          <h2 style="font-size:1.35rem; margin-bottom:4px;">${appData.settings.orgName}</h2>
-          <p style="font-size:0.85rem; color:#475569;">الإدارة المالية والحسابات</p>
-        </div>
+        ${getBrandHeaderHtml()}
         <div class="v-title-badge ${badgeClass}">${voucherTitle}</div>
         <div style="text-align:left; font-size:0.9rem;">
           <div>رقم السند: <strong class="en-num">#${tx.voucherNo || tx.id}</strong></div>
@@ -1639,10 +1809,7 @@
 
     const html = `
       <div class="v-header">
-        <div>
-          <h2 style="font-size:1.35rem; margin-bottom:4px;">${appData.settings.orgName}</h2>
-          <p style="font-size:0.85rem; color:#475569;">تقرير تفصيلي شامل للمشروع</p>
-        </div>
+        ${getBrandHeaderHtml()}
         <div class="v-title-badge v-statement">تقرير مشروع (Project Report)</div>
         <div style="text-align:left; font-size:0.88rem;">
           <div>التاريخ: <strong class="en-num">${todayISO()}</strong></div>
@@ -1750,10 +1917,7 @@
 
     const html = `
       <div class="v-header">
-        <div>
-          <h2 style="font-size:1.35rem; margin-bottom:4px;">${appData.settings.orgName}</h2>
-          <p style="font-size:0.85rem; color:#475569;">كشف حساب تفصيلي</p>
-        </div>
+        ${getBrandHeaderHtml()}
         <div class="v-title-badge v-statement">كشف حساب (Statement)</div>
         <div style="text-align:left; font-size:0.88rem;">
           <div>التاريخ: <strong class="en-num">${todayISO()}</strong></div>
@@ -2127,7 +2291,7 @@
   }
 
   function saveSettings() {
-    appData.settings.orgName = document.getElementById('setOrgName').value.trim() || 'مؤسسة اليم';
+    appData.settings.orgName = document.getElementById('setOrgName').value.trim() || 'مؤسسة اليم للتنمية المستدامة';
     appData.settings.rate100 = parseFloat(document.getElementById('setExchangeRate').value) || 150000;
     const pinVal = toEnDigits(document.getElementById('setPinCode').value.trim());
     if (pinVal && pinVal.length !== 4) return alert('رمز PIN يجب أن يتكون من 4 أرقام أو يترك فارغاً');
@@ -2166,6 +2330,7 @@
       try {
         const parsed = JSON.parse(e.target.result);
         if (parsed.transactions && parsed.settings) {
+          if (!parsed.theme) parsed.theme = appData.theme || 'dark';
           appData = parsed;
           saveData();
           alert('تمت استعادة النسخة الاحتياطية بنجاح!');
@@ -2201,8 +2366,10 @@
 
   // Rendering
   function renderAll() {
+    applyTheme();
     const totals = calculateTotals();
     document.getElementById('displayOrgName').textContent = appData.settings.orgName;
+    document.title = `${appData.settings.orgName} - النظام المحاسبي المتكامل`;
 
     if (appData.displayCurrency === 'USD') {
       document.getElementById('totalBalanceDisplay').textContent =
@@ -2510,7 +2677,7 @@
         spBox.innerHTML = projSponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية لهذا المشروع</div>';
         projSponsors.forEach(s => {
           spBox.innerHTML += `
-            <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:5px 0; border-bottom:1px solid var(--divider-color);">
               <div><b>${s.name}</b> <span class="item-sub">(${s.tier})</span></div>
               <div class="en-num" style="color:var(--accent-teal); font-weight:700;">مدفوع: ${formatMoney(s.paidAmount, s.currency)} / ${formatMoney(s.totalAmount, s.currency)}</div>
             </div>
@@ -2524,7 +2691,7 @@
         projTxs.forEach(t => {
           const isPlus = t.type === 'IN';
           txBox.innerHTML += `
-            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; padding:6px 0; border-bottom:1px solid var(--divider-color);">
               <div>
                 <div><b>${t.title}</b> <span class="item-sub en-num">#${t.voucherNo || t.id}</span></div>
                 <div class="item-sub en-num">${t.date}</div>
