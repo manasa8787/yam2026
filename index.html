@@ -27,6 +27,7 @@
       --logo-badge-bg: #ffffff;
       --secondary-btn-bg: #1e293b;
       --voucher-text: #c4b5fd;
+      --drawer-bg: #121a2c;
     }
 
     body.light-mode {
@@ -51,6 +52,7 @@
       --logo-badge-bg: #ffffff;
       --secondary-btn-bg: #e2e8f0;
       --voucher-text: #4338ca;
+      --drawer-bg: #f8fafc;
     }
 
     * {
@@ -271,7 +273,7 @@
 
     /* MAIN MODULES LAYOUT: 2 Wide Rectangles (Revenues & Expenses) + 4 Squares */
     .modules-wrapper {
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
 
     /* Wide Rectangles for Revenues & Expenses */
@@ -410,6 +412,95 @@
     .menu-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); }
     .square-count { font-size: 0.74rem; color: var(--text-muted); }
 
+    /* SECONDARY POPUP / SLIDE-OVER DRAWER */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 2500;
+      display: none;
+      justify-content: flex-start;
+      animation: fadeBackdrop 0.2s ease;
+    }
+
+    .drawer-backdrop.open {
+      display: flex;
+    }
+
+    @keyframes fadeBackdrop {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .secondary-drawer {
+      width: 100%;
+      max-width: 780px;
+      height: 100vh;
+      background: var(--drawer-bg);
+      border-left: 1px solid var(--card-border);
+      box-shadow: -12px 0 36px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      animation: slideInDrawer 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideInDrawer {
+      from { transform: translateX(40px); opacity: 0.6; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .drawer-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--card-border);
+      flex-shrink: 0;
+      gap: 12px;
+    }
+
+    .drawer-topbar-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .drawer-badge-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(13, 148, 136, 0.14);
+      color: var(--accent-teal);
+    }
+
+    .drawer-close-btn {
+      background: rgba(220, 38, 38, 0.14);
+      color: var(--danger);
+      border: 1px solid rgba(220, 38, 38, 0.35);
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .drawer-close-btn:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .drawer-body {
+      padding: 18px 20px 36px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
     /* Laptop & Desktop Responsive Grid */
     @media (min-width: 768px) {
       body { padding-bottom: 30px; }
@@ -431,8 +522,8 @@
 
       .section-workspace {
         display: grid;
-        grid-template-columns: 380px 1fr;
-        gap: 20px;
+        grid-template-columns: 330px 1fr;
+        gap: 16px;
         align-items: start;
       }
     }
@@ -441,18 +532,21 @@
       .rect-grid {
         grid-template-columns: 1fr;
       }
+      .secondary-drawer {
+        max-width: 100%;
+      }
     }
 
-    /* Sections */
-    .section { display: none; animation: fadeIn 0.2s ease; }
-    .section.active { display: block; }
+    /* Sections inside Secondary Drawer */
+    .section { display: none; }
+    .section.active { display: block; animation: fadeIn 0.2s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
     }
-    .section-title { font-size: 1.1rem; font-weight: 800; }
+    .section-title { font-size: 1.02rem; font-weight: 800; color: var(--text-muted); }
 
     /* Forms */
     .form-card {
@@ -800,37 +894,6 @@
 </head>
 <body>
 
-<!-- Reusable Al-Yam Foundation Logo SVG Template -->
-<svg id="alyamLogoTemplate" style="display:none;" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="alyamDoorDark" x1="25" y1="22" x2="72" y2="96" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="65%" stop-color="#1e3a8a"/>
-      <stop offset="100%" stop-color="#172554"/>
-    </linearGradient>
-    <linearGradient id="alyamInnerPanel" x1="58" y1="30" x2="88" y2="92" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#60a5fa"/>
-      <stop offset="55%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#1e40af"/>
-    </linearGradient>
-    <linearGradient id="alyamBeam" x1="54" y1="32" x2="66" y2="92" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.25"/>
-    </linearGradient>
-  </defs>
-  <!-- Subtle shadow beneath gateway -->
-  <polygon points="36,96 86,96 98,108 48,108" fill="#cbd5e1" opacity="0.55"/>
-  <!-- Outer Doorway Frame -->
-  <path d="M36 96V24L54 18V90L36 96Z" fill="url(#alyamDoorDark)"/>
-  <path d="M54 18L84 28V96L54 90V18Z" fill="url(#alyamInnerPanel)"/>
-  <!-- Perspective Open Leaf -->
-  <path d="M54 18L65 26V98L54 90V18Z" fill="#0f172a"/>
-  <!-- Luminous Sustainable Gateway Beam -->
-  <polygon points="55,22 64,28 64,95 55,89" fill="url(#alyamBeam)"/>
-  <!-- Clean Architectural Accent -->
-  <line x1="36" y1="24" x2="54" y2="18" stroke="#1e293b" stroke-width="2"/>
-</svg>
-
 <!-- PIN Lock Screen -->
 <div id="pinLockScreen">
   <div class="brand-logo-box" style="margin-bottom: 12px;">
@@ -874,6 +937,513 @@
   <div class="a4-sheet" id="voucherContent"></div>
 </div>
 
+<!-- SECONDARY POPUP / SLIDE-OVER PANEL FOR MAIN FIELDS -->
+<div id="secondaryDrawerBackdrop" class="drawer-backdrop" onclick="handleBackdropClick(event)">
+  <div class="secondary-drawer" onclick="event.stopPropagation()">
+    <div class="drawer-topbar">
+      <div class="drawer-topbar-title">
+        <span id="drawerTitleText">القسم الثانوي</span>
+        <span class="drawer-badge-tag">قائمة منبثقة</span>
+      </div>
+      <button class="drawer-close-btn" onclick="closeSecondaryDrawer()">إغلاق ✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- 1. SECTION: PROJECTS -->
+      <div id="sec-projects" class="section">
+        <div class="section-header">
+          <h3 class="section-title">المشاريع والكلفة المتوقعة</h3>
+        </div>
+        <div class="section-workspace">
+          <div class="form-card">
+            <div class="form-group">
+              <label>اسم المشروع</label>
+              <input type="text" id="projName" placeholder="مثال: مبادرة التنمية المستدامة" />
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>الكلفة المتوقعة</label>
+                <input type="number" id="projCost" placeholder="0" />
+              </div>
+              <div class="form-group">
+                <label>العملة</label>
+                <select id="projCurrency">
+                  <option value="USD">دولار ($)</option>
+                  <option value="IQD">دينار (د.ع)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>حالة المشروع</label>
+              <select id="projStatus">
+                <option value="قيد التنفيذ">قيد التنفيذ</option>
+                <option value="مكتمل">مكتمل</option>
+                <option value="متوقف">متوقف</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="addProject()">+ إضافة مشروع</button>
+          </div>
+          <div id="projectsList"></div>
+        </div>
+      </div>
+
+      <!-- 2. SECTION: SPONSORS -->
+      <div id="sec-sponsors" class="section">
+        <div class="section-header">
+          <h3 class="section-title">الشركات الراعية والباقات</h3>
+          <button class="btn-secondary" onclick="openSecondaryTab('settings')">تعديل الباقات</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <small>إجمالي الرعايات (دولار)</small>
+            <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalUSD">$0.00</strong>
+            <div class="sub-stat">
+              مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalUSD">$0.00</span> |
+              متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalUSD">$0.00</span>
+            </div>
+          </div>
+          <div class="stat-box">
+            <small>إجمالي الرعايات (دينار)</small>
+            <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalIQD">0 IQD</strong>
+            <div class="sub-stat">
+              مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalIQD">0 IQD</span> |
+              متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalIQD">0 IQD</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-workspace">
+          <div class="form-card">
+            <div class="form-group">
+              <label>اسم الشركة الراعية</label>
+              <input type="text" id="sponsorName" placeholder="مثال: شركة النور للاتصالات" />
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>فئة الباقة</label>
+                <select id="sponsorTier" onchange="updateSponsorPreview()">
+                  <option value="diamond">الباقة الماسية</option>
+                  <option value="gold">الباقة الذهبية</option>
+                  <option value="silver">الباقة الفضية</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>العملة</label>
+                <select id="sponsorCurrency" onchange="updateSponsorPreview()">
+                  <option value="USD">دولار ($)</option>
+                  <option value="IQD">دينار (د.ع)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>ربط بمشروع محدد (اختياري)</label>
+              <select id="sponsorProject">
+                <option value="">رعاية عامة للمؤسسة</option>
+              </select>
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>قيمة الباقة</label>
+                <input type="text" id="sponsorPricePreview" readonly style="color: var(--accent-teal); font-weight: bold;" />
+              </div>
+              <div class="form-group">
+                <label>حالة الدفع</label>
+                <select id="sponsorPayStatus" onchange="togglePartialInput()">
+                  <option value="paid">مدفوعة بالكامل</option>
+                  <option value="partial">دفعة جزئية</option>
+                  <option value="unpaid">مستحقة (غير مدفوعة)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" id="partialWrap" style="display:none;">
+              <label>المبلغ المستلم حالياً</label>
+              <input type="number" id="sponsorPaidAmount" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label>ملاحظات / مدة العقد</label>
+              <input type="text" id="sponsorNotes" placeholder="مثال: رعاية سنوية" />
+            </div>
+            <button class="btn-primary" onclick="addSponsor()">+ تسجيل الشركة وإصدار سند قبض</button>
+          </div>
+          <div id="sponsorsList"></div>
+        </div>
+      </div>
+
+      <!-- 3. SECTION: EXPENSES -->
+      <div id="sec-expenses" class="section">
+        <div class="section-header">
+          <h3 class="section-title">مصروفات المؤسسة (سندات الصرف)</h3>
+        </div>
+        <div class="section-workspace">
+          <div class="form-card">
+            <div class="form-group">
+              <label>يصرف إلى السيد / الجهة (المستفيد)</label>
+              <input type="text" id="expParty" placeholder="اسم المستلم أو الشركة المجهزة" />
+            </div>
+            <div class="form-group">
+              <label>وذلك عن (بيان المصروف)</label>
+              <input type="text" id="expTitle" placeholder="مثال: إيجار المقر / ضيافة / مطبوعات" />
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>المبلغ</label>
+                <input type="number" id="expAmount" placeholder="0" />
+              </div>
+              <div class="form-group">
+                <label>العملة</label>
+                <select id="expCurrency">
+                  <option value="USD">دولار ($)</option>
+                  <option value="IQD">دينار (د.ع)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>خصم من ميزانية مشروع (اختياري)</label>
+              <select id="expProject">
+                <option value="">مصروف عام للمؤسسة</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="addExpense()">+ حفظ وإصدار سند صرف</button>
+          </div>
+          <div id="expensesList"></div>
+        </div>
+      </div>
+
+      <!-- 4. SECTION: REVENUES -->
+      <div id="sec-revenues" class="section">
+        <div class="section-header">
+          <h3 class="section-title">الإيرادات الكلية (سندات القبض)</h3>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box">
+            <small>إجمالي إيرادات الدولار</small>
+            <strong class="en-num" style="color: var(--accent-teal);" id="revTotalUSD">$0.00</strong>
+          </div>
+          <div class="stat-box">
+            <small>إجمالي إيرادات الدينار</small>
+            <strong class="en-num" style="color: var(--accent-teal);" id="revTotalIQD">0 IQD</strong>
+          </div>
+        </div>
+        <div class="section-workspace">
+          <div class="form-card">
+            <div class="form-group">
+              <label>استلمنا من السيد / الجهة (الدافع)</label>
+              <input type="text" id="revParty" placeholder="اسم الجهة أو الشخص الدافع" />
+            </div>
+            <div class="form-group">
+              <label>وذلك عن (بيان الإيراد)</label>
+              <input type="text" id="revTitle" placeholder="مثال: دعم مالي / مبيعات / اشتراكات" />
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>المبلغ</label>
+                <input type="number" id="revAmount" placeholder="0" />
+              </div>
+              <div class="form-group">
+                <label>العملة</label>
+                <select id="revCurrency">
+                  <option value="USD">دولار ($)</option>
+                  <option value="IQD">دينار (د.ع)</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-primary" onclick="addRevenue()">+ حفظ وإصدار سند قبض</button>
+          </div>
+          <div id="revenuesList"></div>
+        </div>
+      </div>
+
+      <!-- 5. SECTION: EMPLOYEES -->
+      <div id="sec-employees" class="section">
+        <div class="section-header">
+          <h3 class="section-title">الموظفين والرواتب والسلف</h3>
+        </div>
+        <div class="section-workspace">
+          <div class="form-card">
+            <div class="row-2">
+              <div class="form-group">
+                <label>اسم الموظف</label>
+                <input type="text" id="empName" placeholder="الاسم الكامل" />
+              </div>
+              <div class="form-group">
+                <label>المنصب / الوظيفة</label>
+                <input type="text" id="empRole" placeholder="مثال: محاسب / منسق" />
+              </div>
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>الراتب الشهري الأساسي</label>
+                <input type="number" id="empSalary" placeholder="0" />
+              </div>
+              <div class="form-group">
+                <label>العملة</label>
+                <select id="empCurrency">
+                  <option value="USD">دولار ($)</option>
+                  <option value="IQD">دينار (د.ع)</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-primary" onclick="addEmployee()">+ إضافة موظف</button>
+          </div>
+          <div id="employeesList"></div>
+        </div>
+      </div>
+
+      <!-- 6. SECTION: ACCOUNTS & TRANSFERS -->
+      <div id="sec-accounts" class="section">
+        <div class="section-header">
+          <h3 class="section-title">الحسابات والتحويل وتصريف العملة</h3>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box">
+            <small>صندوق الدولار الأمريكي</small>
+            <strong class="en-num" style="color: var(--accent-teal);" id="accBoxUSD">$0.00</strong>
+          </div>
+          <div class="stat-box">
+            <small>صندوق الدينار العراقي</small>
+            <strong class="en-num" style="color: var(--accent-teal);" id="accBoxIQD">0 IQD</strong>
+          </div>
+        </div>
+
+        <div class="section-workspace">
+          <div>
+            <div class="form-card" style="border-color: rgba(107, 92, 231, 0.45);">
+              <p style="font-size:0.88rem; font-weight:700; color:var(--voucher-text); margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
+              <div class="row-2">
+                <div class="form-group">
+                  <label>من عملة</label>
+                  <select id="xferFromCurr" onchange="previewConversion()">
+                    <option value="USD">دولار ($)</option>
+                    <option value="IQD">دينار (د.ع)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>إلى عملة</label>
+                  <select id="xferToCurr" onchange="previewConversion()">
+                    <option value="IQD">دينار (د.ع)</option>
+                    <option value="USD">دولار ($)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row-2">
+                <div class="form-group">
+                  <label>المبلغ المحول</label>
+                  <input type="number" id="xferAmount" placeholder="0" oninput="previewConversion()" />
+                </div>
+                <div class="form-group">
+                  <label>الناتج التقديري</label>
+                  <input type="text" id="xferPreview" readonly class="en-num" style="color:var(--accent-teal); font-weight:bold;" value="0" />
+                </div>
+              </div>
+              <button class="btn-primary" onclick="executeCurrencyTransfer()">تنفيذ التحويل وتحديث الصناديق</button>
+            </div>
+
+            <div class="form-card">
+              <div class="form-group">
+                <label>إضافة حساب / جهة مالية</label>
+                <input type="text" id="accName" placeholder="مثال: حساب مصرف الرافدين" />
+              </div>
+              <div class="row-2">
+                <div class="form-group">
+                  <label>الرصيد</label>
+                  <input type="number" id="accBalance" placeholder="0" />
+                </div>
+                <div class="form-group">
+                  <label>العملة</label>
+                  <select id="accCurrency">
+                    <option value="USD">دولار ($)</option>
+                    <option value="IQD">دينار (د.ع)</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn-primary" onclick="addAccount()">+ حفظ الحساب</button>
+            </div>
+          </div>
+          <div id="accountsList"></div>
+        </div>
+      </div>
+
+      <!-- 7. SECTION: REPORTS -->
+      <div id="sec-reports" class="section">
+        <div class="section-header">
+          <h3 class="section-title">التقارير وحركات المؤسسة</h3>
+          <div style="display:flex; gap:6px;">
+            <button class="btn-secondary" onclick="exportCSV()">Excel</button>
+            <button class="btn-secondary" onclick="printReportA4()">طباعة A4</button>
+          </div>
+        </div>
+
+        <div class="form-card" style="border-color: rgba(13, 148, 136, 0.4);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label style="color: var(--accent-teal); font-weight: 800; margin:0;">📊 تقرير تفصيلي كامل للمشروع:</label>
+            <button class="btn-voucher" id="openProjA4Btn" style="display:none;" onclick="openProjectFullA4()">📄 تقرير A4 / PDF</button>
+          </div>
+          <select id="reportProjectSelect" onchange="renderReports()">
+            <option value="ALL">جميع مشاريع وحركات المؤسسة</option>
+          </select>
+
+          <div id="projectReportSummary" style="display:none; margin-top:12px;">
+            <div class="stats-row-3">
+              <div class="stat-box">
+                <small>الكلفة المتوقعة</small>
+                <strong class="en-num" id="pRepTotal" style="color:var(--text-main);">0</strong>
+              </div>
+              <div class="stat-box">
+                <small>المصاريف</small>
+                <strong class="en-num" id="pRepSpent" style="color:var(--danger);">0</strong>
+              </div>
+              <div class="stat-box">
+                <small>الباقي من الميزانية</small>
+                <strong class="en-num" id="pRepRem" style="color:var(--accent-teal);">0</strong>
+              </div>
+            </div>
+
+            <div class="stats-row" style="margin-bottom:8px;">
+              <div class="stat-box">
+                <small>رعايات المشروع</small>
+                <strong class="en-num" id="pRepSponsors" style="color:var(--accent-teal);">0</strong>
+              </div>
+              <div class="stat-box">
+                <small>صافي موقف المشروع</small>
+                <strong class="en-num" id="pRepNet">0</strong>
+              </div>
+            </div>
+
+            <div class="detail-subcard">
+              <div class="detail-subcard-title">
+                <span>🤝 الشركات الراعية للمشروع</span>
+                <span class="en-num" id="pRepSponsorsCount">0</span>
+              </div>
+              <div id="pRepSponsorsList"></div>
+            </div>
+
+            <div class="detail-subcard">
+              <div class="detail-subcard-title">
+                <span>🧾 مصاريف وحركات المشروع</span>
+                <span class="en-num" id="pRepTxCount">0</span>
+              </div>
+              <div id="pRepTxList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <small>صافي الصندوق (دولار)</small>
+            <strong class="en-num" id="netSurplusUSD">$0.00</strong>
+          </div>
+          <div class="stat-box">
+            <small>صافي الصندوق (دينار)</small>
+            <strong class="en-num" id="netSurplusIQD">0 IQD</strong>
+          </div>
+        </div>
+
+        <div class="form-card" style="padding:12px;">
+          <div class="form-group" style="margin-bottom:8px;">
+            <input type="text" id="reportSearch" placeholder="🔍 ابحث برقم السند، الاسم، المشروع، أو البيان..." oninput="renderReports()" />
+          </div>
+          <div class="row-2">
+            <div>
+              <label>من تاريخ</label>
+              <input type="date" id="dateFrom" onchange="renderReports()" />
+            </div>
+            <div>
+              <label>إلى تاريخ</label>
+              <input type="date" id="dateTo" onchange="renderReports()" />
+            </div>
+          </div>
+        </div>
+
+        <div class="filters">
+          <button class="chip active" onclick="filterReports('ALL', this)">الكل</button>
+          <button class="chip" onclick="filterReports('IN', this)">سندات القبض</button>
+          <button class="chip" onclick="filterReports('OUT', this)">سندات الصرف</button>
+          <button class="chip" onclick="filterReports('XFER', this)">تحويلات</button>
+          <button class="chip" onclick="filterReports('USD', this)">USD ($)</button>
+          <button class="chip" onclick="filterReports('IQD', this)">IQD (د.ع)</button>
+        </div>
+        <div id="reportsList"></div>
+      </div>
+
+      <!-- 8. SECTION: SETTINGS & BACKUP -->
+      <div id="sec-settings" class="section">
+        <div class="section-header">
+          <h3 class="section-title">الإعدادات والحماية والنسخ</h3>
+        </div>
+        <div class="section-workspace">
+          <div class="form-card">
+            <div class="form-group">
+              <label>اسم المؤسسة</label>
+              <input type="text" id="setOrgName" value="مؤسسة اليم للتنمية المستدامة" />
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>سعر صرف 100$ بالدينار</label>
+                <input type="number" id="setExchangeRate" value="150000" />
+              </div>
+              <div class="form-group">
+                <label>رمز قفل PIN (4 أرقام)</label>
+                <input type="password" maxlength="4" inputmode="numeric" id="setPinCode" placeholder="بدون قفل" />
+              </div>
+            </div>
+
+            <hr style="border-color: var(--card-border); margin: 14px 0;">
+            <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">تحديد قيم باقات الشركات الراعية</p>
+
+            <div class="row-2">
+              <div class="form-group">
+                <label>الباقة الماسية ($)</label>
+                <input type="number" id="setDiamondUSD" value="5000" />
+              </div>
+              <div class="form-group">
+                <label>الباقة الماسية (د.ع)</label>
+                <input type="number" id="setDiamondIQD" value="7500000" />
+              </div>
+            </div>
+
+            <div class="row-2">
+              <div class="form-group">
+                <label>الباقة الذهبية ($)</label>
+                <input type="number" id="setGoldUSD" value="3000" />
+              </div>
+              <div class="form-group">
+                <label>الباقة الذهبية (د.ع)</label>
+                <input type="number" id="setGoldIQD" value="4500000" />
+              </div>
+            </div>
+
+            <div class="row-2">
+              <div class="form-group">
+                <label>الباقة الفضية ($)</label>
+                <input type="number" id="setSilverUSD" value="1500" />
+              </div>
+              <div class="form-group">
+                <label>الباقة الفضية (د.ع)</label>
+                <input type="number" id="setSilverIQD" value="2250000" />
+              </div>
+            </div>
+
+            <button class="btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
+          </div>
+
+          <div class="form-card">
+            <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات</p>
+            <div class="row-2">
+              <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
+              <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
+                ⬆ استيراد نسخة
+                <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SCREEN -->
 <div class="container">
   <!-- Header -->
   <div class="header">
@@ -896,10 +1466,10 @@
     <div class="header-controls">
       <!-- Desktop Navigation -->
       <div class="desktop-nav">
-        <button class="d-nav-btn active" onclick="switchTab('projects', null, this)">الرئيسية</button>
-        <button class="d-nav-btn" onclick="switchTab('reports', null, this)">التقارير والكشوفات</button>
-        <button class="d-nav-btn" onclick="switchTab('employees', null, this)">الموظفين</button>
-        <button class="d-nav-btn" onclick="switchTab('settings', null, this)">الإعدادات</button>
+        <button class="d-nav-btn active" onclick="closeSecondaryDrawer(); setActiveNav(this)">الرئيسية</button>
+        <button class="d-nav-btn" onclick="openSecondaryTab('reports', this)">التقارير والكشوفات</button>
+        <button class="d-nav-btn" onclick="openSecondaryTab('employees', this)">الموظفين</button>
+        <button class="d-nav-btn" onclick="openSecondaryTab('settings', this)">الإعدادات</button>
       </div>
 
       <!-- Theme Switcher (Light / Dark) -->
@@ -943,27 +1513,27 @@
   <div class="modules-wrapper">
     <!-- 1. Main Rectangles: Revenues & Expenses -->
     <div class="rect-grid">
-      <div class="rect-card rect-rev" onclick="switchTab('revenues', this)">
+      <div class="rect-card rect-rev" onclick="openSecondaryTab('revenues', null, this)">
         <div class="rect-info">
           <div class="rect-icon-box">
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
           </div>
           <div>
             <span class="rect-title">الإيرادات الكلية</span>
-            <span class="rect-sub">سندات القبض والمقبوضات</span>
+            <span class="rect-sub">اضغط لفتح قائمة الإيرادات</span>
           </div>
         </div>
         <div class="rect-total amt-plus en-num" id="cardRevTotal">$0.00</div>
       </div>
 
-      <div class="rect-card rect-exp" onclick="switchTab('expenses', this)">
+      <div class="rect-card rect-exp" onclick="openSecondaryTab('expenses', null, this)">
         <div class="rect-info">
           <div class="rect-icon-box">
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6h-6z"/></svg>
           </div>
           <div>
             <span class="rect-title">المصروفات</span>
-            <span class="rect-sub">سندات الصرف والنفقات</span>
+            <span class="rect-sub">اضغط لفتح قائمة المصروفات</span>
           </div>
         </div>
         <div class="rect-total amt-minus en-num" id="cardExpTotal">$0.00</div>
@@ -972,7 +1542,7 @@
 
     <!-- 2. Four Squares: Projects, Sponsors, Employees, Accounts -->
     <div class="squares-grid">
-      <div class="square-card active-tab" onclick="switchTab('projects', this)">
+      <div class="square-card" onclick="openSecondaryTab('projects', null, this)">
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
         </div>
@@ -980,7 +1550,7 @@
         <span class="square-count en-num" id="sqProjCount">0 مشاريع</span>
       </div>
 
-      <div class="square-card" onclick="switchTab('sponsors', this)">
+      <div class="square-card" onclick="openSecondaryTab('sponsors', null, this)">
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-5zm0 10.99h6c-.53 4.12-3.28 7.79-6 8.94V13H6V8.3l6-3.75v8.44z"/></svg>
         </div>
@@ -988,7 +1558,7 @@
         <span class="square-count en-num" id="sqSponsorCount">0 شركات</span>
       </div>
 
-      <div class="square-card" onclick="switchTab('employees', this)">
+      <div class="square-card" onclick="openSecondaryTab('employees', null, this)">
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         </div>
@@ -996,7 +1566,7 @@
         <span class="square-count en-num" id="sqEmpCount">0 موظفين</span>
       </div>
 
-      <div class="square-card" onclick="switchTab('accounts', this)">
+      <div class="square-card" onclick="openSecondaryTab('accounts', null, this)">
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z"/></svg>
         </div>
@@ -1005,526 +1575,85 @@
       </div>
     </div>
   </div>
-
-  <!-- 1. SECTION: PROJECTS -->
-  <div id="sec-projects" class="section active">
-    <div class="section-header">
-      <h3 class="section-title">المشاريع والكلفة المتوقعة</h3>
-    </div>
-    <div class="section-workspace">
-      <div class="form-card">
-        <div class="form-group">
-          <label>اسم المشروع</label>
-          <input type="text" id="projName" placeholder="مثال: مبادرة التنمية المستدامة" />
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>الكلفة المتوقعة</label>
-            <input type="number" id="projCost" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label>العملة</label>
-            <select id="projCurrency">
-              <option value="USD">دولار ($)</option>
-              <option value="IQD">دينار (د.ع)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>حالة المشروع</label>
-          <select id="projStatus">
-            <option value="قيد التنفيذ">قيد التنفيذ</option>
-            <option value="مكتمل">مكتمل</option>
-            <option value="متوقف">متوقف</option>
-          </select>
-        </div>
-        <button class="btn-primary" onclick="addProject()">+ إضافة مشروع</button>
-      </div>
-      <div id="projectsList"></div>
-    </div>
-  </div>
-
-  <!-- 2. SECTION: SPONSORS -->
-  <div id="sec-sponsors" class="section">
-    <div class="section-header">
-      <h3 class="section-title">الشركات الراعية والباقات</h3>
-      <button class="btn-secondary" onclick="switchTab('settings')">تعديل الباقات</button>
-    </div>
-
-    <!-- Total Sponsors Amount Summary -->
-    <div class="stats-row">
-      <div class="stat-box">
-        <small>إجمالي الرعايات (دولار)</small>
-        <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalUSD">$0.00</strong>
-        <div class="sub-stat">
-          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalUSD">$0.00</span> |
-          متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalUSD">$0.00</span>
-        </div>
-      </div>
-      <div class="stat-box">
-        <small>إجمالي الرعايات (دينار)</small>
-        <strong class="en-num" style="color: var(--accent-teal);" id="spGrandTotalIQD">0 IQD</strong>
-        <div class="sub-stat">
-          مدفوع: <span class="en-num" style="color:var(--accent-teal);" id="spPaidTotalIQD">0 IQD</span> |
-          متبقي: <span class="en-num" style="color:var(--warning);" id="spRemTotalIQD">0 IQD</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-workspace">
-      <div class="form-card">
-        <div class="form-group">
-          <label>اسم الشركة الراعية</label>
-          <input type="text" id="sponsorName" placeholder="مثال: شركة النور للاتصالات" />
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>فئة الباقة</label>
-            <select id="sponsorTier" onchange="updateSponsorPreview()">
-              <option value="diamond">الباقة الماسية</option>
-              <option value="gold">الباقة الذهبية</option>
-              <option value="silver">الباقة الفضية</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>العملة</label>
-            <select id="sponsorCurrency" onchange="updateSponsorPreview()">
-              <option value="USD">دولار ($)</option>
-              <option value="IQD">دينار (د.ع)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>ربط بمشروع محدد (اختياري)</label>
-          <select id="sponsorProject">
-            <option value="">رعاية عامة للمؤسسة</option>
-          </select>
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>قيمة الباقة</label>
-            <input type="text" id="sponsorPricePreview" readonly style="color: var(--accent-teal); font-weight: bold;" />
-          </div>
-          <div class="form-group">
-            <label>حالة الدفع</label>
-            <select id="sponsorPayStatus" onchange="togglePartialInput()">
-              <option value="paid">مدفوعة بالكامل</option>
-              <option value="partial">دفعة جزئية</option>
-              <option value="unpaid">مستحقة (غير مدفوعة)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group" id="partialWrap" style="display:none;">
-          <label>المبلغ المستلم حالياً</label>
-          <input type="number" id="sponsorPaidAmount" placeholder="0" />
-        </div>
-        <div class="form-group">
-          <label>ملاحظات / مدة العقد</label>
-          <input type="text" id="sponsorNotes" placeholder="مثال: رعاية سنوية" />
-        </div>
-        <button class="btn-primary" onclick="addSponsor()">+ تسجيل الشركة وإصدار سند قبض</button>
-      </div>
-      <div id="sponsorsList"></div>
-    </div>
-  </div>
-
-  <!-- 3. SECTION: EXPENSES -->
-  <div id="sec-expenses" class="section">
-    <div class="section-header">
-      <h3 class="section-title">مصروفات المؤسسة (سندات الصرف)</h3>
-    </div>
-    <div class="section-workspace">
-      <div class="form-card">
-        <div class="form-group">
-          <label>يصرف إلى السيد / الجهة (المستفيد)</label>
-          <input type="text" id="expParty" placeholder="اسم المستلم أو الشركة المجهزة" />
-        </div>
-        <div class="form-group">
-          <label>وذلك عن (بيان المصروف)</label>
-          <input type="text" id="expTitle" placeholder="مثال: إيجار المقر / ضيافة / مطبوعات" />
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>المبلغ</label>
-            <input type="number" id="expAmount" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label>العملة</label>
-            <select id="expCurrency">
-              <option value="USD">دولار ($)</option>
-              <option value="IQD">دينار (د.ع)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>خصم من ميزانية مشروع (اختياري)</label>
-          <select id="expProject">
-            <option value="">مصروف عام للمؤسسة</option>
-          </select>
-        </div>
-        <button class="btn-primary" onclick="addExpense()">+ حفظ وإصدار سند صرف</button>
-      </div>
-      <div id="expensesList"></div>
-    </div>
-  </div>
-
-  <!-- 4. SECTION: REVENUES -->
-  <div id="sec-revenues" class="section">
-    <div class="section-header">
-      <h3 class="section-title">الإيرادات الكلية (سندات القبض)</h3>
-    </div>
-    <div class="stats-row">
-      <div class="stat-box">
-        <small>إجمالي إيرادات الدولار</small>
-        <strong class="en-num" style="color: var(--accent-teal);" id="revTotalUSD">$0.00</strong>
-      </div>
-      <div class="stat-box">
-        <small>إجمالي إيرادات الدينار</small>
-        <strong class="en-num" style="color: var(--accent-teal);" id="revTotalIQD">0 IQD</strong>
-      </div>
-    </div>
-    <div class="section-workspace">
-      <div class="form-card">
-        <div class="form-group">
-          <label>استلمنا من السيد / الجهة (الدافع)</label>
-          <input type="text" id="revParty" placeholder="اسم الجهة أو الشخص الدافع" />
-        </div>
-        <div class="form-group">
-          <label>وذلك عن (بيان الإيراد)</label>
-          <input type="text" id="revTitle" placeholder="مثال: دعم مالي / مبيعات / اشتراكات" />
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>المبلغ</label>
-            <input type="number" id="revAmount" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label>العملة</label>
-            <select id="revCurrency">
-              <option value="USD">دولار ($)</option>
-              <option value="IQD">دينار (د.ع)</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn-primary" onclick="addRevenue()">+ حفظ وإصدار سند قبض</button>
-      </div>
-      <div id="revenuesList"></div>
-    </div>
-  </div>
-
-  <!-- 5. SECTION: EMPLOYEES -->
-  <div id="sec-employees" class="section">
-    <div class="section-header">
-      <h3 class="section-title">الموظفين والرواتب والسلف</h3>
-    </div>
-    <div class="section-workspace">
-      <div class="form-card">
-        <div class="row-2">
-          <div class="form-group">
-            <label>اسم الموظف</label>
-            <input type="text" id="empName" placeholder="الاسم الكامل" />
-          </div>
-          <div class="form-group">
-            <label>المنصب / الوظيفة</label>
-            <input type="text" id="empRole" placeholder="مثال: محاسب / منسق" />
-          </div>
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>الراتب الشهري الأساسي</label>
-            <input type="number" id="empSalary" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label>العملة</label>
-            <select id="empCurrency">
-              <option value="USD">دولار ($)</option>
-              <option value="IQD">دينار (د.ع)</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn-primary" onclick="addEmployee()">+ إضافة موظف</button>
-      </div>
-      <div id="employeesList"></div>
-    </div>
-  </div>
-
-  <!-- 6. SECTION: ACCOUNTS & TRANSFERS -->
-  <div id="sec-accounts" class="section">
-    <div class="section-header">
-      <h3 class="section-title">الحسابات والتحويل وتصريف العملة</h3>
-    </div>
-    <div class="stats-row">
-      <div class="stat-box">
-        <small>صندوق الدولار الأمريكي</small>
-        <strong class="en-num" style="color: var(--accent-teal);" id="accBoxUSD">$0.00</strong>
-      </div>
-      <div class="stat-box">
-        <small>صندوق الدينار العراقي</small>
-        <strong class="en-num" style="color: var(--accent-teal);" id="accBoxIQD">0 IQD</strong>
-      </div>
-    </div>
-
-    <div class="section-workspace">
-      <div>
-        <div class="form-card" style="border-color: rgba(107, 92, 231, 0.45);">
-          <p style="font-size:0.88rem; font-weight:700; color:var(--voucher-text); margin-bottom:10px;">🔄 تحويل / تصريف بين العملات</p>
-          <div class="row-2">
-            <div class="form-group">
-              <label>من عملة</label>
-              <select id="xferFromCurr" onchange="previewConversion()">
-                <option value="USD">دولار ($)</option>
-                <option value="IQD">دينار (د.ع)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>إلى عملة</label>
-              <select id="xferToCurr" onchange="previewConversion()">
-                <option value="IQD">دينار (د.ع)</option>
-                <option value="USD">دولار ($)</option>
-              </select>
-            </div>
-          </div>
-          <div class="row-2">
-            <div class="form-group">
-              <label>المبلغ المحول</label>
-              <input type="number" id="xferAmount" placeholder="0" oninput="previewConversion()" />
-            </div>
-            <div class="form-group">
-              <label>الناتج التقديري</label>
-              <input type="text" id="xferPreview" readonly class="en-num" style="color:var(--accent-teal); font-weight:bold;" value="0" />
-            </div>
-          </div>
-          <button class="btn-primary" onclick="executeCurrencyTransfer()">تنفيذ التحويل وتحديث الصناديق</button>
-        </div>
-
-        <div class="form-card">
-          <div class="form-group">
-            <label>إضافة حساب / جهة مالية</label>
-            <input type="text" id="accName" placeholder="مثال: حساب مصرف الرافدين" />
-          </div>
-          <div class="row-2">
-            <div class="form-group">
-              <label>الرصيد</label>
-              <input type="number" id="accBalance" placeholder="0" />
-            </div>
-            <div class="form-group">
-              <label>العملة</label>
-              <select id="accCurrency">
-                <option value="USD">دولار ($)</option>
-                <option value="IQD">دينار (د.ع)</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn-primary" onclick="addAccount()">+ حفظ الحساب</button>
-        </div>
-      </div>
-      <div id="accountsList"></div>
-    </div>
-  </div>
-
-  <!-- 7. SECTION: REPORTS -->
-  <div id="sec-reports" class="section">
-    <div class="section-header">
-      <h3 class="section-title">التقارير وحركات المؤسسة</h3>
-      <div style="display:flex; gap:6px;">
-        <button class="btn-secondary" onclick="exportCSV()">Excel</button>
-        <button class="btn-secondary" onclick="printReportA4()">طباعة A4</button>
-      </div>
-    </div>
-
-    <!-- Detailed Project Report Selector & Full Breakdown -->
-    <div class="form-card" style="border-color: rgba(13, 148, 136, 0.4);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <label style="color: var(--accent-teal); font-weight: 800; margin:0;">📊 تقرير تفصيلي كامل للمشروع:</label>
-        <button class="btn-voucher" id="openProjA4Btn" style="display:none;" onclick="openProjectFullA4()">📄 تقرير A4 / PDF</button>
-      </div>
-      <select id="reportProjectSelect" onchange="renderReports()">
-        <option value="ALL">جميع مشاريع وحركات المؤسسة</option>
-      </select>
-
-      <div id="projectReportSummary" style="display:none; margin-top:12px;">
-        <div class="stats-row-3">
-          <div class="stat-box">
-            <small>الكلفة المتوقعة</small>
-            <strong class="en-num" id="pRepTotal" style="color:var(--text-main);">0</strong>
-          </div>
-          <div class="stat-box">
-            <small>المصاريف</small>
-            <strong class="en-num" id="pRepSpent" style="color:var(--danger);">0</strong>
-          </div>
-          <div class="stat-box">
-            <small>الباقي من الميزانية</small>
-            <strong class="en-num" id="pRepRem" style="color:var(--accent-teal);">0</strong>
-          </div>
-        </div>
-
-        <div class="stats-row" style="margin-bottom:8px;">
-          <div class="stat-box">
-            <small>رعايات المشروع</small>
-            <strong class="en-num" id="pRepSponsors" style="color:var(--accent-teal);">0</strong>
-          </div>
-          <div class="stat-box">
-            <small>صافي موقف المشروع</small>
-            <strong class="en-num" id="pRepNet">0</strong>
-          </div>
-        </div>
-
-        <!-- Sponsors Linked to Project -->
-        <div class="detail-subcard">
-          <div class="detail-subcard-title">
-            <span>🤝 الشركات الراعية للمشروع</span>
-            <span class="en-num" id="pRepSponsorsCount">0</span>
-          </div>
-          <div id="pRepSponsorsList"></div>
-        </div>
-
-        <!-- Expenses & Movements Linked to Project -->
-        <div class="detail-subcard">
-          <div class="detail-subcard-title">
-            <span>🧾 مصاريف وحركات المشروع</span>
-            <span class="en-num" id="pRepTxCount">0</span>
-          </div>
-          <div id="pRepTxList"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Net Surplus Summary -->
-    <div class="stats-row">
-      <div class="stat-box">
-        <small>صافي الصندوق (دولار)</small>
-        <strong class="en-num" id="netSurplusUSD">$0.00</strong>
-      </div>
-      <div class="stat-box">
-        <small>صافي الصندوق (دينار)</small>
-        <strong class="en-num" id="netSurplusIQD">0 IQD</strong>
-      </div>
-    </div>
-
-    <!-- Search & Filters -->
-    <div class="form-card" style="padding:12px;">
-      <div class="form-group" style="margin-bottom:8px;">
-        <input type="text" id="reportSearch" placeholder="🔍 ابحث برقم السند، الاسم، المشروع، أو البيان..." oninput="renderReports()" />
-      </div>
-      <div class="row-2">
-        <div>
-          <label>من تاريخ</label>
-          <input type="date" id="dateFrom" onchange="renderReports()" />
-        </div>
-        <div>
-          <label>إلى تاريخ</label>
-          <input type="date" id="dateTo" onchange="renderReports()" />
-        </div>
-      </div>
-    </div>
-
-    <div class="filters">
-      <button class="chip active" onclick="filterReports('ALL', this)">الكل</button>
-      <button class="chip" onclick="filterReports('IN', this)">سندات القبض</button>
-      <button class="chip" onclick="filterReports('OUT', this)">سندات الصرف</button>
-      <button class="chip" onclick="filterReports('XFER', this)">تحويلات</button>
-      <button class="chip" onclick="filterReports('USD', this)">USD ($)</button>
-      <button class="chip" onclick="filterReports('IQD', this)">IQD (د.ع)</button>
-    </div>
-    <div id="reportsList"></div>
-  </div>
-
-  <!-- 8. SECTION: SETTINGS & BACKUP -->
-  <div id="sec-settings" class="section">
-    <div class="section-header">
-      <h3 class="section-title">الإعدادات والحماية والنسخ</h3>
-    </div>
-    <div class="section-workspace">
-      <div class="form-card">
-        <div class="form-group">
-          <label>اسم المؤسسة</label>
-          <input type="text" id="setOrgName" value="مؤسسة اليم للتنمية المستدامة" />
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>سعر صرف 100$ بالدينار</label>
-            <input type="number" id="setExchangeRate" value="150000" />
-          </div>
-          <div class="form-group">
-            <label>رمز قفل PIN (4 أرقام)</label>
-            <input type="password" maxlength="4" inputmode="numeric" id="setPinCode" placeholder="بدون قفل" />
-          </div>
-        </div>
-
-        <hr style="border-color: var(--card-border); margin: 14px 0;">
-        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">تحديد قيم باقات الشركات الراعية</p>
-
-        <div class="row-2">
-          <div class="form-group">
-            <label>الباقة الماسية ($)</label>
-            <input type="number" id="setDiamondUSD" value="5000" />
-          </div>
-          <div class="form-group">
-            <label>الباقة الماسية (د.ع)</label>
-            <input type="number" id="setDiamondIQD" value="7500000" />
-          </div>
-        </div>
-
-        <div class="row-2">
-          <div class="form-group">
-            <label>الباقة الذهبية ($)</label>
-            <input type="number" id="setGoldUSD" value="3000" />
-          </div>
-          <div class="form-group">
-            <label>الباقة الذهبية (د.ع)</label>
-            <input type="number" id="setGoldIQD" value="4500000" />
-          </div>
-        </div>
-
-        <div class="row-2">
-          <div class="form-group">
-            <label>الباقة الفضية ($)</label>
-            <input type="number" id="setSilverUSD" value="1500" />
-          </div>
-          <div class="form-group">
-            <label>الباقة الفضية (د.ع)</label>
-            <input type="number" id="setSilverIQD" value="2250000" />
-          </div>
-        </div>
-
-        <button class="btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
-      </div>
-
-      <div class="form-card">
-        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات</p>
-        <div class="row-2">
-          <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
-          <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
-            ⬆ استيراد نسخة
-            <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- Bottom Navigation Bar (Mobile) -->
 <div class="bottom-nav">
-  <button class="nav-btn active" onclick="switchTab('projects', null, this)">
+  <button class="nav-btn active" onclick="closeSecondaryDrawer(); setActiveNav(this)">
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     <span>الرئيسية</span>
   </button>
-  <button class="nav-btn" onclick="switchTab('reports', null, this)">
+  <button class="nav-btn" onclick="openSecondaryTab('reports', this)">
     <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
     <span>التقارير</span>
   </button>
-  <button class="nav-btn" onclick="switchTab('employees', null, this)">
+  <button class="nav-btn" onclick="openSecondaryTab('employees', this)">
     <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
     <span>الموظفين</span>
   </button>
-  <button class="nav-btn" onclick="switchTab('settings', null, this)">
+  <button class="nav-btn" onclick="openSecondaryTab('settings', this)">
     <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
     <span>الإعدادات</span>
   </button>
 </div>
 
 <script>
+  const tabTitles = {
+    revenues: 'الإيرادات الكلية (سندات القبض)',
+    expenses: 'المصروفات (سندات الصرف)',
+    projects: 'المشاريع والكلفة المتوقعة',
+    sponsors: 'الشركات الراعية والباقات',
+    employees: 'الموظفين والرواتب والسلف',
+    accounts: 'الحسابات والتحويل وتصريف العملة',
+    reports: 'التقارير والكشوفات',
+    settings: 'الإعدادات والحماية والنسخ'
+  };
+
+  function openSecondaryTab(tabName, navEl, cardEl) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('sec-' + tabName);
+    if (target) target.classList.add('active');
+
+    document.getElementById('drawerTitleText').textContent = tabTitles[tabName] || 'القائمة الثانوية';
+    document.getElementById('secondaryDrawerBackdrop').classList.add('open');
+
+    document.querySelectorAll('.rect-card, .square-card').forEach(m => m.classList.remove('active-tab'));
+    if (cardEl) cardEl.classList.add('active-tab');
+
+    if (navEl) setActiveNav(navEl);
+  }
+
+  function closeSecondaryDrawer() {
+    document.getElementById('secondaryDrawerBackdrop').classList.remove('open');
+    document.querySelectorAll('.rect-card, .square-card').forEach(m => m.classList.remove('active-tab'));
+    const firstDesktop = document.querySelector('.desktop-nav .d-nav-btn');
+    const firstMobile = document.querySelector('.bottom-nav .nav-btn');
+    document.querySelectorAll('.nav-btn, .d-nav-btn').forEach(n => n.classList.remove('active'));
+    if (firstDesktop) firstDesktop.classList.add('active');
+    if (firstMobile) firstMobile.classList.add('active');
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target.id === 'secondaryDrawerBackdrop') {
+      closeSecondaryDrawer();
+    }
+  }
+
+  function setActiveNav(navEl) {
+    document.querySelectorAll('.nav-btn, .d-nav-btn').forEach(n => n.classList.remove('active'));
+    navEl.classList.add('active');
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('voucherModal').style.display === 'block') {
+        closeVoucherModal();
+      } else if (document.getElementById('secondaryDrawerBackdrop').classList.contains('open')) {
+        closeSecondaryDrawer();
+      }
+    }
+  });
+
   function toEnDigits(str) {
     return String(str).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
   }
@@ -1624,7 +1753,6 @@
     return appData.voucherSeq;
   }
 
-  // PIN Lock
   function checkPinLock() {
     if (appData.settings.pin && appData.settings.pin.length === 4) {
       document.getElementById('pinLockScreen').style.display = 'flex';
@@ -1662,27 +1790,12 @@
     return num.toLocaleString('en-US') + ' IQD';
   }
 
-  function switchTab(tabName, cardEl, navEl) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById('sec-' + tabName);
-    if (target) target.classList.add('active');
-
-    if (cardEl) {
-      document.querySelectorAll('.rect-card, .square-card').forEach(m => m.classList.remove('active-tab'));
-      cardEl.classList.add('active-tab');
-    }
-    if (navEl) {
-      document.querySelectorAll('.nav-btn, .d-nav-btn').forEach(n => n.classList.remove('active'));
-      navEl.classList.add('active');
-    }
-  }
-
   function quickJump(tab, inputId) {
-    switchTab(tab);
+    openSecondaryTab(tab);
     setTimeout(() => {
       const el = document.getElementById(inputId);
       if (el) el.focus();
-    }, 100);
+    }, 120);
   }
 
   function setDisplayCurrency(curr) {
@@ -1705,7 +1818,6 @@
     return { inUSD, outUSD, netUSD: inUSD - outUSD, inIQD, outIQD, netIQD: inIQD - outIQD };
   }
 
-  // A4 Voucher Modal
   function openVoucher(txId) {
     const tx = appData.transactions.find(t => t.id === txId);
     if (!tx) return;
@@ -1769,7 +1881,6 @@
     document.getElementById('voucherModal').style.display = 'block';
   }
 
-  // Full Project A4 Report
   function openProjectFullA4() {
     const selectedProj = document.getElementById('reportProjectSelect').value;
     const proj = appData.projects.find(p => p.name === selectedProj);
@@ -1863,7 +1974,6 @@
     document.getElementById('voucherModal').style.display = 'block';
   }
 
-  // Detailed A4 Statement for Employee or Sponsor
   function openEntityStatement(type, name) {
     let rowsHtml = '';
     let summaryHtml = '';
@@ -1973,7 +2083,6 @@
     window.print();
   }
 
-  // Projects
   function addProject() {
     const name = document.getElementById('projName').value.trim();
     const cost = parseFloat(document.getElementById('projCost').value);
@@ -1995,7 +2104,7 @@
   }
 
   function viewProjectReport(projName) {
-    switchTab('reports');
+    openSecondaryTab('reports');
     setTimeout(() => {
       const sel = document.getElementById('reportProjectSelect');
       sel.value = projName;
@@ -2003,7 +2112,6 @@
     }, 80);
   }
 
-  // Sponsors
   function updateSponsorPreview() {
     const tier = document.getElementById('sponsorTier').value;
     const curr = document.getElementById('sponsorCurrency').value;
@@ -2095,7 +2203,6 @@
     openVoucher(txId);
   }
 
-  // Expenses & Revenues
   function addExpense() {
     const party = document.getElementById('expParty').value.trim();
     const title = document.getElementById('expTitle').value.trim();
@@ -2155,7 +2262,6 @@
     openVoucher(txId);
   }
 
-  // Employees
   function addEmployee() {
     const name = document.getElementById('empName').value.trim();
     const role = document.getElementById('empRole').value.trim() || 'موظف';
@@ -2234,7 +2340,6 @@
     openVoucher(txId);
   }
 
-  // Currency Conversion
   function previewConversion() {
     const fromC = document.getElementById('xferFromCurr').value;
     const toC = document.getElementById('xferToCurr').value;
@@ -2277,7 +2382,6 @@
     saveData();
   }
 
-  // Accounts & Settings
   function addAccount() {
     const name = document.getElementById('accName').value.trim();
     const balance = parseFloat(document.getElementById('accBalance').value) || 0;
@@ -2364,7 +2468,6 @@
     renderReports();
   }
 
-  // Rendering
   function renderAll() {
     applyTheme();
     const totals = calculateTotals();
@@ -2384,7 +2487,6 @@
       document.getElementById('cardExpTotal').textContent = formatMoney(totals.outIQD, 'IQD');
     }
 
-    // Update Square Counts
     document.getElementById('sqProjCount').textContent = appData.projects.length + ' مشاريع';
     document.getElementById('sqSponsorCount').textContent = appData.sponsors.length + ' شركات';
     document.getElementById('sqEmpCount').textContent = appData.employees.length + ' موظفين';
@@ -2401,7 +2503,6 @@
     updateSponsorPreview();
     previewConversion();
 
-    // Projects & Dropdowns
     const projList = document.getElementById('projectsList');
     const expProjSelect = document.getElementById('expProject');
     const spProjSelect = document.getElementById('sponsorProject');
@@ -2459,7 +2560,6 @@
     });
     if (prevRepVal) repProjSelect.value = prevRepVal;
 
-    // Sponsors & Grand Totals
     let spGrandUSD = 0, spPaidUSD = 0;
     let spGrandIQD = 0, spPaidIQD = 0;
 
@@ -2515,7 +2615,6 @@
       `;
     });
 
-    // Expenses
     const expList = document.getElementById('expensesList');
     const expenses = appData.transactions.filter(t => t.type === 'OUT');
     expList.innerHTML = expenses.length ? '' : '<div class="empty-msg">لا توجد مصاريف مسجلة</div>';
@@ -2541,7 +2640,6 @@
       `;
     });
 
-    // Revenues
     document.getElementById('revTotalUSD').textContent = formatMoney(totals.inUSD, 'USD');
     document.getElementById('revTotalIQD').textContent = formatMoney(totals.inIQD, 'IQD');
     const revList = document.getElementById('revenuesList');
@@ -2569,7 +2667,6 @@
       `;
     });
 
-    // Employees
     const empList = document.getElementById('employeesList');
     empList.innerHTML = appData.employees.length ? '' : '<div class="empty-msg">لا يوجد موظفون مسجلون</div>';
     appData.employees.forEach(emp => {
@@ -2605,7 +2702,6 @@
       `;
     });
 
-    // Accounts
     document.getElementById('accBoxUSD').textContent = formatMoney(totals.netUSD, 'USD');
     document.getElementById('accBoxIQD').textContent = formatMoney(totals.netIQD, 'IQD');
     const accList = document.getElementById('accountsList');
@@ -2627,7 +2723,6 @@
       `;
     });
 
-    // Net Surplus
     const surpUSD = document.getElementById('netSurplusUSD');
     const surpIQD = document.getElementById('netSurplusIQD');
     surpUSD.textContent = formatMoney(totals.netUSD, 'USD');
@@ -2671,7 +2766,6 @@
         document.getElementById('pRepNet').textContent = formatMoney(netProj, projObj.currency);
         document.getElementById('pRepNet').style.color = netProj >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
 
-        // Render Project Sponsors
         document.getElementById('pRepSponsorsCount').textContent = projSponsors.length + ' شركة';
         const spBox = document.getElementById('pRepSponsorsList');
         spBox.innerHTML = projSponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية لهذا المشروع</div>';
@@ -2684,7 +2778,6 @@
           `;
         });
 
-        // Render Project Transactions
         document.getElementById('pRepTxCount').textContent = projTxs.length + ' حركة';
         const txBox = document.getElementById('pRepTxList');
         txBox.innerHTML = projTxs.length ? '' : '<div class="empty-msg">لا توجد مصاريف أو حركات لهذا المشروع</div>';
