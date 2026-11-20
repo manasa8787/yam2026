@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>مؤسسة اليم للتنمية المستدامة - النظام المحاسبي المتكامل</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <title>مؤسسة اليم للتنمية المستدامة - النظام المحاسبي المتكامل (وضع أوفلاين)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0e1320;
@@ -31,6 +31,7 @@
       --secondary-btn-bg: #1e293b;
       --voucher-text: #c4b5fd;
       --drawer-bg: #121a2c;
+      --font-stack: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
     }
 
     body.light-mode {
@@ -62,12 +63,12 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      font-family: var(--font-stack);
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      font-family: var(--font-stack);
       background-color: var(--bg-dark);
       color: var(--text-main);
       min-height: 100vh;
@@ -79,7 +80,7 @@
     }
 
     button, input, select, textarea, table {
-      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      font-family: var(--font-stack);
     }
 
     .en-num {
@@ -235,15 +236,14 @@
     }
     .currency-btn.active { background: var(--accent-teal); color: #ffffff; }
 
-    /* Top Dashboard Row (Balance + Quick Vouchers) */
+    /* Top Dashboard Stack */
     .top-dashboard {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       margin-bottom: 20px;
     }
 
-    /* Balance Card */
     .balance-card {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
       border-radius: 20px;
@@ -253,6 +253,7 @@
       align-items: center;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
       color: #ffffff;
+      width: 100%;
     }
 
     .balance-right { display: flex; align-items: center; gap: 12px; }
@@ -262,29 +263,36 @@
     .balance-amount { font-size: 2rem; font-weight: 900; direction: ltr; display: block; color: #ffffff; }
     .balance-sub { font-size: 0.8rem; color: #5eead4; font-weight: 700; }
 
-    /* Quick Actions */
     .quick-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      width: 100%;
     }
 
     .quick-btn {
-      padding: 14px; border-radius: 16px; border: 1px solid var(--card-border);
-      background: var(--card-bg); font-weight: 800; font-size: 0.9rem;
-      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+      padding: 15px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      font-weight: 800;
+      font-size: 0.94rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
       transition: transform 0.15s, border-color 0.2s;
     }
     .quick-btn:hover { transform: translateY(-2px); }
     .quick-btn.in { border-color: rgba(13, 148, 136, 0.45); color: var(--accent-teal); background: rgba(13, 148, 136, 0.08); }
     .quick-btn.out { border-color: rgba(220, 38, 38, 0.4); color: var(--danger); background: rgba(220, 38, 38, 0.08); }
 
-    /* MAIN MODULES LAYOUT: 2 Wide Rectangles (Revenues & Expenses) + 4 Squares */
+    /* MAIN MODULES LAYOUT */
     .modules-wrapper {
       margin-bottom: 12px;
     }
 
-    /* Wide Rectangles for Revenues & Expenses */
     .rect-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -307,9 +315,7 @@
       overflow: hidden;
     }
 
-    .rect-card:hover {
-      transform: translateY(-2px);
-    }
+    .rect-card:hover { transform: translateY(-2px); }
 
     .rect-card.rect-rev {
       border-color: rgba(13, 148, 136, 0.35);
@@ -321,13 +327,8 @@
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.12), var(--card-bg) 70%);
     }
 
-    .rect-card.active-tab {
-      box-shadow: 0 0 0 2px var(--accent-teal);
-    }
-
-    .rect-card.rect-exp.active-tab {
-      box-shadow: 0 0 0 2px var(--danger);
-    }
+    .rect-card.active-tab { box-shadow: 0 0 0 2px var(--accent-teal); }
+    .rect-card.rect-exp.active-tab { box-shadow: 0 0 0 2px var(--danger); }
 
     .rect-info {
       display: flex;
@@ -372,7 +373,6 @@
       text-align: left;
     }
 
-    /* Squares Grid for the Other 4 Modules */
     .squares-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -420,49 +420,42 @@
     .menu-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); }
     .square-count { font-size: 0.74rem; color: var(--text-muted); }
 
-    /* SECONDARY POPUP / SLIDE-OVER DRAWER */
+    /* FULL-SCREEN SECONDARY POPUP MODAL */
     .drawer-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.65);
-      backdrop-filter: blur(4px);
+      width: 100vw;
+      height: 100vh;
+      background: var(--drawer-bg);
       z-index: 2500;
       display: none;
-      justify-content: flex-start;
-      animation: fadeBackdrop 0.2s ease;
+      flex-direction: column;
+      animation: fadeFullScreen 0.18s ease-out;
     }
 
-    .drawer-backdrop.open {
-      display: flex;
-    }
+    .drawer-backdrop.open { display: flex; }
 
-    @keyframes fadeBackdrop {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes fadeFullScreen {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .secondary-drawer {
-      width: 100%;
-      max-width: 780px;
+      width: 100vw;
+      max-width: 100vw;
       height: 100vh;
+      max-height: 100vh;
       background: var(--drawer-bg);
-      border-left: 1px solid var(--card-border);
-      box-shadow: -12px 0 36px rgba(0, 0, 0, 0.35);
       display: flex;
       flex-direction: column;
-      animation: slideInDrawer 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes slideInDrawer {
-      from { transform: translateX(40px); opacity: 0.6; }
-      to { transform: translateX(0); opacity: 1; }
+      overflow: hidden;
     }
 
     .drawer-topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
+      padding: 16px 24px;
       background: var(--card-bg);
       border-bottom: 1px solid var(--card-border);
       flex-shrink: 0;
@@ -473,7 +466,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 1.08rem;
+      font-size: 1.12rem;
       font-weight: 900;
     }
 
@@ -490,9 +483,9 @@
       background: rgba(220, 38, 38, 0.14);
       color: var(--danger);
       border: 1px solid rgba(220, 38, 38, 0.35);
-      padding: 7px 14px;
+      padding: 8px 16px;
       border-radius: 10px;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.15s;
@@ -504,48 +497,36 @@
     }
 
     .drawer-body {
-      padding: 18px 20px 36px;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 22px 24px 44px;
       overflow-y: auto;
       flex: 1;
     }
 
-    /* Laptop & Desktop Responsive Grid */
     @media (min-width: 768px) {
       body { padding-bottom: 30px; }
       .bottom-nav { display: none; }
       .desktop-nav { display: flex; }
 
-      .top-dashboard {
-        grid-template-columns: 1.4fr 1fr;
-        align-items: stretch;
-      }
-
-      .squares-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .square-card {
-        aspect-ratio: 1.15 / 1;
-      }
+      .squares-grid { grid-template-columns: repeat(4, 1fr); }
+      .square-card { aspect-ratio: 1.15 / 1; }
 
       .section-workspace {
         display: grid;
-        grid-template-columns: 330px 1fr;
-        gap: 16px;
+        grid-template-columns: 360px 1fr;
+        gap: 18px;
         align-items: start;
       }
     }
 
     @media (max-width: 600px) {
-      .rect-grid {
-        grid-template-columns: 1fr;
-      }
-      .secondary-drawer {
-        max-width: 100%;
-      }
+      .rect-grid { grid-template-columns: 1fr; }
+      .drawer-topbar { padding: 14px 16px; }
+      .drawer-body { padding: 16px 16px 36px; }
     }
 
-    /* Sections inside Secondary Drawer */
     .section { display: none; }
     .section.active { display: block; animation: fadeIn 0.2s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -554,7 +535,7 @@
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
     }
-    .section-title { font-size: 1.02rem; font-weight: 800; color: var(--text-muted); }
+    .section-title { font-size: 1.04rem; font-weight: 800; color: var(--text-muted); }
 
     /* Forms */
     .form-card {
@@ -566,13 +547,13 @@
     }
 
     .form-group { margin-bottom: 11px; }
-    label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
-    input, select {
+    label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+    input, select, textarea {
       width: 100%; padding: 10px 12px; border-radius: 10px;
       border: 1px solid var(--card-border); background: var(--input-bg);
       color: var(--text-main); font-size: 0.9rem; outline: none;
     }
-    input:focus, select:focus { border-color: var(--accent-teal); }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent-teal); }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
@@ -627,6 +608,7 @@
       padding: 5px 10px;
       border-radius: 8px;
       font-size: 0.74rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -635,11 +617,11 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
+      padding: 15px 16px;
+      margin-bottom: 12px;
     }
 
-    .list-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .list-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
     .item-right { display: flex; align-items: center; gap: 12px; }
 
     .badge-icon {
@@ -651,8 +633,8 @@
     .badge-minus { background: rgba(220, 38, 38, 0.16); color: var(--danger); }
     .badge-xfer { background: rgba(107, 92, 231, 0.18); color: var(--voucher-text); }
 
-    .item-title { font-size: 0.94rem; font-weight: 700; margin-bottom: 3px; }
-    .item-sub { font-size: 0.76rem; color: var(--text-muted); }
+    .item-title { font-size: 0.96rem; font-weight: 800; margin-bottom: 3px; }
+    .item-sub { font-size: 0.77rem; color: var(--text-muted); line-height: 1.45; }
     .item-amount { font-weight: 800; font-size: 0.98rem; direction: ltr; text-align: left; }
     .amt-plus { color: var(--accent-teal); }
     .amt-minus { color: var(--danger); }
@@ -672,7 +654,7 @@
     .progress-fill { height: 100%; background: var(--accent-teal); transition: width 0.3s; }
     .progress-fill.warn { background: var(--warning); }
     .progress-fill.over { background: var(--danger); }
-    .proj-meta { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-muted); margin-top: 6px; }
+    .proj-meta { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-muted); margin-top: 6px; flex-wrap: wrap; gap: 6px; }
 
     /* Pills */
     .pill { padding: 3px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; display: inline-block; margin-left: 4px; }
@@ -694,7 +676,21 @@
     .stat-box strong { font-size: 0.96rem; direction: ltr; display: block; }
     .stat-box .sub-stat { font-size: 0.72rem; color: var(--text-muted); margin-top: 5px; line-height: 1.45; }
 
-    /* Project Detail Sub-Sections */
+    /* Project Mini Ledger & Sub-Sections */
+    .proj-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+      background: var(--input-bg);
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      text-align: center;
+    }
+    .proj-mini-cell small { display: block; font-size: 0.68rem; color: var(--text-muted); }
+    .proj-mini-cell strong { display: block; font-size: 0.84rem; margin-top: 2px; }
+
     .detail-subcard {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
@@ -710,6 +706,33 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .final-closing-box {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--accent-teal);
+      background: rgba(13, 148, 136, 0.08);
+    }
+    .final-closing-box h4 {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: var(--accent-teal);
+      margin-bottom: 8px;
+    }
+    .closing-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--divider-color);
+    }
+    .closing-line:last-child {
+      border-bottom: none;
+      padding-top: 8px;
+      font-size: 0.92rem;
+      font-weight: 900;
     }
 
     /* Filter Chips */
@@ -736,13 +759,13 @@
     .nav-btn svg { width: 22px; height: 22px; fill: currentColor; }
     .nav-btn.active { color: var(--accent-teal); }
 
-    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.86rem; padding: 18px; }
+    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.86rem; padding: 14px; }
 
     /* A4 VOUCHER & STATEMENT MODAL */
     #voucherModal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.84);
+      background: rgba(0, 0, 0, 0.86);
       z-index: 5000;
       display: none;
       overflow-y: auto;
@@ -768,7 +791,7 @@
       margin: 0 auto;
       background: #ffffff;
       color: #111827;
-      padding: 34px 38px;
+      padding: 32px 36px;
       border-radius: 6px;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
       border: 2px solid #1e293b;
@@ -780,7 +803,7 @@
       align-items: center;
       border-bottom: 2px solid #1e293b;
       padding-bottom: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       gap: 10px;
     }
 
@@ -801,11 +824,12 @@
     }
 
     .v-title-badge {
-      padding: 7px 18px;
+      padding: 7px 16px;
       border-radius: 8px;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 900;
       border: 2px solid #1e293b;
+      text-align: center;
     }
 
     .v-receipt { background: #ecfdf5; color: #065f46; border-color: #059669; }
@@ -815,14 +839,14 @@
     .v-meta-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
-      font-size: 0.92rem;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
     }
 
     .v-box {
       border: 1px solid #cbd5e1;
-      padding: 10px 14px;
+      padding: 9px 13px;
       border-radius: 6px;
       background: #f8fafc;
     }
@@ -830,14 +854,14 @@
     .v-body-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .v-body-table th, .v-body-table td {
       border: 1px solid #94a3b8;
-      padding: 10px 12px;
+      padding: 8px 10px;
       text-align: right;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
     }
 
     .v-body-table th {
@@ -845,18 +869,43 @@
       font-weight: 800;
     }
 
+    .v-closing-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 2px solid #1e293b;
+    }
+
+    .v-closing-table th, .v-closing-table td {
+      border: 1px solid #64748b;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+    }
+
+    .v-closing-table th {
+      background: #e2e8f0;
+      text-align: right;
+      width: 62%;
+    }
+
+    .v-closing-table td {
+      font-weight: 800;
+      text-align: left;
+    }
+
     .v-signatures {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      margin-top: 38px;
+      margin-top: 34px;
       text-align: center;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     .v-sig-line {
-      margin-top: 40px;
+      margin-top: 38px;
       border-top: 1px dashed #64748b;
       padding-top: 6px;
     }
@@ -894,7 +943,8 @@
       }
       body.printing-report .list-item,
       body.printing-report .stat-box,
-      body.printing-report .detail-subcard {
+      body.printing-report .detail-subcard,
+      body.printing-report .final-closing-box {
         background: #fff !important; color: #000 !important; border: 1px solid #999 !important;
       }
     }
@@ -933,7 +983,7 @@
   </div>
 </div>
 
-<!-- A4 Voucher & Statement Modal -->
+<!-- A4 VOUCHER & REPORT MODAL -->
 <div id="voucherModal">
   <div class="voucher-controls">
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -945,13 +995,13 @@
   <div class="a4-sheet" id="voucherContent"></div>
 </div>
 
-<!-- SECONDARY POPUP / SLIDE-OVER PANEL FOR MAIN FIELDS -->
-<div id="secondaryDrawerBackdrop" class="drawer-backdrop" onclick="handleBackdropClick(event)">
+<!-- FULL-SCREEN POPUP MODAL FOR MAIN FIELDS -->
+<div id="secondaryDrawerBackdrop" class="drawer-backdrop">
   <div class="secondary-drawer" onclick="event.stopPropagation()">
     <div class="drawer-topbar">
       <div class="drawer-topbar-title">
         <span id="drawerTitleText">القسم الثانوي</span>
-        <span class="drawer-badge-tag">قائمة منبثقة</span>
+        <span class="drawer-badge-tag">ملء الشاشة • خزن داخلي</span>
       </div>
       <button class="drawer-close-btn" onclick="closeSecondaryDrawer()">إغلاق ✕</button>
     </div>
@@ -960,21 +1010,32 @@
       <!-- 1. SECTION: PROJECTS -->
       <div id="sec-projects" class="section">
         <div class="section-header">
-          <h3 class="section-title">المشاريع والكلفة المتوقعة</h3>
+          <h3 class="section-title">المشاريع والحسابات الختامية لكل مشروع</h3>
         </div>
         <div class="section-workspace">
           <div class="form-card">
+            <p style="font-size:0.86rem; font-weight:800; color:var(--accent-teal); margin-bottom:10px;">➕ إضافة مشروع جديد</p>
             <div class="form-group">
               <label>اسم المشروع</label>
               <input type="text" id="projName" placeholder="مثال: مبادرة التنمية المستدامة" />
             </div>
             <div class="row-2">
               <div class="form-group">
-                <label>الكلفة المتوقعة</label>
+                <label>تاريخ بداية المشروع</label>
+                <input type="date" id="projStartDate" />
+              </div>
+              <div class="form-group">
+                <label>تاريخ نهاية المشروع</label>
+                <input type="date" id="projEndDate" />
+              </div>
+            </div>
+            <div class="row-2">
+              <div class="form-group">
+                <label>الميزانية التقديرية (اختياري)</label>
                 <input type="number" id="projCost" placeholder="0" />
               </div>
               <div class="form-group">
-                <label>العملة</label>
+                <label>عملة المشروع</label>
                 <select id="projCurrency">
                   <option value="USD">دولار ($)</option>
                   <option value="IQD">دينار (د.ع)</option>
@@ -985,11 +1046,11 @@
               <label>حالة المشروع</label>
               <select id="projStatus">
                 <option value="قيد التنفيذ">قيد التنفيذ</option>
-                <option value="مكتمل">مكتمل</option>
+                <option value="مكتمل (حساب ختامي)">مكتمل (حساب ختامي)</option>
                 <option value="متوقف">متوقف</option>
               </select>
             </div>
-            <button class="btn-primary" onclick="addProject()">+ إضافة مشروع</button>
+            <button class="btn-primary" onclick="addProject()">+ حفظ المشروع</button>
           </div>
           <div id="projectsList"></div>
         </div>
@@ -1045,7 +1106,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label>ربط بمشروع محدد (اختياري)</label>
+              <label>ربط بمشروع محدد (تُحسب ضمن رعايات المشروع)</label>
               <select id="sponsorProject">
                 <option value="">رعاية عامة للمؤسسة</option>
               </select>
@@ -1070,7 +1131,7 @@
             </div>
             <div class="form-group">
               <label>ملاحظات / مدة العقد</label>
-              <input type="text" id="sponsorNotes" placeholder="مثال: رعاية سنوية" />
+              <input type="text" id="sponsorNotes" placeholder="مثال: رعاية رئيسية للمؤتمر" />
             </div>
             <button class="btn-primary" onclick="addSponsor()">+ تسجيل الشركة وإصدار سند قبض</button>
           </div>
@@ -1081,17 +1142,27 @@
       <!-- 3. SECTION: EXPENSES -->
       <div id="sec-expenses" class="section">
         <div class="section-header">
-          <h3 class="section-title">مصروفات المؤسسة (سندات الصرف)</h3>
+          <h3 class="section-title">مصروفات المؤسسة والمشاريع بالتفصيل (سندات الصرف)</h3>
         </div>
         <div class="section-workspace">
           <div class="form-card">
+            <div class="form-group">
+              <label>المشروع المرتبط (خصم من رعايات وميزانية المشروع)</label>
+              <select id="expProject">
+                <option value="">مصروف عام للمؤسسة</option>
+              </select>
+            </div>
             <div class="form-group">
               <label>يصرف إلى السيد / الجهة (المستفيد)</label>
               <input type="text" id="expParty" placeholder="اسم المستلم أو الشركة المجهزة" />
             </div>
             <div class="form-group">
-              <label>وذلك عن (بيان المصروف)</label>
-              <input type="text" id="expTitle" placeholder="مثال: إيجار المقر / ضيافة / مطبوعات" />
+              <label>وذلك عن (عنوان المصروف)</label>
+              <input type="text" id="expTitle" placeholder="مثال: إيجار قاعة / ضيافة / مطبوعات" />
+            </div>
+            <div class="form-group">
+              <label>تفاصيل إضافية للمصروف (الكمية، السعر، الملاحظات)</label>
+              <input type="text" id="expDetails" placeholder="مثال: 100 حقيبة تدريبية × 15$ + نقل" />
             </div>
             <div class="row-2">
               <div class="form-group">
@@ -1106,13 +1177,7 @@
                 </select>
               </div>
             </div>
-            <div class="form-group">
-              <label>خصم من ميزانية مشروع (اختياري)</label>
-              <select id="expProject">
-                <option value="">مصروف عام للمؤسسة</option>
-              </select>
-            </div>
-            <button class="btn-primary" onclick="addExpense()">+ حفظ وإصدار سند صرف</button>
+            <button class="btn-primary" onclick="addExpense()">+ حفظ المصروف وإصدار سند صرف</button>
           </div>
           <div id="expensesList"></div>
         </div>
@@ -1142,6 +1207,12 @@
             <div class="form-group">
               <label>وذلك عن (بيان الإيراد)</label>
               <input type="text" id="revTitle" placeholder="مثال: دعم مالي / مبيعات / اشتراكات" />
+            </div>
+            <div class="form-group">
+              <label>ربط بمشروع (اختياري)</label>
+              <select id="revProject">
+                <option value="">إيراد عام للمؤسسة</option>
+              </select>
             </div>
             <div class="row-2">
               <div class="form-group">
@@ -1272,77 +1343,87 @@
         </div>
       </div>
 
-      <!-- 7. SECTION: REPORTS -->
+      <!-- 7. SECTION: REPORTS & PROJECT FINAL CLOSING -->
       <div id="sec-reports" class="section">
         <div class="section-header">
-          <h3 class="section-title">التقارير وحركات المؤسسة</h3>
+          <h3 class="section-title">التقارير والحسابات الختامية للمشاريع</h3>
           <div style="display:flex; gap:6px;">
             <button class="btn-secondary" onclick="exportCSV()">Excel</button>
             <button class="btn-secondary" onclick="printReportA4()">طباعة A4</button>
           </div>
         </div>
 
-        <div class="form-card" style="border-color: rgba(13, 148, 136, 0.4);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <label style="color: var(--accent-teal); font-weight: 800; margin:0;">📊 تقرير تفصيلي كامل للمشروع:</label>
-            <button class="btn-voucher" id="openProjA4Btn" style="display:none;" onclick="openProjectFullA4()">📄 تقرير A4 / PDF</button>
+        <div class="form-card" style="border-color: rgba(13, 148, 136, 0.45);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+            <label style="color: var(--accent-teal); font-weight: 800; margin:0; font-size:0.9rem;">📊 اختر المشروع لعرض الحسابات الختامية والتفصيلية:</label>
+            <button class="btn-primary" id="openProjA4Btn" style="display:none; width:auto; padding:7px 14px; margin:0; font-size:0.8rem;" onclick="openProjectFullA4()">🖨️ طباعة تقرير المشروع والحساب الختامي A4</button>
           </div>
           <select id="reportProjectSelect" onchange="renderReports()">
             <option value="ALL">جميع مشاريع وحركات المؤسسة</option>
           </select>
 
-          <div id="projectReportSummary" style="display:none; margin-top:12px;">
+          <div id="projectReportSummary" style="display:none; margin-top:14px;">
+            <!-- Project Dates & Status Banner -->
+            <div class="stats-row" style="margin-bottom:10px;">
+              <div class="stat-box">
+                <small>تاريخ بداية المشروع</small>
+                <strong class="en-num" id="pRepStart" style="color:var(--text-main);">-</strong>
+              </div>
+              <div class="stat-box">
+                <small>تاريخ نهاية المشروع</small>
+                <strong class="en-num" id="pRepEnd" style="color:var(--text-main);">-</strong>
+              </div>
+            </div>
+
+            <!-- Core Equation: Total Project Sponsorships - Project Expenses = Remaining -->
             <div class="stats-row-3">
               <div class="stat-box">
-                <small>الكلفة المتوقعة</small>
-                <strong class="en-num" id="pRepTotal" style="color:var(--text-main);">0</strong>
+                <small>رعايات المشروع الكلية</small>
+                <strong class="en-num" id="pRepTotalSponsors" style="color:var(--accent-teal);">0</strong>
+                <div class="sub-stat">المقبوض فعلياً: <span class="en-num" id="pRepPaidSponsors">0</span></div>
               </div>
               <div class="stat-box">
-                <small>المصاريف</small>
+                <small>مصاريف المشروع الكلية</small>
                 <strong class="en-num" id="pRepSpent" style="color:var(--danger);">0</strong>
+                <div class="sub-stat">عدد بنود الصرف: <span class="en-num" id="pRepExpCount">0</span></div>
               </div>
               <div class="stat-box">
-                <small>الباقي من الميزانية</small>
-                <strong class="en-num" id="pRepRem" style="color:var(--accent-teal);">0</strong>
+                <small>المتبقي من رعايات المشروع</small>
+                <strong class="en-num" id="pRepRemFromSponsors" style="color:var(--accent-teal);">0</strong>
+                <div class="sub-stat">الفعلي بالصندوق: <span class="en-num" id="pRepCashRem">0</span></div>
               </div>
             </div>
 
-            <div class="stats-row" style="margin-bottom:8px;">
-              <div class="stat-box">
-                <small>رعايات المشروع</small>
-                <strong class="en-num" id="pRepSponsors" style="color:var(--accent-teal);">0</strong>
-              </div>
-              <div class="stat-box">
-                <small>صافي موقف المشروع</small>
-                <strong class="en-num" id="pRepNet">0</strong>
-              </div>
-            </div>
-
+            <!-- Detailed Project Sponsors List with Individual Print Button -->
             <div class="detail-subcard">
               <div class="detail-subcard-title">
-                <span>🤝 الشركات الراعية للمشروع</span>
+                <span>🤝 الشركات الراعية للمشروع بالتفصيل</span>
                 <span class="en-num" id="pRepSponsorsCount">0</span>
               </div>
               <div id="pRepSponsorsList"></div>
             </div>
 
+            <!-- Detailed Project Expenses List -->
             <div class="detail-subcard">
               <div class="detail-subcard-title">
-                <span>🧾 مصاريف وحركات المشروع</span>
+                <span>🧾 مصاريف المشروع بالتفصيل</span>
                 <span class="en-num" id="pRepTxCount">0</span>
               </div>
               <div id="pRepTxList"></div>
             </div>
+
+            <!-- Final Closing Accounts Card (الحسابات الختامية للمشروع) -->
+            <div class="final-closing-box" id="pRepFinalClosing"></div>
           </div>
         </div>
 
         <div class="stats-row">
           <div class="stat-box">
-            <small>صافي الصندوق (دولار)</small>
+            <small>صافي الصندوق الكلي (دولار)</small>
             <strong class="en-num" id="netSurplusUSD">$0.00</strong>
           </div>
           <div class="stat-box">
-            <small>صافي الصندوق (دينار)</small>
+            <small>صافي الصندوق الكلي (دينار)</small>
             <strong class="en-num" id="netSurplusIQD">0 IQD</strong>
           </div>
         </div>
@@ -1475,12 +1556,12 @@
       <!-- Desktop Navigation -->
       <div class="desktop-nav">
         <button class="d-nav-btn active" onclick="closeSecondaryDrawer(); setActiveNav(this)">الرئيسية</button>
-        <button class="d-nav-btn" onclick="openSecondaryTab('reports', this)">التقارير والكشوفات</button>
+        <button class="d-nav-btn" onclick="openSecondaryTab('reports', this)">التقارير والحسابات الختامية</button>
         <button class="d-nav-btn" onclick="openSecondaryTab('employees', this)">الموظفين</button>
         <button class="d-nav-btn" onclick="openSecondaryTab('settings', this)">الإعدادات</button>
       </div>
 
-      <!-- Theme Switcher (Light / Dark) -->
+      <!-- Theme Switcher -->
       <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
         <span id="themeIcon">☀️</span>
         <span id="themeLabel">الوضع النهاري</span>
@@ -1493,7 +1574,7 @@
     </div>
   </div>
 
-  <!-- Top Dashboard: Balance + Quick Actions -->
+  <!-- Top Dashboard -->
   <div class="top-dashboard">
     <div class="balance-card">
       <div class="balance-right">
@@ -1502,7 +1583,7 @@
         </svg>
         <div>
           <span class="balance-label">صافي الصندوق المالي</span>
-          <div style="font-size:0.75rem; color:#e2e8f0; margin-top:2px;">الرصيد المتاح حالياً</div>
+          <div style="font-size:0.75rem; color:#e2e8f0; margin-top:2px;">الصندوق الرئيس • خزن داخلي</div>
         </div>
       </div>
       <div class="balance-left">
@@ -1517,9 +1598,8 @@
     </div>
   </div>
 
-  <!-- MAIN MODULES: 2 Main Rectangles (Revenues & Expenses) + 4 Squares -->
+  <!-- MAIN MODULES: 2 Main Rectangles + 4 Squares -->
   <div class="modules-wrapper">
-    <!-- 1. Main Rectangles: Revenues & Expenses -->
     <div class="rect-grid">
       <div class="rect-card rect-rev" onclick="openSecondaryTab('revenues', null, this)">
         <div class="rect-info">
@@ -1540,21 +1620,20 @@
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6h-6z"/></svg>
           </div>
           <div>
-            <span class="rect-title">المصروفات</span>
-            <span class="rect-sub">اضغط لفتح قائمة المصروفات</span>
+            <span class="rect-title">المصروفات التفصيلية</span>
+            <span class="rect-sub">اضغط لفتح وإضافة المصروفات</span>
           </div>
         </div>
         <div class="rect-total amt-minus en-num" id="cardExpTotal">$0.00</div>
       </div>
     </div>
 
-    <!-- 2. Four Squares: Projects, Sponsors, Employees, Accounts -->
     <div class="squares-grid">
       <div class="square-card" onclick="openSecondaryTab('projects', null, this)">
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
         </div>
-        <span class="menu-title">المشاريع</span>
+        <span class="menu-title">المشاريع والحسابات</span>
         <span class="square-count en-num" id="sqProjCount">0 مشاريع</span>
       </div>
 
@@ -1606,14 +1685,16 @@
 </div>
 
 <script>
+  const STORAGE_KEY = 'alyam_accounting_offline_v7';
+
   const tabTitles = {
     revenues: 'الإيرادات الكلية (سندات القبض)',
-    expenses: 'المصروفات (سندات الصرف)',
-    projects: 'المشاريع والكلفة المتوقعة',
+    expenses: 'المصروفات التفصيلية (سندات الصرف)',
+    projects: 'المشاريع والحسابات الختامية لكل مشروع',
     sponsors: 'الشركات الراعية والباقات',
     employees: 'الموظفين والرواتب والسلف',
     accounts: 'الحسابات والتحويل وتصريف العملة',
-    reports: 'التقارير والكشوفات',
+    reports: 'التقارير والحسابات الختامية للمشاريع',
     settings: 'الإعدادات والحماية والنسخ'
   };
 
@@ -1641,12 +1722,6 @@
     if (firstMobile) firstMobile.classList.add('active');
   }
 
-  function handleBackdropClick(e) {
-    if (e.target.id === 'secondaryDrawerBackdrop') {
-      closeSecondaryDrawer();
-    }
-  }
-
   function setActiveNav(navEl) {
     document.querySelectorAll('.nav-btn, .d-nav-btn').forEach(n => n.classList.remove('active'));
     navEl.classList.add('active');
@@ -1669,6 +1744,12 @@
   const todayISO = () => toEnDigits(new Date().toISOString().split('T')[0]);
   const currentMonthStr = () => todayISO().slice(0, 7);
 
+  function addDaysISO(iso, days) {
+    const d = new Date(iso);
+    d.setDate(d.getDate() + days);
+    return toEnDigits(d.toISOString().split('T')[0]);
+  }
+
   function getNowEnString() {
     const now = new Date();
     const y = now.getFullYear();
@@ -1677,6 +1758,10 @@
     const hh = String(now.getHours()).padStart(2, '0');
     const mm = String(now.getMinutes()).padStart(2, '0');
     return `${y}-${m}-${d} | ${hh}:${mm}`;
+  }
+
+  function escAttr(str) {
+    return String(str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
   }
 
   function getBrandHeaderHtml() {
@@ -1700,7 +1785,7 @@
   }
 
   const defaultState = {
-    theme: 'dark',
+    theme: 'light',
     displayCurrency: 'USD',
     voucherSeq: 1004,
     settings: {
@@ -1714,18 +1799,38 @@
       }
     },
     projects: [
-      { id: 1, name: 'مبادرة التنمية المستدامة', expectedCost: 12000, currency: 'USD', status: 'قيد التنفيذ', date: todayISO() }
+      {
+        id: 1,
+        name: 'مبادرة التنمية المستدامة',
+        startDate: todayISO(),
+        endDate: addDaysISO(todayISO(), 90),
+        expectedCost: 5000,
+        currency: 'USD',
+        status: 'قيد التنفيذ',
+        date: todayISO()
+      }
     ],
     sponsors: [
-      { id: 1, name: 'شركة الأفق الذهبي', project: 'مبادرة التنمية المستدامة', tier: 'diamond', totalAmount: 5000, paidAmount: 5000, currency: 'USD', payStatus: 'paid', notes: 'رعاية رئيسية', date: todayISO() }
+      {
+        id: 1,
+        name: 'شركة الأفق الذهبي',
+        project: 'مبادرة التنمية المستدامة',
+        tier: 'diamond',
+        totalAmount: 5000,
+        paidAmount: 5000,
+        currency: 'USD',
+        payStatus: 'paid',
+        notes: 'رعاية رئيسية للمشروع',
+        date: todayISO()
+      }
     ],
     employees: [
       { id: 1, name: 'أحمد كريم', role: 'محاسب المؤسسة', salary: 800, currency: 'USD', advances: 0, bonuses: 0, deductions: 0, paidMonths: [] }
     ],
     transactions: [
-      { id: 101, voucherNo: 1001, type: 'IN', category: 'رعاية (ماسية)', party: 'شركة الأفق الذهبي', title: 'باقة رعاية ماسية', project: 'مبادرة التنمية المستدامة', amount: 5000, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
-      { id: 102, voucherNo: 1002, type: 'OUT', category: 'مصروف', party: 'شركة القاعات الحديثة', title: 'تجهيز قاعة المبادرة', project: 'مبادرة التنمية المستدامة', amount: 3200, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
-      { id: 103, voucherNo: 1003, type: 'IN', category: 'إيراد', party: 'صندوق الدعم', title: 'دعم تشغيلي بالدينار', project: '', amount: 4500000, currency: 'IQD', isoDate: todayISO(), date: getNowEnString() }
+      { id: 101, voucherNo: 1001, type: 'IN', category: 'رعاية (ماسية)', party: 'شركة الأفق الذهبي', title: 'باقة رعاية ماسية - شركة الأفق الذهبي', details: 'عقد رعاية ماسية كامل', project: 'مبادرة التنمية المستدامة', amount: 5000, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
+      { id: 102, voucherNo: 1002, type: 'OUT', category: 'مصروف', party: 'شركة القاعات الحديثة', title: 'تجهيز قاعة المبادرة', details: 'إيجار القاعة + شاشات العرض + الصوتيات', project: 'مبادرة التنمية المستدامة', amount: 3200, currency: 'USD', isoDate: todayISO(), date: getNowEnString() },
+      { id: 103, voucherNo: 1003, type: 'IN', category: 'إيراد', party: 'صندوق الدعم', title: 'دعم تشغيلي بالدينار', details: 'دفعة تشغيلية عامة', project: '', amount: 4500000, currency: 'IQD', isoDate: todayISO(), date: getNowEnString() }
     ],
     accounts: [
       { id: 1, name: 'الصندوق الرئيسي - دولار', balance: 1800, currency: 'USD' },
@@ -1733,8 +1838,37 @@
     ]
   };
 
-  let appData = JSON.parse(localStorage.getItem('alyam_accounting_v5')) || defaultState;
-  if (!appData.theme) appData.theme = 'dark';
+  function loadLocalData() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('alyam_accounting_offline_v6') || localStorage.getItem('alyam_accounting_v5');
+      if (!saved) return structuredClone(defaultState);
+      const parsed = JSON.parse(saved);
+      const merged = {
+        ...structuredClone(defaultState),
+        ...parsed,
+        settings: {
+          ...structuredClone(defaultState.settings),
+          ...(parsed.settings || {}),
+          tiers: {
+            ...structuredClone(defaultState.settings.tiers),
+            ...((parsed.settings && parsed.settings.tiers) || {})
+          }
+        }
+      };
+      // Migrate projects to include startDate and endDate if missing
+      merged.projects = (merged.projects || []).map(p => ({
+        startDate: p.startDate || p.date || todayISO(),
+        endDate: p.endDate || addDaysISO(p.startDate || p.date || todayISO(), 60),
+        ...p
+      }));
+      return merged;
+    } catch (e) {
+      return structuredClone(defaultState);
+    }
+  }
+
+  let appData = loadLocalData();
+  if (!appData.theme) appData.theme = 'light';
   let currentReportFilter = 'ALL';
   let enteredPin = '';
   let lastShareText = '';
@@ -1752,7 +1886,12 @@
   }
 
   function saveData() {
-    localStorage.setItem('alyam_accounting_v5', JSON.stringify(appData));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      localStorage.setItem('alyam_accounting_offline_v6', JSON.stringify(appData));
+    } catch (e) {
+      alert('تعذر الحفظ في التخزين الداخلي للمتصفح.');
+    }
     renderAll();
   }
 
@@ -1826,6 +1965,51 @@
     return { inUSD, outUSD, netUSD: inUSD - outUSD, inIQD, outIQD, netIQD: inIQD - outIQD };
   }
 
+  // Helper: Compute full project financial breakdown
+  function getProjectFinancials(proj) {
+    const projSponsors = appData.sponsors.filter(s => s.project === proj.name);
+    const projExpenses = appData.transactions.filter(t => t.project === proj.name && t.type === 'OUT');
+    const projOtherRevs = appData.transactions.filter(
+      t => t.project === proj.name && t.type === 'IN' && !(t.category || '').includes('رعاية')
+    );
+
+    const totalSponsorsContracted = projSponsors
+      .filter(s => s.currency === proj.currency)
+      .reduce((sum, s) => sum + (Number(s.totalAmount) || 0), 0);
+
+    const paidSponsors = projSponsors
+      .filter(s => s.currency === proj.currency)
+      .reduce((sum, s) => sum + (Number(s.paidAmount) || 0), 0);
+
+    const unpaidSponsors = Math.max(0, totalSponsorsContracted - paidSponsors);
+
+    const otherRevTotal = projOtherRevs
+      .filter(t => t.currency === proj.currency)
+      .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
+
+    const totalExpenses = projExpenses
+      .filter(t => t.currency === proj.currency)
+      .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
+
+    // Core calculation requested: Total Project Sponsorships minus Project Expenses = Remaining
+    const remainingFromTotalSponsors = totalSponsorsContracted - totalExpenses;
+    // Actual Cash Remaining in hand: (Paid Sponsorships + Other Project Revenues) - Project Expenses
+    const actualCashRemaining = (paidSponsors + otherRevTotal) - totalExpenses;
+
+    return {
+      projSponsors,
+      projExpenses,
+      projOtherRevs,
+      totalSponsorsContracted,
+      paidSponsors,
+      unpaidSponsors,
+      otherRevTotal,
+      totalExpenses,
+      remainingFromTotalSponsors,
+      actualCashRemaining
+    };
+  }
+
   function openVoucher(txId) {
     const tx = appData.transactions.find(t => t.id === txId);
     if (!tx) return;
@@ -1836,7 +2020,7 @@
     const partyLabel = isReceipt ? 'استلمنا من السيد / الجهة:' : 'يصرف إلى السيد / الجهة:';
     const partyName = tx.party || tx.title;
 
-    lastShareText = `${appData.settings.orgName}\n${voucherTitle}\nرقم السند: #${tx.voucherNo || tx.id}\nالطرف: ${partyName}\nالبيان: ${tx.title}\nالمبلغ: ${formatMoney(tx.amount, tx.currency)}\nالتاريخ: ${tx.date}`;
+    lastShareText = `${appData.settings.orgName}\n${voucherTitle}\nرقم السند: #${tx.voucherNo || tx.id}\nالطرف: ${partyName}\nالبيان: ${tx.title}\nالتفاصيل: ${tx.details || '-'}\nالمبلغ: ${formatMoney(tx.amount, tx.currency)}\nالتاريخ: ${tx.date}`;
 
     const html = `
       <div class="v-header">
@@ -1866,8 +2050,13 @@
         </tr>
         <tr>
           <th>وذلك عن (البيان):</th>
-          <td>${tx.title}</td>
+          <td><strong>${tx.title}</strong></td>
         </tr>
+        ${tx.details ? `
+        <tr>
+          <th>التفاصيل والملاحظات:</th>
+          <td>${tx.details}</td>
+        </tr>` : ''}
         <tr>
           <th>المشروع المرتبط:</th>
           <td>${tx.project || 'حساب عام للمؤسسة'}</td>
@@ -1889,90 +2078,219 @@
     document.getElementById('voucherModal').style.display = 'block';
   }
 
-  function openProjectFullA4() {
-    const selectedProj = document.getElementById('reportProjectSelect').value;
+  // Print Comprehensive A4 Report & Final Closing Accounts for a Project
+  function openProjectFullA4(projectNameOverride) {
+    const selectedProj = projectNameOverride || document.getElementById('reportProjectSelect').value;
     const proj = appData.projects.find(p => p.name === selectedProj);
     if (!proj) return;
 
-    const projSponsors = appData.sponsors.filter(s => s.project === proj.name);
-    const projTxs = appData.transactions.filter(t => t.project === proj.name && t.type !== 'XFER');
-    const spent = projTxs
-      .filter(t => t.type === 'OUT' && t.currency === proj.currency)
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-    const spRev = projSponsors
-      .filter(s => s.currency === proj.currency)
-      .reduce((sum, s) => sum + Number(s.paidAmount), 0);
-    const rem = proj.expectedCost - spent;
+    const fin = getProjectFinancials(proj);
+    const tierNames = { diamond: 'الباقة الماسية', gold: 'الباقة الذهبية', silver: 'الباقة الفضية' };
+    const statusLabels = { paid: 'مدفوعة بالكامل', partial: 'دفعة جزئية', unpaid: 'مستحقة' };
 
-    lastShareText = `تقرير مشروع: ${proj.name}\nالكلفة المتوقعة: ${formatMoney(proj.expectedCost, proj.currency)}\nالمصاريف: ${formatMoney(spent, proj.currency)}\nالباقي: ${formatMoney(rem, proj.currency)}\nرعايات المشروع: ${formatMoney(spRev, proj.currency)}`;
+    lastShareText = `الحسابات الختامية لمشروع: ${proj.name}\nمن تاريخ: ${proj.startDate || '-'} إلى: ${proj.endDate || '-'}\nإجمالي رعايات المشروع: ${formatMoney(fin.totalSponsorsContracted, proj.currency)}\nالمصاريف الكلية: ${formatMoney(fin.totalExpenses, proj.currency)}\nالمتبقي من رعايات المشروع: ${formatMoney(fin.remainingFromTotalSponsors, proj.currency)}`;
 
-    const sponsorRows = projSponsors.length ? projSponsors.map(s => `
+    const sponsorRows = fin.projSponsors.length ? fin.projSponsors.map((s, idx) => `
       <tr>
-        <td>${s.name}</td>
-        <td>${s.tier}</td>
+        <td class="en-num">${idx + 1}</td>
+        <td><strong>${s.name}</strong>${s.notes ? `<br/><small style="color:#475569;">${s.notes}</small>` : ''}</td>
+        <td>${tierNames[s.tier] || s.tier}</td>
+        <td>${statusLabels[s.payStatus] || ''}</td>
         <td class="en-num">${formatMoney(s.totalAmount, s.currency)}</td>
-        <td class="en-num">${formatMoney(s.paidAmount, s.currency)}</td>
-        <td class="en-num">${formatMoney(s.totalAmount - s.paidAmount, s.currency)}</td>
+        <td class="en-num" style="color:#059669;">${formatMoney(s.paidAmount, s.currency)}</td>
+        <td class="en-num" style="color:#b45309;">${formatMoney(s.totalAmount - s.paidAmount, s.currency)}</td>
       </tr>
-    `).join('') : '<tr><td colspan="5" style="text-align:center;">لا توجد شركات راعية مرتبطة بهذا المشروع</td></tr>';
+    `).join('') : '<tr><td colspan="7" style="text-align:center;">لا توجد شركات راعية مرتبطة بهذا المشروع</td></tr>';
 
-    const txRows = projTxs.length ? projTxs.map(t => `
+    const expRows = fin.projExpenses.length ? fin.projExpenses.map((t, idx) => `
       <tr>
+        <td class="en-num">${idx + 1}</td>
         <td class="en-num">#${t.voucherNo || t.id}</td>
-        <td class="en-num">${t.date}</td>
-        <td>${t.type === 'IN' ? 'إيراد/رعاية' : 'مصروف'}</td>
-        <td>${t.party || '-'} — ${t.title}</td>
-        <td class="en-num">${formatMoney(t.amount, t.currency)}</td>
+        <td class="en-num">${t.isoDate || t.date}</td>
+        <td>${t.party || '-'}</td>
+        <td><strong>${t.title}</strong>${t.details ? `<br/><small style="color:#475569;">${t.details}</small>` : ''}</td>
+        <td class="en-num" style="color:#dc2626; font-weight:700;">${formatMoney(t.amount, t.currency)}</td>
       </tr>
-    `).join('') : '<tr><td colspan="5" style="text-align:center;">لا توجد حركات مالية مسجلة للمشروع</td></tr>';
+    `).join('') : '<tr><td colspan="6" style="text-align:center;">لا توجد مصاريف مسجلة للمشروع</td></tr>';
 
     const html = `
       <div class="v-header">
         ${getBrandHeaderHtml()}
-        <div class="v-title-badge v-statement">تقرير مشروع (Project Report)</div>
-        <div style="text-align:left; font-size:0.88rem;">
-          <div>التاريخ: <strong class="en-num">${todayISO()}</strong></div>
-          <div>الحالة: <strong>${proj.status}</strong></div>
+        <div class="v-title-badge v-statement">تقرير مشروع وحساب ختامي<br/><span style="font-size:0.75rem; font-weight:700;">Project Final Accounts Report</span></div>
+        <div style="text-align:left; font-size:0.86rem;">
+          <div>تاريخ الطباعة: <strong class="en-num">${todayISO()}</strong></div>
+          <div>حالة المشروع: <strong>${proj.status}</strong></div>
         </div>
       </div>
 
       <div class="v-meta-grid">
-        <div class="v-box">اسم المشروع: <strong>${proj.name}</strong></div>
-        <div class="v-box">الكلفة المتوقعة: <strong class="en-num">${formatMoney(proj.expectedCost, proj.currency)}</strong></div>
-        <div class="v-box">إجمالي المصاريف: <strong class="en-num" style="color:#dc2626;">${formatMoney(spent, proj.currency)}</strong></div>
-        <div class="v-box">المتبقي من الكلفة: <strong class="en-num" style="color:#059669;">${formatMoney(rem, proj.currency)}</strong></div>
+        <div class="v-box">اسم المشروع: <strong style="font-size:1.05rem;">${proj.name}</strong></div>
+        <div class="v-box">المدة الزمنية: من <strong class="en-num">${proj.startDate || '-'}</strong> إلى <strong class="en-num">${proj.endDate || '-'}</strong></div>
+        <div class="v-box">إجمالي رعايات المشروع: <strong class="en-num" style="color:#059669;">${formatMoney(fin.totalSponsorsContracted, proj.currency)}</strong></div>
+        <div class="v-box">إجمالي مصاريف المشروع: <strong class="en-num" style="color:#dc2626;">${formatMoney(fin.totalExpenses, proj.currency)}</strong></div>
       </div>
 
-      <h4 style="margin-bottom:8px; font-size:0.95rem;">أولاً: الشركات الراعية للمشروع (المجموع: <span class="en-num">${formatMoney(spRev, proj.currency)}</span>)</h4>
+      <h4 style="margin-bottom:8px; font-size:0.95rem; color:#0f172a;">أولاً: كشف الشركات الراعية الخاصة بالمشروع بالتفصيل</h4>
       <table class="v-body-table">
         <thead>
           <tr>
-            <th>الشركة</th>
+            <th style="width:5%;">#</th>
+            <th>اسم الشركة الراعية</th>
             <th>الباقة</th>
-            <th>القيمة</th>
-            <th>المدفوع</th>
-            <th>المتبقي</th>
+            <th>الحالة</th>
+            <th>قيمة الرعاية</th>
+            <th>المقبوض</th>
+            <th>المتبقي بذمة الراعي</th>
           </tr>
         </thead>
-        <tbody>${sponsorRows}</tbody>
+        <tbody>
+          ${sponsorRows}
+          <tr style="background:#f1f5f9; font-weight:800;">
+            <td colspan="4">مجموع رعايات المشروع</td>
+            <td class="en-num">${formatMoney(fin.totalSponsorsContracted, proj.currency)}</td>
+            <td class="en-num" style="color:#059669;">${formatMoney(fin.paidSponsors, proj.currency)}</td>
+            <td class="en-num" style="color:#b45309;">${formatMoney(fin.unpaidSponsors, proj.currency)}</td>
+          </tr>
+        </tbody>
       </table>
 
-      <h4 style="margin-bottom:8px; font-size:0.95rem;">ثانياً: المصاريف والحركات المالية للمشروع</h4>
+      <h4 style="margin-bottom:8px; font-size:0.95rem; color:#0f172a;">ثانياً: كشف مصاريف المشروع بالتفصيل</h4>
       <table class="v-body-table">
         <thead>
           <tr>
+            <th style="width:5%;">#</th>
             <th>رقم السند</th>
             <th>التاريخ</th>
-            <th>النوع</th>
-            <th>البيان</th>
+            <th>الجهة المستفيدة</th>
+            <th>بيان المصروف والتفاصيل</th>
             <th>المبلغ</th>
           </tr>
         </thead>
-        <tbody>${txRows}</tbody>
+        <tbody>
+          ${expRows}
+          <tr style="background:#fef2f2; font-weight:800;">
+            <td colspan="5">إجمالي مصاريف المشروع</td>
+            <td class="en-num" style="color:#dc2626;">${formatMoney(fin.totalExpenses, proj.currency)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="margin-bottom:6px; font-size:0.98rem; color:#0f172a;">ثالثاً: الخلاصة والحسابات الختامية للمشروع (Final Closing Summary)</h4>
+      <table class="v-closing-table">
+        <tr>
+          <th>1. إجمالي رعايات المشروع الكلية (قيمة العقود)</th>
+          <td class="en-num" style="color:#059669;">${formatMoney(fin.totalSponsorsContracted, proj.currency)}</td>
+        </tr>
+        <tr>
+          <th>2. يُطرح: إجمالي مصاريف المشروع الفعلية</th>
+          <td class="en-num" style="color:#dc2626;">− ${formatMoney(fin.totalExpenses, proj.currency)}</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <th>3. صافي المتبقي من رعايات المشروع (الرعايات الكلية − المصاريف)</th>
+          <td class="en-num" style="font-size:1.1rem; color:${fin.remainingFromTotalSponsors >= 0 ? '#065f46' : '#dc2626'};">${formatMoney(fin.remainingFromTotalSponsors, proj.currency)}</td>
+        </tr>
+        <tr>
+          <th>4. المبالغ المقبوضة فعلياً من الرعاة + إيرادات المشروع الإضافية</th>
+          <td class="en-num">${formatMoney(fin.paidSponsors + fin.otherRevTotal, proj.currency)}</td>
+        </tr>
+        <tr>
+          <th>5. الرصيد النقدي الفعلي المتبقي في صندوق المشروع (المقبوض − المصاريف)</th>
+          <td class="en-num" style="color:${fin.actualCashRemaining >= 0 ? '#1e40af' : '#dc2626'};">${formatMoney(fin.actualCashRemaining, proj.currency)}</td>
+        </tr>
+        ${fin.unpaidSponsors > 0 ? `
+        <tr>
+          <th>6. ذمم رعايات غير مقبوضة بعد (مستحقة التحصيل)</th>
+          <td class="en-num" style="color:#b45309;">${formatMoney(fin.unpaidSponsors, proj.currency)}</td>
+        </tr>` : ''}
       </table>
 
       <div class="v-signatures">
         <div><div>مدير المشروع</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>المحاسب</div><div class="v-sig-line">التوقيع</div></div>
+        <div><div>اعتماد الإدارة والمصادقة الختامية</div><div class="v-sig-line">الختم والتوقيع</div></div>
+      </div>
+    `;
+
+    document.getElementById('voucherContent').innerHTML = html;
+    document.getElementById('voucherModal').style.display = 'block';
+  }
+
+  // Print Individual Sponsorship Report A4
+  function openSponsorReportA4(sponsorId) {
+    const sp = appData.sponsors.find(s => s.id === sponsorId);
+    if (!sp) return;
+
+    const rem = sp.totalAmount - sp.paidAmount;
+    const tierNames = { diamond: 'الباقة الماسية', gold: 'الباقة الذهبية', silver: 'الباقة الفضية' };
+    const statusLabels = { paid: 'مدفوعة بالكامل', partial: 'دفعة جزئية', unpaid: 'مستحقة (غير مدفوعة)' };
+    const txs = appData.transactions.filter(
+      t => t.party === sp.name && (t.category || '').includes('رعاية')
+    );
+
+    const projObj = sp.project ? appData.projects.find(p => p.name === sp.project) : null;
+
+    lastShareText = `تقرير رعاية - ${appData.settings.orgName}\nالشركة الراعية: ${sp.name}\nالمشروع: ${sp.project || 'رعاية عامة'}\nالباقة: ${tierNames[sp.tier]}\nقيمة الرعاية: ${formatMoney(sp.totalAmount, sp.currency)}\nالمدفوع: ${formatMoney(sp.paidAmount, sp.currency)}\nالمتبقي: ${formatMoney(rem, sp.currency)}`;
+
+    const rowsHtml = txs.length ? txs.map((t, idx) => `
+      <tr>
+        <td class="en-num">${idx + 1}</td>
+        <td class="en-num">#${t.voucherNo || t.id}</td>
+        <td class="en-num">${t.date}</td>
+        <td>${t.title}</td>
+        <td class="en-num" style="color:#059669; font-weight:700;">${formatMoney(t.amount, t.currency)}</td>
+      </tr>
+    `).join('') : '<tr><td colspan="5" style="text-align:center;">لا توجد دفعات مقبوضة مسجلة بعد</td></tr>';
+
+    const html = `
+      <div class="v-header">
+        ${getBrandHeaderHtml()}
+        <div class="v-title-badge v-statement">تقرير رعاية مالي<br/><span style="font-size:0.75rem;">Sponsorship Report</span></div>
+        <div style="text-align:left; font-size:0.86rem;">
+          <div>تاريخ التقرير: <strong class="en-num">${todayISO()}</strong></div>
+          <div>تاريخ العقد: <strong class="en-num">${sp.date || todayISO()}</strong></div>
+        </div>
+      </div>
+
+      <div class="v-meta-grid">
+        <div class="v-box">الشركة الراعية: <strong style="font-size:1.05rem;">${sp.name}</strong></div>
+        <div class="v-box">المشروع المشمول بالرعاية: <strong>${sp.project || 'رعاية عامة للمؤسسة'}</strong>${projObj ? `<br/><small class="en-num" style="color:#475569;">(${projObj.startDate || '-'} ➔ ${projObj.endDate || '-'})</small>` : ''}</div>
+        <div class="v-box">فئة الباقة: <strong>${tierNames[sp.tier] || sp.tier}</strong></div>
+        <div class="v-box">حالة السداد: <strong>${statusLabels[sp.payStatus] || sp.payStatus}</strong></div>
+      </div>
+
+      <table class="v-closing-table" style="margin-bottom:18px;">
+        <tr>
+          <th>إجمالي قيمة الرعاية المتفق عليها</th>
+          <td class="en-num">${formatMoney(sp.totalAmount, sp.currency)}</td>
+        </tr>
+        <tr>
+          <th>إجمالي المبالغ المستلمة (المدفوع)</th>
+          <td class="en-num" style="color:#059669;">${formatMoney(sp.paidAmount, sp.currency)}</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <th>المبلغ المتبقي بذمة الشركة الراعية</th>
+          <td class="en-num" style="color:${rem > 0 ? '#b45309' : '#059669'};">${formatMoney(rem, sp.currency)}</td>
+        </tr>
+      </table>
+
+      ${sp.notes ? `<div class="v-box" style="margin-bottom:16px;"><strong>ملاحظات وشروط الرعاية:</strong> ${sp.notes}</div>` : ''}
+
+      <h4 style="margin-bottom:8px; font-size:0.95rem;">سجل الدفعات وسندات القبض المستلمة من الشركة الراعية:</h4>
+      <table class="v-body-table">
+        <thead>
+          <tr>
+            <th style="width:6%;">#</th>
+            <th>رقم سند القبض</th>
+            <th>التاريخ والوقت</th>
+            <th>البيان</th>
+            <th>المبلغ المقبوض</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+
+      <div class="v-signatures">
+        <div><div>مسؤول الرعايات</div><div class="v-sig-line">التوقيع</div></div>
         <div><div>المحاسب</div><div class="v-sig-line">التوقيع</div></div>
         <div><div>اعتماد الإدارة</div><div class="v-sig-line">الختم والتوقيع</div></div>
       </div>
@@ -1983,6 +2301,11 @@
   }
 
   function openEntityStatement(type, name) {
+    if (type === 'sponsor') {
+      const sp = appData.sponsors.find(s => s.name === name);
+      if (sp) return openSponsorReportA4(sp.id);
+    }
+
     let rowsHtml = '';
     let summaryHtml = '';
     lastShareText = `كشف حساب - ${appData.settings.orgName}\nالجهة: ${name}\nالتاريخ: ${todayISO()}`;
@@ -2009,28 +2332,6 @@
           <td class="en-num">${formatMoney(t.amount, t.currency)}</td>
         </tr>
       `).join('') : '<tr><td colspan="4" style="text-align:center;">لا توجد حركات مسجلة</td></tr>';
-    } else if (type === 'sponsor') {
-      const sp = appData.sponsors.find(s => s.name === name);
-      if (!sp) return;
-      const rem = sp.totalAmount - sp.paidAmount;
-      const txs = appData.transactions.filter(t => t.party === sp.name);
-
-      summaryHtml = `
-        <div class="v-meta-grid">
-          <div class="v-box">الشركة الراعية: <strong>${sp.name}</strong></div>
-          <div class="v-box">قيمة الباقة: <strong class="en-num">${formatMoney(sp.totalAmount, sp.currency)}</strong></div>
-          <div class="v-box">المدفوع: <strong class="en-num">${formatMoney(sp.paidAmount, sp.currency)}</strong></div>
-          <div class="v-box">المتبقي: <strong class="en-num">${formatMoney(rem, sp.currency)}</strong></div>
-        </div>
-      `;
-      rowsHtml = txs.length ? txs.map(t => `
-        <tr>
-          <td class="en-num">#${t.voucherNo || t.id}</td>
-          <td class="en-num">${t.date}</td>
-          <td>${t.title}</td>
-          <td class="en-num">${formatMoney(t.amount, t.currency)}</td>
-        </tr>
-      `).join('') : '<tr><td colspan="4" style="text-align:center;">لا توجد دفعات مقبوضة بعد</td></tr>';
     }
 
     const html = `
@@ -2068,9 +2369,14 @@
     if (!lastShareText) return;
     if (navigator.share) {
       navigator.share({ title: appData.settings.orgName, text: lastShareText }).catch(() => {});
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(lastShareText).then(() => {
+        alert('تم نسخ نص التقرير / السند إلى الحافظة للمشاركة.');
+      }).catch(() => {
+        prompt('انسخ النص للمشاركة:', lastShareText);
+      });
     } else {
-      const waUrl = 'https://wa.me/?text=' + encodeURIComponent(lastShareText);
-      window.open(waUrl, '_blank');
+      prompt('انسخ النص للمشاركة:', lastShareText);
     }
   }
 
@@ -2093,13 +2399,25 @@
 
   function addProject() {
     const name = document.getElementById('projName').value.trim();
-    const cost = parseFloat(document.getElementById('projCost').value);
+    const startDate = document.getElementById('projStartDate').value || todayISO();
+    const endDate = document.getElementById('projEndDate').value || '';
+    const cost = parseFloat(document.getElementById('projCost').value) || 0;
     const currency = document.getElementById('projCurrency').value;
     const status = document.getElementById('projStatus').value;
-    if (!name || isNaN(cost)) return alert('يرجى إدخال اسم المشروع والكلفة المتوقعة');
+    if (!name) return alert('يرجى إدخال اسم المشروع');
+    if (endDate && startDate && endDate < startDate) {
+      return alert('تاريخ نهاية المشروع يجب أن يكون بعد أو مساوياً لتاريخ البداية');
+    }
 
     appData.projects.unshift({
-      id: Date.now(), name, expectedCost: cost, currency, status, date: todayISO()
+      id: Date.now(),
+      name,
+      startDate,
+      endDate,
+      expectedCost: cost,
+      currency,
+      status,
+      date: todayISO()
     });
     document.getElementById('projName').value = '';
     document.getElementById('projCost').value = '';
@@ -2111,12 +2429,33 @@
     if (p) { p.status = newStatus; saveData(); }
   }
 
+  function editProjectDates(id) {
+    const p = appData.projects.find(item => item.id === id);
+    if (!p) return;
+    const newStart = prompt('تاريخ بداية المشروع (YYYY-MM-DD):', p.startDate || todayISO());
+    if (newStart === null) return;
+    const newEnd = prompt('تاريخ نهاية المشروع (YYYY-MM-DD):', p.endDate || '');
+    if (newEnd === null) return;
+    p.startDate = toEnDigits(newStart.trim());
+    p.endDate = toEnDigits(newEnd.trim());
+    saveData();
+  }
+
   function viewProjectReport(projName) {
     openSecondaryTab('reports');
     setTimeout(() => {
       const sel = document.getElementById('reportProjectSelect');
       sel.value = projName;
       renderReports();
+    }, 80);
+  }
+
+  function quickAddProjectExpense(projName) {
+    openSecondaryTab('expenses');
+    setTimeout(() => {
+      const sel = document.getElementById('expProject');
+      sel.value = projName;
+      document.getElementById('expTitle').focus();
     }, 80);
   }
 
@@ -2161,6 +2500,7 @@
         category: 'رعاية (' + tierLabels[tier] + ')',
         party: name,
         title: `باقة رعاية ${tierLabels[tier]} - ${name}`,
+        details: notes || '',
         project,
         amount: paidAmount,
         currency,
@@ -2201,6 +2541,7 @@
       category: 'دفعة رعاية (' + tierLabels[sp.tier] + ')',
       party: sp.name,
       title: `دفعة رعاية ${tierLabels[sp.tier]} - ${sp.name}`,
+      details: sp.notes || '',
       project: sp.project || '',
       amount: payAmt,
       currency: sp.currency,
@@ -2212,12 +2553,13 @@
   }
 
   function addExpense() {
+    const project = document.getElementById('expProject').value;
     const party = document.getElementById('expParty').value.trim();
     const title = document.getElementById('expTitle').value.trim();
+    const details = document.getElementById('expDetails').value.trim();
     const amount = parseFloat(document.getElementById('expAmount').value);
     const currency = document.getElementById('expCurrency').value;
-    const project = document.getElementById('expProject').value;
-    if (!title || isNaN(amount) || amount <= 0) return alert('يرجى إدخال بيان المصروف والمبلغ');
+    if (!title || isNaN(amount) || amount <= 0) return alert('يرجى إدخال عنوان المصروف والمبلغ');
 
     const txId = Date.now();
     appData.transactions.unshift({
@@ -2227,6 +2569,7 @@
       category: 'مصروف',
       party: party || title,
       title,
+      details,
       project,
       amount,
       currency,
@@ -2236,6 +2579,7 @@
 
     document.getElementById('expParty').value = '';
     document.getElementById('expTitle').value = '';
+    document.getElementById('expDetails').value = '';
     document.getElementById('expAmount').value = '';
     saveData();
     openVoucher(txId);
@@ -2244,6 +2588,7 @@
   function addRevenue() {
     const party = document.getElementById('revParty').value.trim();
     const title = document.getElementById('revTitle').value.trim();
+    const project = document.getElementById('revProject').value;
     const amount = parseFloat(document.getElementById('revAmount').value);
     const currency = document.getElementById('revCurrency').value;
     if (!title || isNaN(amount) || amount <= 0) return alert('يرجى إدخال بيان الإيراد والمبلغ');
@@ -2256,7 +2601,8 @@
       category: 'إيراد',
       party: party || title,
       title,
-      project: '',
+      details: '',
+      project,
       amount,
       currency,
       isoDate: todayISO(),
@@ -2300,7 +2646,7 @@
       const txId = Date.now();
       appData.transactions.unshift({
         id: txId, voucherNo: nextVoucherNo(), type: 'OUT', category: 'سلفة موظف',
-        party: emp.name, title: `سلفة للموظف - ${emp.name}`, project: '',
+        party: emp.name, title: `سلفة للموظف - ${emp.name}`, details: '', project: '',
         amount: amt, currency: emp.currency, isoDate: todayISO(), date: getNowEnString()
       });
       saveData();
@@ -2338,6 +2684,7 @@
       category: 'رواتب',
       party: emp.name,
       title: `صرف راتب (${monthKey}) - ${emp.name} (${emp.role})`,
+      details: '',
       project: '',
       amount: netSalary,
       currency: emp.currency,
@@ -2377,12 +2724,12 @@
     appData.transactions.unshift({
       id: baseId, voucherNo: nextVoucherNo(), type: 'OUT', category: 'تحويل/تصريف',
       party: 'الصندوق المالي', title: `تصريف ${formatMoney(amt, fromC)} إلى ${toC}`,
-      project: '', amount: amt, currency: fromC, isoDate: todayISO(), date: getNowEnString()
+      details: '', project: '', amount: amt, currency: fromC, isoDate: todayISO(), date: getNowEnString()
     });
     appData.transactions.unshift({
       id: baseId + 1, voucherNo: nextVoucherNo(), type: 'IN', category: 'تحويل/تصريف',
       party: 'الصندوق المالي', title: `مقابل تصريف من ${fromC} (${formatMoney(amt, fromC)})`,
-      project: '', amount: converted, currency: toC, isoDate: todayISO(), date: getNowEnString()
+      details: '', project: '', amount: converted, currency: toC, isoDate: todayISO(), date: getNowEnString()
     });
 
     document.getElementById('xferAmount').value = '';
@@ -2442,7 +2789,7 @@
       try {
         const parsed = JSON.parse(e.target.result);
         if (parsed.transactions && parsed.settings) {
-          if (!parsed.theme) parsed.theme = appData.theme || 'dark';
+          if (!parsed.theme) parsed.theme = appData.theme || 'light';
           appData = parsed;
           saveData();
           alert('تمت استعادة النسخة الاحتياطية بنجاح!');
@@ -2457,10 +2804,10 @@
   }
 
   function exportCSV() {
-    let csv = '\uFEFFرقم السند,النوع,التصنيف,الطرف,البيان,المشروع,المبلغ,العملة,التاريخ\n';
+    let csv = '\uFEFFرقم السند,النوع,التصنيف,الطرف,البيان,التفاصيل,المشروع,المبلغ,العملة,التاريخ\n';
     appData.transactions.forEach(t => {
       const typeLabel = t.type === 'IN' ? 'سند قبض' : (t.type === 'OUT' ? 'سند صرف' : 'تحويل');
-      csv += `${t.voucherNo || t.id},${typeLabel},"${t.category}","${t.party || '-'}","${t.title}","${t.project || '-'}",${t.amount},${t.currency},"${t.date}"\n`;
+      csv += `${t.voucherNo || t.id},${typeLabel},"${t.category}","${t.party || '-'}","${t.title}","${t.details || '-'}","${t.project || '-'}",${t.amount},${t.currency},"${t.date}"\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement('a');
@@ -2511,63 +2858,86 @@
     updateSponsorPreview();
     previewConversion();
 
+    // Render Projects & Populate Project Dropdowns
     const projList = document.getElementById('projectsList');
     const expProjSelect = document.getElementById('expProject');
+    const revProjSelect = document.getElementById('revProject');
     const spProjSelect = document.getElementById('sponsorProject');
     const repProjSelect = document.getElementById('reportProjectSelect');
     const prevRepVal = repProjSelect.value;
 
     expProjSelect.innerHTML = '<option value="">مصروف عام للمؤسسة</option>';
+    revProjSelect.innerHTML = '<option value="">إيراد عام للمؤسسة</option>';
     spProjSelect.innerHTML = '<option value="">رعاية عامة للمؤسسة</option>';
     repProjSelect.innerHTML = '<option value="ALL">جميع مشاريع وحركات المؤسسة</option>';
     projList.innerHTML = appData.projects.length ? '' : '<div class="empty-msg">لا توجد مشاريع مضافة حالياً</div>';
 
     appData.projects.forEach(p => {
-      expProjSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
-      spProjSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
-      repProjSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+      expProjSelect.innerHTML += `<option value="${escAttr(p.name)}">${p.name}</option>`;
+      revProjSelect.innerHTML += `<option value="${escAttr(p.name)}">${p.name}</option>`;
+      spProjSelect.innerHTML += `<option value="${escAttr(p.name)}">${p.name}</option>`;
+      repProjSelect.innerHTML += `<option value="${escAttr(p.name)}">${p.name}</option>`;
 
-      const spent = appData.transactions
-        .filter(t => t.type === 'OUT' && t.project === p.name && t.currency === p.currency)
-        .reduce((sum, t) => sum + Number(t.amount), 0);
-
-      const remaining = p.expectedCost - spent;
-      const pct = p.expectedCost > 0 ? Math.min(100, Math.round((spent / p.expectedCost) * 100)) : 0;
-      const barClass = spent > p.expectedCost ? 'over' : (pct >= 80 ? 'warn' : '');
+      const fin = getProjectFinancials(p);
+      const basePool = fin.totalSponsorsContracted > 0 ? fin.totalSponsorsContracted : p.expectedCost;
+      const pct = basePool > 0 ? Math.min(100, Math.round((fin.totalExpenses / basePool) * 100)) : 0;
+      const barClass = fin.remainingFromTotalSponsors < 0 ? 'over' : (pct >= 80 ? 'warn' : '');
 
       projList.innerHTML += `
         <div class="list-item">
           <div class="list-row">
             <div>
               <div class="item-title">${p.name}</div>
-              <div class="item-sub">المتوقع: <span class="en-num">${formatMoney(p.expectedCost, p.currency)}</span></div>
+              <div class="item-sub">
+                📅 البداية: <strong class="en-num">${p.startDate || '-'}</strong> | النهاية: <strong class="en-num">${p.endDate || '-'}</strong>
+                <button class="btn-secondary" style="padding:2px 7px; font-size:0.68rem; margin-right:4px;" onclick="editProjectDates(${p.id})">تعديل التاريخ</button>
+              </div>
             </div>
             <div style="display:flex; gap:6px; align-items:center;">
               <select style="padding:4px 6px; font-size:0.75rem; width:auto;" onchange="changeProjectStatus(${p.id}, this.value)">
                 <option value="قيد التنفيذ" ${p.status==='قيد التنفيذ'?'selected':''}>قيد التنفيذ</option>
-                <option value="مكتمل" ${p.status==='مكتمل'?'selected':''}>مكتمل</option>
+                <option value="مكتمل (حساب ختامي)" ${p.status==='مكتمل (حساب ختامي)'?'selected':''}>مكتمل (حساب ختامي)</option>
                 <option value="متوقف" ${p.status==='متوقف'?'selected':''}>متوقف</option>
               </select>
               <button class="btn-danger" onclick="deleteItem('projects', ${p.id})">حذف</button>
             </div>
           </div>
+
+          <!-- Project Core Equation: Total Sponsorships - Expenses = Remaining -->
+          <div class="proj-mini-grid">
+            <div class="proj-mini-cell">
+              <small>رعايات المشروع الكلية</small>
+              <strong class="en-num" style="color:var(--accent-teal);">${formatMoney(fin.totalSponsorsContracted, p.currency)}</strong>
+            </div>
+            <div class="proj-mini-cell">
+              <small>مصاريف المشروع</small>
+              <strong class="en-num" style="color:var(--danger);">− ${formatMoney(fin.totalExpenses, p.currency)}</strong>
+            </div>
+            <div class="proj-mini-cell">
+              <small>المتبقي من الرعايات</small>
+              <strong class="en-num" style="color:${fin.remainingFromTotalSponsors < 0 ? 'var(--danger)' : 'var(--accent-teal)'};">${formatMoney(fin.remainingFromTotalSponsors, p.currency)}</strong>
+            </div>
+          </div>
+
           <div class="progress-wrap">
             <div class="progress-fill ${barClass}" style="width:${pct}%"></div>
           </div>
           <div class="proj-meta">
-            <span>المصروف: <b class="en-num">${formatMoney(spent, p.currency)}</b> (<span class="en-num">${pct}%</span>)</span>
-            <span style="color:${remaining < 0 ? 'var(--danger)' : 'var(--accent-teal)'}">
-              الباقي: <b class="en-num">${formatMoney(remaining, p.currency)}</b>
-            </span>
+            <span>الشركات الراعية: <b class="en-num">${fin.projSponsors.length}</b> (مقبوض: <b class="en-num">${formatMoney(fin.paidSponsors, p.currency)}</b>)</span>
+            <span>نسبة الصرف من الرعايات: <b class="en-num">${pct}%</b></span>
           </div>
+
           <div class="actions-row">
-            <button class="btn-voucher" onclick="viewProjectReport('${p.name.replace(/'/g, "\\'")}')">📊 تقرير المشروع التفصيلي</button>
+            <button class="btn-sm-warn" onclick="quickAddProjectExpense('${escAttr(p.name)}')">+ إضافة مصروف للمشروع</button>
+            <button class="btn-sm-success" onclick="viewProjectReport('${escAttr(p.name)}')">📊 الحسابات الختامية والتفصيل</button>
+            <button class="btn-voucher" onclick="openProjectFullA4('${escAttr(p.name)}')">🖨️ طباعة تقرير المشروع A4</button>
           </div>
         </div>
       `;
     });
     if (prevRepVal) repProjSelect.value = prevRepVal;
 
+    // Sponsors Section
     let spGrandUSD = 0, spPaidUSD = 0;
     let spGrandIQD = 0, spPaidIQD = 0;
 
@@ -2605,7 +2975,7 @@
                 <span class="pill tier-${s.tier}">${tierNames[s.tier]}</span>
                 <span class="pill status-${s.payStatus}">${statusLabels[s.payStatus]}</span>
               </div>
-              ${s.project ? `<div class="item-sub" style="margin-top:4px;">مشروع: ${s.project}</div>` : ''}
+              ${s.project ? `<div class="item-sub" style="margin-top:4px;">المشروع: <strong>${s.project}</strong></div>` : '<div class="item-sub" style="margin-top:4px;">رعاية عامة للمؤسسة</div>'}
               ${s.notes ? `<div class="item-sub">${s.notes}</div>` : ''}
             </div>
             <div style="text-align:left;">
@@ -2616,13 +2986,14 @@
           </div>
           <div class="actions-row">
             ${rem > 0 ? `<button class="btn-sm-success" onclick="recordSponsorPayment(${s.id})">+ تسجيل دفعة</button>` : ''}
-            <button class="btn-voucher" onclick="openEntityStatement('sponsor', '${s.name.replace(/'/g, "\\'")}')">📄 كشف حساب A4</button>
+            <button class="btn-voucher" onclick="openSponsorReportA4(${s.id})">🖨️ طباعة تقرير الرعاية A4</button>
             <button class="btn-danger" onclick="deleteItem('sponsors', ${s.id})">حذف</button>
           </div>
         </div>
       `;
     });
 
+    // Expenses Section
     const expList = document.getElementById('expensesList');
     const expenses = appData.transactions.filter(t => t.type === 'OUT');
     expList.innerHTML = expenses.length ? '' : '<div class="empty-msg">لا توجد مصاريف مسجلة</div>';
@@ -2634,7 +3005,8 @@
               <div class="badge-icon badge-minus">−</div>
               <div>
                 <div class="item-title">${e.title} <span class="item-sub en-num">#${e.voucherNo || e.id}</span></div>
-                <div class="item-sub">المستفيد: ${e.party || '-'} ${e.project ? '• مشروع: ' + e.project : ''}</div>
+                <div class="item-sub">المستفيد: <strong>${e.party || '-'}</strong> ${e.project ? '• مشروع: <strong>' + e.project + '</strong>' : '• مصروف عام'}</div>
+                ${e.details ? `<div class="item-sub" style="color:var(--text-main);">التفاصيل: ${e.details}</div>` : ''}
                 <div class="item-sub en-num">${e.date}</div>
               </div>
             </div>
@@ -2648,6 +3020,7 @@
       `;
     });
 
+    // Revenues Section
     document.getElementById('revTotalUSD').textContent = formatMoney(totals.inUSD, 'USD');
     document.getElementById('revTotalIQD').textContent = formatMoney(totals.inIQD, 'IQD');
     const revList = document.getElementById('revenuesList');
@@ -2661,7 +3034,7 @@
               <div class="badge-icon badge-plus">+</div>
               <div>
                 <div class="item-title">${r.title} <span class="item-sub en-num">#${r.voucherNo || r.id}</span></div>
-                <div class="item-sub">من: ${r.party || '-'} • ${r.category}</div>
+                <div class="item-sub">من: ${r.party || '-'} • ${r.category} ${r.project ? '• مشروع: ' + r.project : ''}</div>
                 <div class="item-sub en-num">${r.date}</div>
               </div>
             </div>
@@ -2675,6 +3048,7 @@
       `;
     });
 
+    // Employees Section
     const empList = document.getElementById('employeesList');
     empList.innerHTML = appData.employees.length ? '' : '<div class="empty-msg">لا يوجد موظفون مسجلون</div>';
     appData.employees.forEach(emp => {
@@ -2703,13 +3077,14 @@
             <button class="btn-sm-warn" onclick="adjustEmployee(${emp.id}, 'advance')">+ سلفة</button>
             <button class="btn-secondary" onclick="adjustEmployee(${emp.id}, 'bonus')">+ مكافأة</button>
             <button class="btn-secondary" onclick="adjustEmployee(${emp.id}, 'deduction')">− خصم</button>
-            <button class="btn-voucher" onclick="openEntityStatement('employee', '${emp.name.replace(/'/g, "\\'")}')">📄 كشف A4</button>
+            <button class="btn-voucher" onclick="openEntityStatement('employee', '${escAttr(emp.name)}')">📄 كشف A4</button>
             <button class="btn-danger" onclick="deleteItem('employees', ${emp.id})">حذف</button>
           </div>
         </div>
       `;
     });
 
+    // Accounts Section
     document.getElementById('accBoxUSD').textContent = formatMoney(totals.netUSD, 'USD');
     document.getElementById('accBoxIQD').textContent = formatMoney(totals.netIQD, 'IQD');
     const accList = document.getElementById('accountsList');
@@ -2750,60 +3125,92 @@
 
     const summaryBox = document.getElementById('projectReportSummary');
     const openProjBtn = document.getElementById('openProjA4Btn');
+    const tierNames = { diamond: 'الباقة الماسية', gold: 'الباقة الذهبية', silver: 'الباقة الفضية' };
 
     if (selectedProj !== 'ALL') {
       const projObj = appData.projects.find(p => p.name === selectedProj);
       if (projObj) {
-        const projSponsors = appData.sponsors.filter(s => s.project === projObj.name);
-        const projTxs = appData.transactions.filter(t => t.project === projObj.name && t.type !== 'XFER');
+        const fin = getProjectFinancials(projObj);
 
-        const spent = projTxs
-          .filter(t => t.type === 'OUT' && t.currency === projObj.currency)
-          .reduce((sum, t) => sum + Number(t.amount), 0);
-        const spRev = projSponsors
-          .filter(s => s.currency === projObj.currency)
-          .reduce((sum, s) => sum + Number(s.paidAmount), 0);
-        const rem = projObj.expectedCost - spent;
-        const netProj = spRev - spent;
+        document.getElementById('pRepStart').textContent = projObj.startDate || '-';
+        document.getElementById('pRepEnd').textContent = projObj.endDate || '-';
 
-        document.getElementById('pRepTotal').textContent = formatMoney(projObj.expectedCost, projObj.currency);
-        document.getElementById('pRepSpent').textContent = formatMoney(spent, projObj.currency);
-        document.getElementById('pRepRem').textContent = formatMoney(rem, projObj.currency);
-        document.getElementById('pRepRem').style.color = rem < 0 ? 'var(--danger)' : 'var(--accent-teal)';
-        document.getElementById('pRepSponsors').textContent = formatMoney(spRev, projObj.currency);
-        document.getElementById('pRepNet').textContent = formatMoney(netProj, projObj.currency);
-        document.getElementById('pRepNet').style.color = netProj >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
+        document.getElementById('pRepTotalSponsors').textContent = formatMoney(fin.totalSponsorsContracted, projObj.currency);
+        document.getElementById('pRepPaidSponsors').textContent = formatMoney(fin.paidSponsors, projObj.currency);
 
-        document.getElementById('pRepSponsorsCount').textContent = projSponsors.length + ' شركة';
+        document.getElementById('pRepSpent').textContent = formatMoney(fin.totalExpenses, projObj.currency);
+        document.getElementById('pRepExpCount').textContent = fin.projExpenses.length;
+
+        const remEl = document.getElementById('pRepRemFromSponsors');
+        remEl.textContent = formatMoney(fin.remainingFromTotalSponsors, projObj.currency);
+        remEl.style.color = fin.remainingFromTotalSponsors >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
+        document.getElementById('pRepCashRem').textContent = formatMoney(fin.actualCashRemaining, projObj.currency);
+
+        // Detailed Project Sponsors List
+        document.getElementById('pRepSponsorsCount').textContent = fin.projSponsors.length + ' شركة';
         const spBox = document.getElementById('pRepSponsorsList');
-        spBox.innerHTML = projSponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية لهذا المشروع</div>';
-        projSponsors.forEach(s => {
+        spBox.innerHTML = fin.projSponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية لهذا المشروع</div>';
+        fin.projSponsors.forEach(s => {
+          const spRem = s.totalAmount - s.paidAmount;
           spBox.innerHTML += `
-            <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:5px 0; border-bottom:1px solid var(--divider-color);">
-              <div><b>${s.name}</b> <span class="item-sub">(${s.tier})</span></div>
-              <div class="en-num" style="color:var(--accent-teal); font-weight:700;">مدفوع: ${formatMoney(s.paidAmount, s.currency)} / ${formatMoney(s.totalAmount, s.currency)}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:0.8rem; padding:8px 0; border-bottom:1px solid var(--divider-color);">
+              <div>
+                <div><b>${s.name}</b> <span class="item-sub">(${tierNames[s.tier] || s.tier})</span></div>
+                <div class="item-sub">المدفوع: <span class="en-num">${formatMoney(s.paidAmount, s.currency)}</span> | المتبقي: <span class="en-num">${formatMoney(spRem, s.currency)}</span></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="en-num" style="color:var(--accent-teal); font-weight:800;">${formatMoney(s.totalAmount, s.currency)}</span>
+                <button class="btn-voucher" onclick="openSponsorReportA4(${s.id})">🖨️ تقرير الرعاية</button>
+              </div>
             </div>
           `;
         });
 
-        document.getElementById('pRepTxCount').textContent = projTxs.length + ' حركة';
+        // Detailed Project Expenses List
+        document.getElementById('pRepTxCount').textContent = fin.projExpenses.length + ' مصروف';
         const txBox = document.getElementById('pRepTxList');
-        txBox.innerHTML = projTxs.length ? '' : '<div class="empty-msg">لا توجد مصاريف أو حركات لهذا المشروع</div>';
-        projTxs.forEach(t => {
-          const isPlus = t.type === 'IN';
+        txBox.innerHTML = fin.projExpenses.length ? '' : '<div class="empty-msg">لا توجد مصاريف مسجلة لهذا المشروع</div>';
+        fin.projExpenses.forEach(t => {
           txBox.innerHTML += `
-            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; padding:6px 0; border-bottom:1px solid var(--divider-color);">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:0.8rem; padding:8px 0; border-bottom:1px solid var(--divider-color);">
               <div>
                 <div><b>${t.title}</b> <span class="item-sub en-num">#${t.voucherNo || t.id}</span></div>
+                <div class="item-sub">المستفيد: ${t.party || '-'} ${t.details ? '• ' + t.details : ''}</div>
                 <div class="item-sub en-num">${t.date}</div>
               </div>
               <div style="text-align:left;">
-                <div class="en-num ${isPlus ? 'amt-plus' : 'amt-minus'}" style="font-weight:700;">${isPlus ? '+' : '-'}${formatMoney(t.amount, t.currency)}</div>
-                <button class="btn-voucher" style="margin-top:3px;" onclick="openVoucher(${t.id})">سند A4</button>
+                <div class="en-num amt-minus" style="font-weight:800;">-${formatMoney(t.amount, t.currency)}</div>
+                <button class="btn-voucher" style="margin-top:4px;" onclick="openVoucher(${t.id})">🧾 سند صرف A4</button>
               </div>
             </div>
           `;
         });
+
+        // Final Closing Summary Box
+        document.getElementById('pRepFinalClosing').innerHTML = `
+          <h4>📑 الحسابات الختامية للمشروع (${projObj.name})</h4>
+          <div class="closing-line">
+            <span>إجمالي رعايات المشروع الكلية:</span>
+            <strong class="en-num" style="color:var(--accent-teal);">${formatMoney(fin.totalSponsorsContracted, projObj.currency)}</strong>
+          </div>
+          <div class="closing-line">
+            <span>يُطرح منه: مصاريف المشروع التفصيلية الكلية:</span>
+            <strong class="en-num" style="color:var(--danger);">− ${formatMoney(fin.totalExpenses, projObj.currency)}</strong>
+          </div>
+          <div class="closing-line">
+            <span>المتبقي الفعلي في صندوق المشروع (المقبوض − المصاريف):</span>
+            <strong class="en-num">${formatMoney(fin.actualCashRemaining, projObj.currency)}</strong>
+          </div>
+          ${fin.unpaidSponsors > 0 ? `
+          <div class="closing-line">
+            <span>ذمم رعايات غير مقبوضة بعد:</span>
+            <strong class="en-num" style="color:var(--warning);">${formatMoney(fin.unpaidSponsors, projObj.currency)}</strong>
+          </div>` : ''}
+          <div class="closing-line">
+            <span>صافي المتبقي النهائي من رعايات المشروع:</span>
+            <strong class="en-num" style="color:${fin.remainingFromTotalSponsors >= 0 ? 'var(--accent-teal)' : 'var(--danger)'};">${formatMoney(fin.remainingFromTotalSponsors, projObj.currency)}</strong>
+          </div>
+        `;
 
         summaryBox.style.display = 'block';
         openProjBtn.style.display = 'inline-block';
@@ -2822,7 +3229,7 @@
       if (currentReportFilter === 'IQD' && t.currency !== 'IQD') return false;
 
       if (query) {
-        const hay = `${t.voucherNo || ''} ${t.party || ''} ${t.title} ${t.category} ${t.project || ''}`.toLowerCase();
+        const hay = `${t.voucherNo || ''} ${t.party || ''} ${t.title} ${t.details || ''} ${t.category} ${t.project || ''}`.toLowerCase();
         if (!hay.includes(query)) return false;
       }
 
@@ -2849,6 +3256,7 @@
               <div>
                 <div class="item-title">${t.title} <span class="item-sub en-num">#${t.voucherNo || t.id}</span></div>
                 <div class="item-sub">${t.party || '-'} ${t.project ? '• مشروع: ' + t.project : ''}</div>
+                ${t.details ? `<div class="item-sub">${t.details}</div>` : ''}
                 <div class="item-sub en-num">${t.date}</div>
               </div>
             </div>
