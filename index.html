@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>مؤسسة اليم للتنمية المستدامة - النظام المحاسبي المتكامل (وضع أوفلاين)</title>
+  <title>مؤسسة اليم للتنمية المستدامة - النظام المحاسبي المتكامل (أوفلاين + مزامنة)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -95,29 +95,300 @@
       padding: 20px;
     }
 
-    /* PIN Lock Screen */
-    #pinLockScreen {
+    /* ============================================================
+       LOGIN SCREEN (ADMIN & ACCOUNTANT)
+       ============================================================ */
+    #loginScreen {
       position: fixed;
       inset: 0;
-      background: #0b0f1a;
-      z-index: 9999;
-      display: none;
-      flex-direction: column;
+      background: linear-gradient(145deg, #0b1120 0%, #172554 55%, #0f172a 100%);
+      z-index: 10000;
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 18px;
+      overflow-y: auto;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+      border: 1px solid #e2e8f0;
       text-align: center;
     }
 
-    .pin-dots { display: flex; gap: 14px; margin: 22px 0; }
-    .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--accent-teal); }
-    .pin-dot.filled { background: var(--accent-teal); }
-    .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 14px; direction: ltr; }
-    .pin-key {
-      width: 72px; height: 72px; border-radius: 50%;
-      background: #172035; border: 1px solid #23304d;
-      color: #fff; font-size: 1.4rem; font-weight: 700; cursor: pointer;
+    .login-logo {
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 12px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 7px;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.1);
     }
+
+    .login-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .login-sub {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .role-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+      background: #f1f5f9;
+      padding: 5px;
+      border-radius: 14px;
+    }
+
+    .role-tab {
+      border: none;
+      background: transparent;
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-tab.active {
+      background: #1e3a8a;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    }
+
+    .login-form-group {
+      text-align: right;
+      margin-bottom: 13px;
+    }
+
+    .login-form-group label {
+      color: #334155;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #0f172a;
+      font-size: 0.94rem;
+      direction: ltr;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .login-input:focus {
+      border-color: #0d9488;
+      background: #ffffff;
+    }
+
+    .login-error {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .login-submit-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0d9488, #1d4ed8);
+      color: #ffffff;
+      font-size: 0.98rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(13, 148, 136, 0.28);
+      transition: transform 0.15s;
+    }
+
+    .login-submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* ============================================================
+       ACCOUNTANT MOBILE-DEDICATED MODE
+       ============================================================ */
+    body.accountant-mobile-mode {
+      padding-bottom: 88px;
+    }
+
+    body.accountant-mobile-mode .container {
+      max-width: 470px;
+      margin: 0 auto;
+      padding: 14px 14px 20px;
+      min-height: 100vh;
+    }
+
+    body.accountant-mobile-mode .desktop-nav {
+      display: none !important;
+    }
+
+    body.accountant-mobile-mode .bottom-nav {
+      display: flex !important;
+      max-width: 470px;
+      margin: 0 auto;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -6px 22px rgba(15, 23, 42, 0.12);
+    }
+
+    body.accountant-mobile-mode .header {
+      padding: 6px 0 14px;
+      margin-bottom: 14px;
+    }
+
+    body.accountant-mobile-mode .org-title {
+      font-size: 1.04rem;
+    }
+
+    body.accountant-mobile-mode .org-sub-en {
+      display: none;
+    }
+
+    body.accountant-mobile-mode .balance-card {
+      padding: 18px 18px;
+      border-radius: 18px;
+    }
+
+    body.accountant-mobile-mode .balance-amount {
+      font-size: 1.65rem;
+    }
+
+    body.accountant-mobile-mode .rect-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    body.accountant-mobile-mode .squares-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    body.accountant-mobile-mode .square-card {
+      aspect-ratio: 1.35 / 1;
+      padding: 14px 10px;
+    }
+
+    body.accountant-mobile-mode .section-workspace {
+      display: block !important;
+    }
+
+    body.accountant-mobile-mode .drawer-body {
+      max-width: 470px;
+      padding: 14px 14px 40px;
+    }
+
+    body.accountant-mobile-mode .drawer-topbar {
+      max-width: 470px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 14px;
+    }
+
+    /* Role Badge, Sync Button & Logout Button in Header */
+    .user-role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(29, 78, 216, 0.12);
+      color: var(--brand-blue);
+      border: 1px solid rgba(29, 78, 216, 0.25);
+    }
+
+    body.accountant-mobile-mode .user-role-pill {
+      background: rgba(13, 148, 136, 0.14);
+      color: var(--accent-teal);
+      border-color: rgba(13, 148, 136, 0.3);
+    }
+
+    .sync-header-btn {
+      background: rgba(13, 148, 136, 0.14);
+      color: var(--accent-teal);
+      border: 1px solid rgba(13, 148, 136, 0.35);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .sync-header-btn:hover {
+      background: var(--accent-teal);
+      color: #ffffff;
+    }
+
+    .logout-btn {
+      background: rgba(220, 38, 38, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(220, 38, 38, 0.28);
+      padding: 6px 11px;
+      border-radius: 16px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .sync-status-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+    }
+
+    .sync-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-left: 6px;
+    }
+    .sync-dot.ready { background: var(--accent-teal); }
+    .sync-dot.unconfigured { background: var(--warning); }
+    .sync-dot.syncing { background: var(--brand-blue); }
 
     /* Header & Brand Logo */
     .header {
@@ -125,21 +396,21 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
       padding: 10px 0 20px;
       border-bottom: 1px solid var(--divider-color);
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
 
     .header-brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .brand-logo-box {
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       border-radius: 14px;
       background: var(--logo-badge-bg);
       border: 1px solid var(--card-border);
@@ -158,13 +429,13 @@
     }
 
     .org-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 900;
       line-height: 1.25;
     }
 
     .org-sub-en {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 700;
       letter-spacing: 0.6px;
       color: var(--text-muted);
@@ -176,7 +447,7 @@
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -189,9 +460,9 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 12px;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
@@ -207,19 +478,14 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      padding: 7px 13px;
+      padding: 6px 11px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .theme-toggle-btn:hover {
-      border-color: var(--accent-teal);
+      gap: 5px;
     }
 
     .currency-switcher {
@@ -227,12 +493,12 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 4px;
+      padding: 3px;
     }
 
     .currency-btn {
       border: none; background: transparent; color: var(--text-muted);
-      padding: 6px 16px; border-radius: 16px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      padding: 5px 13px; border-radius: 16px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
     }
     .currency-btn.active { background: var(--accent-teal); color: #ffffff; }
 
@@ -241,7 +507,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .balance-card {
@@ -257,41 +523,37 @@
     }
 
     .balance-right { display: flex; align-items: center; gap: 12px; }
-    .wallet-icon { width: 40px; height: 40px; fill: #2ee6c5; }
-    .balance-label { font-size: 1rem; font-weight: 800; color: #f8fafc; }
+    .wallet-icon { width: 38px; height: 38px; fill: #2ee6c5; }
+    .balance-label { font-size: 0.98rem; font-weight: 800; color: #f8fafc; }
     .balance-left { text-align: left; }
-    .balance-amount { font-size: 2rem; font-weight: 900; direction: ltr; display: block; color: #ffffff; }
-    .balance-sub { font-size: 0.8rem; color: #5eead4; font-weight: 700; }
+    .balance-amount { font-size: 1.95rem; font-weight: 900; direction: ltr; display: block; color: #ffffff; }
+    .balance-sub { font-size: 0.78rem; color: #5eead4; font-weight: 700; }
 
     .quick-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
       width: 100%;
     }
 
     .quick-btn {
-      padding: 15px 16px;
-      border-radius: 16px;
+      padding: 14px 12px;
+      border-radius: 15px;
       border: 1px solid var(--card-border);
       background: var(--card-bg);
       font-weight: 800;
-      font-size: 0.94rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
-      transition: transform 0.15s, border-color 0.2s;
     }
-    .quick-btn:hover { transform: translateY(-2px); }
     .quick-btn.in { border-color: rgba(13, 148, 136, 0.45); color: var(--accent-teal); background: rgba(13, 148, 136, 0.08); }
     .quick-btn.out { border-color: rgba(220, 38, 38, 0.4); color: var(--danger); background: rgba(220, 38, 38, 0.08); }
 
     /* MAIN MODULES LAYOUT */
-    .modules-wrapper {
-      margin-bottom: 12px;
-    }
+    .modules-wrapper { margin-bottom: 12px; }
 
     .rect-grid {
       display: grid;
@@ -304,18 +566,14 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 18px 20px;
+      padding: 16px 18px;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
       transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
     }
-
-    .rect-card:hover { transform: translateY(-2px); }
 
     .rect-card.rect-rev {
       border-color: rgba(13, 148, 136, 0.35);
@@ -327,19 +585,12 @@
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.12), var(--card-bg) 70%);
     }
 
-    .rect-card.active-tab { box-shadow: 0 0 0 2px var(--accent-teal); }
-    .rect-card.rect-exp.active-tab { box-shadow: 0 0 0 2px var(--danger); }
-
-    .rect-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .rect-info { display: flex; align-items: center; gap: 12px; }
 
     .rect-icon-box {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -349,29 +600,12 @@
     .rect-rev .rect-icon-box { background: rgba(13, 148, 136, 0.16); }
     .rect-exp .rect-icon-box { background: rgba(220, 38, 38, 0.16); }
 
-    .rect-rev .menu-icon { fill: var(--accent-teal); width: 26px; height: 26px; }
-    .rect-exp .menu-icon { fill: var(--danger); width: 26px; height: 26px; }
+    .rect-rev .menu-icon { fill: var(--accent-teal); width: 24px; height: 24px; }
+    .rect-exp .menu-icon { fill: var(--danger); width: 24px; height: 24px; }
 
-    .rect-title {
-      font-size: 1.02rem;
-      font-weight: 800;
-      color: var(--text-main);
-      display: block;
-    }
-
-    .rect-sub {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      display: block;
-      margin-top: 2px;
-    }
-
-    .rect-total {
-      font-size: 1.05rem;
-      font-weight: 800;
-      direction: ltr;
-      text-align: left;
-    }
+    .rect-title { font-size: 0.98rem; font-weight: 800; color: var(--text-main); display: block; }
+    .rect-sub { font-size: 0.74rem; color: var(--text-muted); display: block; margin-top: 2px; }
+    .rect-total { font-size: 1rem; font-weight: 800; direction: ltr; text-align: left; }
 
     .squares-grid {
       display: grid;
@@ -383,7 +617,7 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 20px 12px;
+      padding: 18px 12px;
       aspect-ratio: 1.35 / 1;
       text-align: center;
       cursor: pointer;
@@ -391,34 +625,25 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       transition: all 0.2s ease;
     }
 
-    .square-card:hover {
-      border-color: var(--accent-teal);
-      transform: translateY(-2px);
-    }
-
-    .square-card.active-tab {
-      border-color: var(--accent-teal);
-      background: rgba(13, 148, 136, 0.1);
-      box-shadow: 0 6px 18px rgba(13, 148, 136, 0.12);
-    }
+    .square-card:hover { border-color: var(--accent-teal); transform: translateY(-2px); }
 
     .square-icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
       background: rgba(13, 148, 136, 0.14);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .menu-icon { width: 24px; height: 24px; fill: var(--accent-teal); }
-    .menu-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); }
-    .square-count { font-size: 0.74rem; color: var(--text-muted); }
+    .menu-icon { width: 22px; height: 22px; fill: var(--accent-teal); }
+    .menu-title { font-size: 0.86rem; font-weight: 800; color: var(--text-main); }
+    .square-count { font-size: 0.72rem; color: var(--text-muted); }
 
     /* FULL-SCREEN SECONDARY POPUP MODAL */
     .drawer-backdrop {
@@ -442,9 +667,7 @@
 
     .secondary-drawer {
       width: 100vw;
-      max-width: 100vw;
       height: 100vh;
-      max-height: 100vh;
       background: var(--drawer-bg);
       display: flex;
       flex-direction: column;
@@ -455,25 +678,25 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 24px;
+      padding: 15px 22px;
       background: var(--card-bg);
       border-bottom: 1px solid var(--card-border);
       flex-shrink: 0;
-      gap: 12px;
+      gap: 10px;
     }
 
     .drawer-topbar-title {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 1.12rem;
+      gap: 8px;
+      font-size: 1.05rem;
       font-weight: 900;
     }
 
     .drawer-badge-tag {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      padding: 3px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
       background: rgba(13, 148, 136, 0.14);
       color: var(--accent-teal);
@@ -483,37 +706,31 @@
       background: rgba(220, 38, 38, 0.14);
       color: var(--danger);
       border: 1px solid rgba(220, 38, 38, 0.35);
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 10px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 800;
       cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .drawer-close-btn:hover {
-      background: var(--danger);
-      color: #fff;
     }
 
     .drawer-body {
       width: 100%;
       max-width: 1120px;
       margin: 0 auto;
-      padding: 22px 24px 44px;
+      padding: 20px 22px 44px;
       overflow-y: auto;
       flex: 1;
     }
 
     @media (min-width: 768px) {
-      body { padding-bottom: 30px; }
-      .bottom-nav { display: none; }
-      .desktop-nav { display: flex; }
+      body:not(.accountant-mobile-mode) { padding-bottom: 30px; }
+      body:not(.accountant-mobile-mode) .bottom-nav { display: none; }
+      body:not(.accountant-mobile-mode) .desktop-nav { display: flex; }
 
-      .squares-grid { grid-template-columns: repeat(4, 1fr); }
-      .square-card { aspect-ratio: 1.15 / 1; }
+      body:not(.accountant-mobile-mode) .squares-grid { grid-template-columns: repeat(4, 1fr); }
+      body:not(.accountant-mobile-mode) .square-card { aspect-ratio: 1.15 / 1; }
 
-      .section-workspace {
+      body:not(.accountant-mobile-mode) .section-workspace {
         display: grid;
         grid-template-columns: 360px 1fr;
         gap: 18px;
@@ -523,19 +740,18 @@
 
     @media (max-width: 600px) {
       .rect-grid { grid-template-columns: 1fr; }
-      .drawer-topbar { padding: 14px 16px; }
-      .drawer-body { padding: 16px 16px 36px; }
+      .drawer-topbar { padding: 13px 14px; }
+      .drawer-body { padding: 14px 14px 36px; }
     }
 
     .section { display: none; }
-    .section.active { display: block; animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .section.active { display: block; }
 
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
     }
-    .section-title { font-size: 1.04rem; font-weight: 800; color: var(--text-muted); }
+    .section-title { font-size: 1.02rem; font-weight: 800; color: var(--text-muted); }
 
     /* Forms */
     .form-card {
@@ -555,12 +771,17 @@
     }
     input:focus, select:focus, textarea:focus { border-color: var(--accent-teal); }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
     .btn-primary {
       width: 100%; padding: 12px; border: none; border-radius: 12px;
       background: linear-gradient(90deg, #2ee6c5, #22b8cf);
       color: #09111e; font-weight: 800; font-size: 0.92rem; cursor: pointer; margin-top: 4px;
+    }
+
+    .btn-sync-push {
+      width: 100%; padding: 11px; border: none; border-radius: 12px;
+      background: linear-gradient(90deg, #1d4ed8, #0d9488);
+      color: #ffffff; font-weight: 800; font-size: 0.88rem; cursor: pointer;
     }
 
     .btn-secondary {
@@ -617,12 +838,12 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 15px 16px;
+      padding: 14px 15px;
       margin-bottom: 12px;
     }
 
     .list-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-    .item-right { display: flex; align-items: center; gap: 12px; }
+    .item-right { display: flex; align-items: center; gap: 10px; }
 
     .badge-icon {
       width: 34px; height: 34px; border-radius: 50%;
@@ -633,9 +854,9 @@
     .badge-minus { background: rgba(220, 38, 38, 0.16); color: var(--danger); }
     .badge-xfer { background: rgba(107, 92, 231, 0.18); color: var(--voucher-text); }
 
-    .item-title { font-size: 0.96rem; font-weight: 800; margin-bottom: 3px; }
-    .item-sub { font-size: 0.77rem; color: var(--text-muted); line-height: 1.45; }
-    .item-amount { font-weight: 800; font-size: 0.98rem; direction: ltr; text-align: left; }
+    .item-title { font-size: 0.94rem; font-weight: 800; margin-bottom: 3px; }
+    .item-sub { font-size: 0.76rem; color: var(--text-muted); line-height: 1.45; }
+    .item-amount { font-weight: 800; font-size: 0.96rem; direction: ltr; text-align: left; }
     .amt-plus { color: var(--accent-teal); }
     .amt-minus { color: var(--danger); }
 
@@ -654,7 +875,7 @@
     .progress-fill { height: 100%; background: var(--accent-teal); transition: width 0.3s; }
     .progress-fill.warn { background: var(--warning); }
     .progress-fill.over { background: var(--danger); }
-    .proj-meta { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-muted); margin-top: 6px; flex-wrap: wrap; gap: 6px; }
+    .proj-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; flex-wrap: wrap; gap: 6px; }
 
     /* Pills */
     .pill { padding: 3px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 800; display: inline-block; margin-left: 4px; }
@@ -672,11 +893,10 @@
       background: var(--card-bg); border: 1px solid var(--card-border);
       border-radius: 14px; padding: 12px 10px; text-align: center;
     }
-    .stat-box small { color: var(--text-muted); font-size: 0.74rem; display: block; margin-bottom: 4px; }
-    .stat-box strong { font-size: 0.96rem; direction: ltr; display: block; }
-    .stat-box .sub-stat { font-size: 0.72rem; color: var(--text-muted); margin-top: 5px; line-height: 1.45; }
+    .stat-box small { color: var(--text-muted); font-size: 0.73rem; display: block; margin-bottom: 4px; }
+    .stat-box strong { font-size: 0.94rem; direction: ltr; display: block; }
+    .stat-box .sub-stat { font-size: 0.71rem; color: var(--text-muted); margin-top: 5px; line-height: 1.45; }
 
-    /* Project Mini Ledger & Sub-Sections */
     .proj-mini-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -688,8 +908,8 @@
       border: 1px solid var(--card-border);
       text-align: center;
     }
-    .proj-mini-cell small { display: block; font-size: 0.68rem; color: var(--text-muted); }
-    .proj-mini-cell strong { display: block; font-size: 0.84rem; margin-top: 2px; }
+    .proj-mini-cell small { display: block; font-size: 0.67rem; color: var(--text-muted); }
+    .proj-mini-cell strong { display: block; font-size: 0.82rem; margin-top: 2px; }
 
     .detail-subcard {
       background: var(--input-bg);
@@ -699,7 +919,7 @@
       margin-top: 10px;
     }
     .detail-subcard-title {
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 800;
       color: var(--accent-teal);
       margin-bottom: 8px;
@@ -716,7 +936,7 @@
       background: rgba(13, 148, 136, 0.08);
     }
     .final-closing-box h4 {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 900;
       color: var(--accent-teal);
       margin-bottom: 8px;
@@ -724,14 +944,14 @@
     .closing-line {
       display: flex;
       justify-content: space-between;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       padding: 5px 0;
       border-bottom: 1px dashed var(--divider-color);
     }
     .closing-line:last-child {
       border-bottom: none;
       padding-top: 8px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 900;
     }
 
@@ -744,7 +964,7 @@
     }
     .chip.active { background: var(--accent-teal); color: #ffffff; font-weight: 700; border-color: var(--accent-teal); }
 
-    /* Bottom Navigation (Mobile) */
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--nav-bg); border-top: 1px solid var(--card-border);
@@ -754,12 +974,12 @@
     .nav-btn {
       background: none; border: none; color: var(--text-muted);
       display: flex; flex-direction: column; align-items: center; gap: 4px;
-      font-size: 0.74rem; font-weight: 600; cursor: pointer;
+      font-size: 0.73rem; font-weight: 600; cursor: pointer;
     }
     .nav-btn svg { width: 22px; height: 22px; fill: currentColor; }
     .nav-btn.active { color: var(--accent-teal); }
 
-    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.86rem; padding: 14px; }
+    .empty-msg { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 14px; }
 
     /* A4 VOUCHER & STATEMENT MODAL */
     #voucherModal {
@@ -807,11 +1027,7 @@
       gap: 10px;
     }
 
-    .v-brand-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .v-brand-row { display: flex; align-items: center; gap: 12px; }
 
     .v-logo-wrap {
       width: 52px;
@@ -864,10 +1080,7 @@
       font-size: 0.85rem;
     }
 
-    .v-body-table th {
-      background: #f1f5f9;
-      font-weight: 800;
-    }
+    .v-body-table th { background: #f1f5f9; font-weight: 800; }
 
     .v-closing-table {
       width: 100%;
@@ -883,16 +1096,8 @@
       font-size: 0.92rem;
     }
 
-    .v-closing-table th {
-      background: #e2e8f0;
-      text-align: right;
-      width: 62%;
-    }
-
-    .v-closing-table td {
-      font-weight: 800;
-      text-align: left;
-    }
+    .v-closing-table th { background: #e2e8f0; text-align: right; width: 62%; }
+    .v-closing-table td { font-weight: 800; text-align: left; }
 
     .v-signatures {
       display: grid;
@@ -910,10 +1115,7 @@
       padding-top: 6px;
     }
 
-    @page {
-      size: A4 portrait;
-      margin: 12mm;
-    }
+    @page { size: A4 portrait; margin: 12mm; }
 
     @media print {
       body * { visibility: hidden; }
@@ -952,34 +1154,46 @@
 </head>
 <body>
 
-<!-- PIN Lock Screen -->
-<div id="pinLockScreen">
-  <div class="brand-logo-box" style="margin-bottom: 12px;">
-    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
-      <path d="M36 96V24L54 18V90L36 96Z" fill="#1e3a8a"/>
-      <path d="M54 18L84 28V96L54 90V18Z" fill="#2563eb"/>
-      <path d="M54 18L65 26V98L54 90V18Z" fill="#0f172a"/>
-      <polygon points="55,22 64,28 64,95 55,89" fill="#93c5fd" opacity="0.7"/>
-    </svg>
-  </div>
-  <h3 style="margin-bottom: 4px; color:#fff;">مؤسسة اليم للتنمية المستدامة</h3>
-  <p class="item-sub" id="pinHint">أدخل رمز الدخول المكون من <span class="en-num">4</span> أرقام</p>
-  <div class="pin-dots" id="pinDots">
-    <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
-  </div>
-  <div class="pin-pad">
-    <button class="pin-key" onclick="enterPin('1')">1</button>
-    <button class="pin-key" onclick="enterPin('2')">2</button>
-    <button class="pin-key" onclick="enterPin('3')">3</button>
-    <button class="pin-key" onclick="enterPin('4')">4</button>
-    <button class="pin-key" onclick="enterPin('5')">5</button>
-    <button class="pin-key" onclick="enterPin('6')">6</button>
-    <button class="pin-key" onclick="enterPin('7')">7</button>
-    <button class="pin-key" onclick="enterPin('8')">8</button>
-    <button class="pin-key" onclick="enterPin('9')">9</button>
-    <button class="pin-key" style="font-size:0.9rem;" onclick="clearPin()">مسح</button>
-    <button class="pin-key" onclick="enterPin('0')">0</button>
-    <button class="pin-key" style="font-size:0.9rem;" onclick="backspacePin()">⌫</button>
+<!-- ============================================================
+     LOGIN SCREEN (ADMIN & ACCOUNTANT)
+     ============================================================ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+        <polygon points="36,96 86,96 98,108 48,108" fill="#cbd5e1" opacity="0.6"/>
+        <path d="M36 96V24L54 18V90L36 96Z" fill="#0f172a"/>
+        <path d="M54 18L84 28V96L54 90V18Z" fill="#2563eb"/>
+        <path d="M54 18L65 26V98L54 90V18Z" fill="#172554"/>
+        <polygon points="55,22 64,28 64,95 55,89" fill="#93c5fd" opacity="0.75"/>
+      </svg>
+    </div>
+    <h2 class="login-title">مؤسسة اليم للتنمية المستدامة</h2>
+    <p class="login-sub">النظام المحاسبي المتكامل • أوفلاين + مزامنة</p>
+
+    <div class="role-selector">
+      <button type="button" class="role-tab active" id="roleTabAdmin" onclick="selectLoginRole('admin')">👔 دخول المدير</button>
+      <button type="button" class="role-tab" id="roleTabAccountant" onclick="selectLoginRole('accountant')">📱 دخول المحاسب</button>
+    </div>
+
+    <div id="loginRoleHint" style="font-size:0.76rem; color:#475569; margin-bottom:14px; background:#f8fafc; padding:8px 10px; border-radius:10px; border:1px solid #e2e8f0;">
+      صلاحيات كاملة لإدارة النظام وإضافة حسابات المحاسبين وإعداد المزامنة
+    </div>
+
+    <form onsubmit="handleLogin(event)">
+      <div class="login-form-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="loginEmail" class="login-input" placeholder="example@gmail.com" required autocomplete="username" />
+      </div>
+      <div class="login-form-group">
+        <label>الرقم السري</label>
+        <input type="password" id="loginPassword" class="login-input" placeholder="••••••••" required autocomplete="current-password" />
+      </div>
+
+      <div id="loginErrorMsg" class="login-error"></div>
+
+      <button type="submit" class="login-submit-btn" id="loginSubmitBtn">تسجيل الدخول كمدير ➔</button>
+    </form>
   </div>
 </div>
 
@@ -1001,7 +1215,7 @@
     <div class="drawer-topbar">
       <div class="drawer-topbar-title">
         <span id="drawerTitleText">القسم الثانوي</span>
-        <span class="drawer-badge-tag">ملء الشاشة • خزن داخلي</span>
+        <span class="drawer-badge-tag">خزن داخلي + مزامنة</span>
       </div>
       <button class="drawer-close-btn" onclick="closeSecondaryDrawer()">إغلاق ✕</button>
     </div>
@@ -1060,7 +1274,7 @@
       <div id="sec-sponsors" class="section">
         <div class="section-header">
           <h3 class="section-title">الشركات الراعية والباقات</h3>
-          <button class="btn-secondary" onclick="openSecondaryTab('settings')">تعديل الباقات</button>
+          <button class="btn-secondary admin-only-el" onclick="openSecondaryTab('settings')">تعديل الباقات</button>
         </div>
 
         <div class="stats-row">
@@ -1363,7 +1577,6 @@
           </select>
 
           <div id="projectReportSummary" style="display:none; margin-top:14px;">
-            <!-- Project Dates & Status Banner -->
             <div class="stats-row" style="margin-bottom:10px;">
               <div class="stat-box">
                 <small>تاريخ بداية المشروع</small>
@@ -1375,7 +1588,6 @@
               </div>
             </div>
 
-            <!-- Core Equation: Total Project Sponsorships - Project Expenses = Remaining -->
             <div class="stats-row-3">
               <div class="stat-box">
                 <small>رعايات المشروع الكلية</small>
@@ -1394,7 +1606,6 @@
               </div>
             </div>
 
-            <!-- Detailed Project Sponsors List with Individual Print Button -->
             <div class="detail-subcard">
               <div class="detail-subcard-title">
                 <span>🤝 الشركات الراعية للمشروع بالتفصيل</span>
@@ -1403,7 +1614,6 @@
               <div id="pRepSponsorsList"></div>
             </div>
 
-            <!-- Detailed Project Expenses List -->
             <div class="detail-subcard">
               <div class="detail-subcard-title">
                 <span>🧾 مصاريف المشروع بالتفصيل</span>
@@ -1412,7 +1622,6 @@
               <div id="pRepTxList"></div>
             </div>
 
-            <!-- Final Closing Accounts Card (الحسابات الختامية للمشروع) -->
             <div class="final-closing-box" id="pRepFinalClosing"></div>
           </div>
         </div>
@@ -1455,26 +1664,94 @@
         <div id="reportsList"></div>
       </div>
 
-      <!-- 8. SECTION: SETTINGS & BACKUP -->
+      <!-- 8. SECTION: SETTINGS, SYNC, ACCOUNTANT ACCOUNTS & BACKUP -->
       <div id="sec-settings" class="section">
         <div class="section-header">
-          <h3 class="section-title">الإعدادات والحماية والنسخ</h3>
+          <h3 class="section-title">الإعدادات، المزامنة وحسابات المحاسبين</h3>
         </div>
         <div class="section-workspace">
+          <!-- LEFT COLUMN: CLOUD SYNC + ACCOUNTANT ACCOUNTS + BACKUP -->
+          <div>
+            <!-- CLOUD SYNC CARD -->
+            <div class="form-card" style="border-color: rgba(13, 148, 136, 0.5);">
+              <p style="font-size: 0.9rem; font-weight: 800; color: var(--accent-teal); margin-bottom: 6px;">☁️ إعداد مزامنة الهاتف واللابتوب (مباشر)</p>
+              <p style="font-size: 0.74rem; color: var(--text-muted); margin-bottom: 10px; line-height:1.5;">
+                أدخل رمز مزامنة موحد (مثال: <b>alyam-2026</b>) في <b>اللابتوب والهاتف</b>، ثم اضغط <b>رفع إلى السحابة</b> من الهاتف و<b>سحب من السحابة</b> على اللابتوب.
+              </p>
+
+              <div class="form-group">
+                <label>رمز / مفتاح المزامنة المشترك</label>
+                <input type="text" id="syncRoomKeyInput" style="direction:ltr; text-align:left; font-weight:700;" placeholder="مثال: alyam-foundation-2026" />
+              </div>
+
+              <div class="form-group">
+                <label>مزود المزامنة (افتراضي مجاني فوري)</label>
+                <select id="syncProviderSelect">
+                  <option value="kvdb">مزامنة فورية عبر مفتاح الغرفة (KVDB)</option>
+                  <option value="custom_url">رابط خادم / Google Apps Script مخصص</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="customSyncUrlWrap" style="display:none;">
+                <label>رابط Endpoint المخصص</label>
+                <input type="url" id="customSyncUrlInput" style="direction:ltr; text-align:left;" placeholder="https://script.google.com/macros/s/.../exec" />
+              </div>
+
+              <button class="btn-secondary" style="width:100%; margin-bottom:8px;" onclick="saveSyncConfig()">💾 حفظ إعدادات المزامنة</button>
+
+              <div class="row-2">
+                <button class="btn-sync-push" onclick="syncPushToCloud()">⬆ رفع بياناتي (الهاتف ➔ السحابة)</button>
+                <button class="btn-primary" style="margin:0;" onclick="syncPullFromCloud()">⬇ سحب وتحديث (السحابة ➔ اللابتوب)</button>
+              </div>
+              <div id="settingsLastSyncText" style="font-size:0.72rem; color:var(--text-muted); margin-top:8px; text-align:center;">آخر مزامنة: لم تتم بعد</div>
+            </div>
+
+            <!-- ACCOUNTANT ACCOUNTS MANAGEMENT -->
+            <div class="form-card" style="border-color: rgba(29, 78, 216, 0.45);">
+              <p style="font-size: 0.9rem; font-weight: 800; color: var(--brand-blue); margin-bottom: 6px;">👤 إضافة حسابات دخول المحاسبين (واجهة الهاتف)</p>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px;">عند تسجيل دخول المحاسب بهذا البريد والرقم السري، يفتح له النظام بتصميم مخصص للهاتف المحمول.</p>
+
+              <div class="form-group">
+                <label>اسم المحاسب</label>
+                <input type="text" id="newAccName" placeholder="مثال: علي حسين - محاسب المشاريع" />
+              </div>
+              <div class="form-group">
+                <label>البريد الإلكتروني للمحاسب</label>
+                <input type="email" id="newAccEmail" style="direction:ltr; text-align:left;" placeholder="accountant@alyam.org" />
+              </div>
+              <div class="form-group">
+                <label>الرقم السري للمحاسب</label>
+                <input type="text" id="newAccPass" style="direction:ltr; text-align:left;" placeholder="أدخل الرقم السري" />
+              </div>
+              <button class="btn-primary" onclick="addAccountantUser()">+ إضافة حساب محاسب</button>
+
+              <hr style="border-color: var(--card-border); margin: 14px 0;">
+              <p style="font-size: 0.82rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">قائمة حسابات المحاسبين المسجلة:</p>
+              <div id="accountantUsersList"></div>
+            </div>
+
+            <div class="form-card">
+              <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات (ملف JSON)</p>
+              <div class="row-2">
+                <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
+                <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
+                  ⬆ استيراد نسخة
+                  <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: GENERAL & PACKAGES SETTINGS -->
           <div class="form-card">
+            <p style="font-size: 0.88rem; font-weight: 800; color: var(--accent-teal); margin-bottom: 10px;">⚙️ إعدادات المؤسسة والباقات</p>
             <div class="form-group">
               <label>اسم المؤسسة</label>
               <input type="text" id="setOrgName" value="مؤسسة اليم للتنمية المستدامة" />
             </div>
-            <div class="row-2">
-              <div class="form-group">
-                <label>سعر صرف 100$ بالدينار</label>
-                <input type="number" id="setExchangeRate" value="150000" />
-              </div>
-              <div class="form-group">
-                <label>رمز قفل PIN (4 أرقام)</label>
-                <input type="password" maxlength="4" inputmode="numeric" id="setPinCode" placeholder="بدون قفل" />
-              </div>
+            <div class="form-group">
+              <label>سعر صرف 100$ بالدينار</label>
+              <input type="number" id="setExchangeRate" value="150000" />
             </div>
 
             <hr style="border-color: var(--card-border); margin: 14px 0;">
@@ -1515,17 +1792,6 @@
 
             <button class="btn-primary" onclick="saveSettings()">حفظ الإعدادات</button>
           </div>
-
-          <div class="form-card">
-            <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 10px;">النسخ الاحتياطي واستعادة البيانات</p>
-            <div class="row-2">
-              <button class="btn-secondary" onclick="exportBackup()">⬇ تصدير نسخة (JSON)</button>
-              <label class="btn-secondary" style="text-align:center; margin:0; cursor:pointer;">
-                ⬆ استيراد نسخة
-                <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)" />
-              </label>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -1548,29 +1814,49 @@
       </div>
       <div>
         <div class="org-title" id="displayOrgName">مؤسسة اليم للتنمية المستدامة</div>
-        <div class="org-sub-en" id="displayOrgSubEn">AL-YAM FOUNDATION FOR SUSTAINABLE DEVELOPMENT</div>
+        <div class="org-sub-en">AL-YAM FOUNDATION FOR SUSTAINABLE DEVELOPMENT</div>
       </div>
     </div>
 
     <div class="header-controls">
-      <!-- Desktop Navigation -->
-      <div class="desktop-nav">
+      <span class="user-role-pill" id="activeRoleBadge">👔 المدير</span>
+
+      <button class="sync-header-btn" id="headerSyncBtn" onclick="quickSyncAction()">
+        <span>🔄</span>
+        <span id="headerSyncLabel">مزامنة</span>
+      </button>
+
+      <div class="desktop-nav" id="desktopNavBar">
         <button class="d-nav-btn active" onclick="closeSecondaryDrawer(); setActiveNav(this)">الرئيسية</button>
         <button class="d-nav-btn" onclick="openSecondaryTab('reports', this)">التقارير والحسابات الختامية</button>
         <button class="d-nav-btn" onclick="openSecondaryTab('employees', this)">الموظفين</button>
-        <button class="d-nav-btn" onclick="openSecondaryTab('settings', this)">الإعدادات</button>
+        <button class="d-nav-btn admin-only-el" onclick="openSecondaryTab('settings', this)">الإعدادات والمزامنة</button>
       </div>
 
-      <!-- Theme Switcher -->
       <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
-        <span id="themeIcon">☀️</span>
-        <span id="themeLabel">الوضع النهاري</span>
+        <span id="themeIcon">🌙</span>
+        <span id="themeLabel">الوضع الليلي</span>
       </button>
 
       <div class="currency-switcher">
         <button class="currency-btn active" id="btnUSD" onclick="setDisplayCurrency('USD')">دولار ($)</button>
         <button class="currency-btn" id="btnIQD" onclick="setDisplayCurrency('IQD')">دينار (د.ع)</button>
       </div>
+
+      <button class="logout-btn" onclick="logoutUser()">خروج ⏻</button>
+    </div>
+  </div>
+
+  <!-- Sync Status Bar -->
+  <div class="sync-status-banner">
+    <div style="display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
+      <span class="sync-dot unconfigured" id="syncStatusDot"></span>
+      <strong id="syncStatusTitle">خزن داخلي نشط</strong>
+      <span style="color:var(--text-muted);" id="syncStatusDetail">• لم يتم ضبط رمز مزامنة بعد</span>
+    </div>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <button class="btn-sm-success" onclick="quickSyncAction()">مزامنة الآن</button>
+      <button class="btn-secondary admin-only-el" style="padding:4px 9px; font-size:0.72rem;" onclick="openSecondaryTab('settings')">إعداد المزامنة</button>
     </div>
   </div>
 
@@ -1583,7 +1869,7 @@
         </svg>
         <div>
           <span class="balance-label">صافي الصندوق المالي</span>
-          <div style="font-size:0.75rem; color:#e2e8f0; margin-top:2px;">الصندوق الرئيس • خزن داخلي</div>
+          <div style="font-size:0.74rem; color:#e2e8f0; margin-top:2px;">الصندوق الرئيس • خزن داخلي</div>
         </div>
       </div>
       <div class="balance-left">
@@ -1641,7 +1927,7 @@
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-5zm0 10.99h6c-.53 4.12-3.28 7.79-6 8.94V13H6V8.3l6-3.75v8.44z"/></svg>
         </div>
-        <span class="menu-title">الشركات الراعية</span>
+        <span class="square-title">الشركات الراعية</span>
         <span class="square-count en-num" id="sqSponsorCount">0 شركات</span>
       </div>
 
@@ -1649,7 +1935,7 @@
         <div class="square-icon-box">
           <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         </div>
-        <span class="menu-title">الموظفين</span>
+        <span class="square-title">الموظفين</span>
         <span class="square-count en-num" id="sqEmpCount">0 موظفين</span>
       </div>
 
@@ -1664,7 +1950,7 @@
   </div>
 </div>
 
-<!-- Bottom Navigation Bar (Mobile) -->
+<!-- Bottom Navigation Bar -->
 <div class="bottom-nav">
   <button class="nav-btn active" onclick="closeSecondaryDrawer(); setActiveNav(this)">
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -1674,18 +1960,108 @@
     <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
     <span>التقارير</span>
   </button>
-  <button class="nav-btn" onclick="openSecondaryTab('employees', this)">
-    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-    <span>الموظفين</span>
+  <button class="nav-btn" onclick="quickSyncAction()">
+    <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+    <span>مزامنة</span>
   </button>
-  <button class="nav-btn" onclick="openSecondaryTab('settings', this)">
+  <button class="nav-btn admin-only-el" onclick="openSecondaryTab('settings', this)">
     <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
     <span>الإعدادات</span>
   </button>
 </div>
 
 <script>
-  const STORAGE_KEY = 'alyam_accounting_offline_v7';
+  const ADMIN_EMAIL = 'Alyam.iraq@gmail.com';
+  const ADMIN_PASS  = '19801980';
+
+  const STORAGE_KEY = 'alyam_accounting_offline_v9';
+  const SESSION_KEY = 'alyam_active_session_v9';
+
+  let selectedLoginRole = 'admin';
+  let currentSession = null;
+
+  function selectLoginRole(role) {
+    selectedLoginRole = role;
+    document.getElementById('roleTabAdmin').classList.toggle('active', role === 'admin');
+    document.getElementById('roleTabAccountant').classList.toggle('active', role === 'accountant');
+
+    const hintEl = document.getElementById('loginRoleHint');
+    const btnEl = document.getElementById('loginSubmitBtn');
+    document.getElementById('loginErrorMsg').style.display = 'none';
+
+    if (role === 'admin') {
+      hintEl.textContent = 'صلاحيات كاملة لإدارة النظام وإضافة حسابات المحاسبين وإعداد المزامنة';
+      btnEl.textContent = 'تسجيل الدخول كمدير ➔';
+    } else {
+      hintEl.textContent = 'واجهة مخصصة للهاتف المحمول لتسجيل الحركات ومزامنتها مع اللابتوب';
+      btnEl.textContent = 'تسجيل الدخول كمحاسب 📱';
+    }
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const emailInput = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const passInput = toEnDigits(document.getElementById('loginPassword').value.trim());
+    const errBox = document.getElementById('loginErrorMsg');
+
+    if (selectedLoginRole === 'admin') {
+      if (emailInput === ADMIN_EMAIL.toLowerCase() && passInput === ADMIN_PASS) {
+        currentSession = { role: 'admin', name: 'المدير العام', email: ADMIN_EMAIL };
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(currentSession));
+        errBox.style.display = 'none';
+        applySessionUI();
+      } else {
+        errBox.textContent = 'البريد الإلكتروني أو الرقم السري للمدير غير صحيح';
+        errBox.style.display = 'block';
+      }
+    } else {
+      const accList = appData.accountantUsers || [];
+      const found = accList.find(
+        u => u.email.trim().toLowerCase() === emailInput && toEnDigits(u.password) === passInput
+      );
+      if (found) {
+        currentSession = { role: 'accountant', name: found.name, email: found.email };
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(currentSession));
+        errBox.style.display = 'none';
+        applySessionUI();
+      } else {
+        errBox.textContent = accList.length === 0
+          ? 'لا يوجد حساب محاسب مضاف بعد. يجب إضافته من لوحة المدير (الإعدادات).'
+          : 'بيانات دخول المحاسب غير صحيحة، تأكد من البريد والرقم السري.';
+        errBox.style.display = 'block';
+      }
+    }
+  }
+
+  function applySessionUI() {
+    if (!currentSession) {
+      document.getElementById('loginScreen').style.display = 'flex';
+      return;
+    }
+
+    document.getElementById('loginScreen').style.display = 'none';
+    const isAccountant = currentSession.role === 'accountant';
+
+    document.body.classList.toggle('accountant-mobile-mode', isAccountant);
+
+    const badge = document.getElementById('activeRoleBadge');
+    badge.textContent = isAccountant ? `📱 المحاسب: ${currentSession.name}` : '👔 المدير العام';
+
+    document.querySelectorAll('.admin-only-el').forEach(el => {
+      el.style.display = isAccountant ? 'none' : '';
+    });
+
+    renderAll();
+  }
+
+  function logoutUser() {
+    if (!confirm('هل تريد تسجيل الخروج من النظام؟')) return;
+    currentSession = null;
+    sessionStorage.removeItem(SESSION_KEY);
+    closeSecondaryDrawer();
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginScreen').style.display = 'flex';
+  }
 
   const tabTitles = {
     revenues: 'الإيرادات الكلية (سندات القبض)',
@@ -1695,10 +2071,14 @@
     employees: 'الموظفين والرواتب والسلف',
     accounts: 'الحسابات والتحويل وتصريف العملة',
     reports: 'التقارير والحسابات الختامية للمشاريع',
-    settings: 'الإعدادات والحماية والنسخ'
+    settings: 'الإعدادات، المزامنة وحسابات المحاسبين'
   };
 
   function openSecondaryTab(tabName, navEl, cardEl) {
+    if (tabName === 'settings' && currentSession && currentSession.role !== 'admin') {
+      return alert('قسم الإعدادات وإضافة الحسابات مخصص للمدير فقط.');
+    }
+
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('sec-' + tabName);
     if (target) target.classList.add('active');
@@ -1788,10 +2168,16 @@
     theme: 'light',
     displayCurrency: 'USD',
     voucherSeq: 1004,
+    accountantUsers: [],
+    syncConfig: {
+      roomKey: '',
+      provider: 'kvdb',
+      customUrl: '',
+      lastSyncAt: ''
+    },
     settings: {
       orgName: 'مؤسسة اليم للتنمية المستدامة',
       rate100: 150000,
-      pin: '',
       tiers: {
         diamond: { USD: 5000, IQD: 7500000 },
         gold: { USD: 3000, IQD: 4500000 },
@@ -1840,12 +2226,17 @@
 
   function loadLocalData() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('alyam_accounting_offline_v6') || localStorage.getItem('alyam_accounting_v5');
+      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('alyam_accounting_offline_v8') || localStorage.getItem('alyam_accounting_offline_v7');
       if (!saved) return structuredClone(defaultState);
       const parsed = JSON.parse(saved);
       const merged = {
         ...structuredClone(defaultState),
         ...parsed,
+        accountantUsers: parsed.accountantUsers || [],
+        syncConfig: {
+          ...structuredClone(defaultState.syncConfig),
+          ...(parsed.syncConfig || {})
+        },
         settings: {
           ...structuredClone(defaultState.settings),
           ...(parsed.settings || {}),
@@ -1855,7 +2246,6 @@
           }
         }
       };
-      // Migrate projects to include startDate and endDate if missing
       merged.projects = (merged.projects || []).map(p => ({
         startDate: p.startDate || p.date || todayISO(),
         endDate: p.endDate || addDaysISO(p.startDate || p.date || todayISO(), 60),
@@ -1870,7 +2260,6 @@
   let appData = loadLocalData();
   if (!appData.theme) appData.theme = 'light';
   let currentReportFilter = 'ALL';
-  let enteredPin = '';
   let lastShareText = '';
 
   function applyTheme() {
@@ -1888,45 +2277,228 @@
   function saveData() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-      localStorage.setItem('alyam_accounting_offline_v6', JSON.stringify(appData));
+      localStorage.setItem('alyam_accounting_offline_v8', JSON.stringify(appData));
     } catch (e) {
       alert('تعذر الحفظ في التخزين الداخلي للمتصفح.');
     }
     renderAll();
   }
 
-  function nextVoucherNo() {
-    appData.voucherSeq = (appData.voucherSeq || 1000) + 1;
-    return appData.voucherSeq;
+  // ============================================================
+  // SYNC ENGINE (PHONE <-> LAPTOP)
+  // ============================================================
+  function getSyncEndpoint() {
+    const cfg = appData.syncConfig || {};
+    if (cfg.provider === 'custom_url' && cfg.customUrl) {
+      return cfg.customUrl.trim();
+    }
+    const cleanKey = encodeURIComponent((cfg.roomKey || '').trim());
+    return `https://kvdb.io/api/v1/buckets/alyam_sync_v1/keys/${cleanKey}`;
   }
 
-  function checkPinLock() {
-    if (appData.settings.pin && appData.settings.pin.length === 4) {
-      document.getElementById('pinLockScreen').style.display = 'flex';
+  function saveSyncConfig() {
+    if (!currentSession || currentSession.role !== 'admin') return;
+    const roomKey = document.getElementById('syncRoomKeyInput').value.trim();
+    const provider = document.getElementById('syncProviderSelect').value;
+    const customUrl = document.getElementById('customSyncUrlInput').value.trim();
+
+    if (provider === 'kvdb' && !roomKey) {
+      return alert('يرجى إدخال رمز / مفتاح مزامنة مشترك (مثال: alyam-2026)');
+    }
+    if (provider === 'custom_url' && !customUrl) {
+      return alert('يرجى إدخال رابط الخادم أو Google Apps Script');
+    }
+
+    appData.syncConfig = {
+      ...(appData.syncConfig || {}),
+      roomKey,
+      provider,
+      customUrl
+    };
+    saveData();
+    alert('تم حفظ إعدادات المزامنة. استخدم نفس الرمز في الهاتف واللابتوب.');
+  }
+
+  function setSyncVisualState(mode, msg) {
+    const dot = document.getElementById('syncStatusDot');
+    const title = document.getElementById('syncStatusTitle');
+    const detail = document.getElementById('syncStatusDetail');
+    dot.className = 'sync-dot ' + mode;
+    if (mode === 'syncing') {
+      title.textContent = 'جاري المزامنة...';
+      detail.textContent = '• ' + (msg || 'يرجى الانتظار');
+    } else if (mode === 'ready') {
+      title.textContent = 'المزامنة جاهزة';
+      detail.textContent = '• ' + (msg || `الرمز: ${appData.syncConfig.roomKey}`);
+    } else {
+      title.textContent = 'خزن داخلي نشط';
+      detail.textContent = '• اضبط رمز المزامنة من الإعدادات أو استخدم ملف JSON';
     }
   }
-  function enterPin(num) {
-    if (enteredPin.length < 4) {
-      enteredPin += num;
-      updatePinDots();
-      if (enteredPin.length === 4) {
-        if (enteredPin === appData.settings.pin) {
-          document.getElementById('pinLockScreen').style.display = 'none';
-          enteredPin = '';
-        } else {
-          document.getElementById('pinHint').textContent = 'رمز خاطئ، حاول مرة أخرى';
-          document.getElementById('pinHint').style.color = '#ff5c75';
-          setTimeout(() => { enteredPin = ''; updatePinDots(); }, 350);
-        }
+
+  async function syncPushToCloud(silent = false) {
+    const cfg = appData.syncConfig || {};
+    if (!cfg.roomKey && cfg.provider !== 'custom_url') {
+      if (!silent) alert('يرجى ضبط رمز المزامنة أولاً من قسم الإعدادات.');
+      return;
+    }
+
+    const endpoint = getSyncEndpoint();
+    setSyncVisualState('syncing', 'جاري رفع البيانات من هذا الجهاز...');
+
+    const payload = {
+      syncedAt: getNowEnString(),
+      byUser: currentSession ? `${currentSession.name} (${currentSession.role})` : 'system',
+      data: {
+        voucherSeq: appData.voucherSeq,
+        accountantUsers: appData.accountantUsers,
+        settings: appData.settings,
+        projects: appData.projects,
+        sponsors: appData.sponsors,
+        employees: appData.employees,
+        transactions: appData.transactions,
+        accounts: appData.accounts
+      }
+    };
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      appData.syncConfig.lastSyncAt = getNowEnString();
+      saveData();
+      setSyncVisualState('ready', `تم الرفع (${appData.syncConfig.lastSyncAt})`);
+      if (!silent) alert('تم رفع وتحديث بياناتك بنجاح! يمكنك الآن سحبها على اللابتوب.');
+    } catch (err) {
+      setSyncVisualState('unconfigured', 'تعذر الاتصال بالسحابة - بياناتك محفوظة محلياً');
+      if (!silent) {
+        alert('تعذرت المزامنة السحابية المباشرة الآن (تحقق من الإنترنت أو استخدم تصدير/استيراد ملف JSON).');
       }
     }
   }
-  function backspacePin() { enteredPin = enteredPin.slice(0, -1); updatePinDots(); }
-  function clearPin() { enteredPin = ''; updatePinDots(); }
-  function updatePinDots() {
-    document.querySelectorAll('#pinDots .pin-dot').forEach((dot, idx) => {
-      dot.classList.toggle('filled', idx < enteredPin.length);
+
+  async function syncPullFromCloud(silent = false) {
+    const cfg = appData.syncConfig || {};
+    if (!cfg.roomKey && cfg.provider !== 'custom_url') {
+      if (!silent) alert('يرجى ضبط رمز المزامنة أولاً من قسم الإعدادات.');
+      return;
+    }
+
+    const endpoint = getSyncEndpoint();
+    setSyncVisualState('syncing', 'جاري سحب أحدث البيانات...');
+
+    try {
+      const res = await fetch(endpoint, { method: 'GET', cache: 'no-store' });
+      if (res.status === 404) {
+        setSyncVisualState('ready', 'لا توجد بيانات مرفوعة بعد لهذا الرمز');
+        if (!silent) alert('لا توجد نسخة مرفوعة بعد بهذا الرمز. ارفع البيانات أولاً من الهاتف.');
+        return;
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      const remote = await res.json();
+      const d = remote && remote.data ? remote.data : remote;
+      if (!d || !Array.isArray(d.transactions)) {
+        throw new Error('Invalid payload');
+      }
+
+      if (!silent && !confirm(`تم العثور على نسخة محدثة (${remote.syncedAt || 'حديثة'}).\nهل تريد تحديث بيانات هذا الجهاز بها؟`)) {
+        setSyncVisualState('ready', `الرمز: ${cfg.roomKey}`);
+        return;
+      }
+
+      const prevTheme = appData.theme;
+      const prevCurr = appData.displayCurrency;
+      const prevSyncCfg = { ...appData.syncConfig, lastSyncAt: getNowEnString() };
+
+      appData = {
+        ...structuredClone(defaultState),
+        ...d,
+        theme: prevTheme,
+        displayCurrency: prevCurr,
+        syncConfig: prevSyncCfg
+      };
+      saveData();
+      setSyncVisualState('ready', `مُزامَن (${appData.syncConfig.lastSyncAt})`);
+      if (!silent) alert('تمت مزامنة وتحديث البيانات بنجاح!');
+    } catch (err) {
+      setSyncVisualState('unconfigured', 'تعذر سحب البيانات - تحقق من الاتصال');
+      if (!silent) {
+        alert('تعذر سحب البيانات من السحابة الآن. يمكنك استخدام استيراد ملف JSON كبديل سريع.');
+      }
+    }
+  }
+
+  function quickSyncAction() {
+    const cfg = appData.syncConfig || {};
+    if (!cfg.roomKey && cfg.provider !== 'custom_url') {
+      if (currentSession && currentSession.role === 'admin') {
+        openSecondaryTab('settings');
+        alert('أدخل رمز مزامنة مشترك (مثل alyam-2026) في قسم المزامنة أولاً.');
+      } else {
+        alert('لم يتم ضبط رمز المزامنة بعد. اطلب من المدير ضبطه من الإعدادات، أو صدّر ملف JSON من الإعدادات.');
+      }
+      return;
+    }
+
+    if (currentSession && currentSession.role === 'accountant') {
+      syncPushToCloud(false);
+    } else {
+      const choice = confirm('اختر موافق لـ (سحب وتحديث من السحابة إلى هذا الجهاز)، أو إلغاء لـ (رفع بيانات هذا الجهاز إلى السحابة).');
+      if (choice) syncPullFromCloud(false);
+      else syncPushToCloud(false);
+    }
+  }
+
+  // ============================================================
+  // ACCOUNTANT ACCOUNTS MANAGEMENT (IN SETTINGS)
+  // ============================================================
+  function addAccountantUser() {
+    if (!currentSession || currentSession.role !== 'admin') return;
+    const name = document.getElementById('newAccName').value.trim();
+    const email = document.getElementById('newAccEmail').value.trim();
+    const password = toEnDigits(document.getElementById('newAccPass').value.trim());
+
+    if (!name || !email || !password) {
+      return alert('يرجى إدخال اسم المحاسب والبريد الإلكتروني والرقم السري');
+    }
+    if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+      return alert('لا يمكن استخدام بريد المدير لحساب محاسب');
+    }
+
+    appData.accountantUsers = appData.accountantUsers || [];
+    if (appData.accountantUsers.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      return alert('هذا البريد الإلكتروني مسجل مسبقاً لمحاسب آخر');
+    }
+
+    appData.accountantUsers.unshift({
+      id: Date.now(),
+      name,
+      email,
+      password,
+      createdAt: todayISO()
     });
+
+    document.getElementById('newAccName').value = '';
+    document.getElementById('newAccEmail').value = '';
+    document.getElementById('newAccPass').value = '';
+    saveData();
+    alert(`تم إضافة حساب المحاسب (${name}) بنجاح. يمكنه الآن تسجيل الدخول بواجهة الهاتف.`);
+  }
+
+  function deleteAccountantUser(id) {
+    if (!confirm('هل تريد حذف حساب هذا المحاسب وإيقاف دخوله؟')) return;
+    appData.accountantUsers = (appData.accountantUsers || []).filter(u => u.id !== id);
+    saveData();
+  }
+
+  function nextVoucherNo() {
+    appData.voucherSeq = (appData.voucherSeq || 1000) + 1;
+    return appData.voucherSeq;
   }
 
   function formatMoney(amount, currency) {
@@ -1965,7 +2537,6 @@
     return { inUSD, outUSD, netUSD: inUSD - outUSD, inIQD, outIQD, netIQD: inIQD - outIQD };
   }
 
-  // Helper: Compute full project financial breakdown
   function getProjectFinancials(proj) {
     const projSponsors = appData.sponsors.filter(s => s.project === proj.name);
     const projExpenses = appData.transactions.filter(t => t.project === proj.name && t.type === 'OUT');
@@ -1991,9 +2562,7 @@
       .filter(t => t.currency === proj.currency)
       .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
 
-    // Core calculation requested: Total Project Sponsorships minus Project Expenses = Remaining
     const remainingFromTotalSponsors = totalSponsorsContracted - totalExpenses;
-    // Actual Cash Remaining in hand: (Paid Sponsorships + Other Project Revenues) - Project Expenses
     const actualCashRemaining = (paidSponsors + otherRevTotal) - totalExpenses;
 
     return {
@@ -2078,7 +2647,6 @@
     document.getElementById('voucherModal').style.display = 'block';
   }
 
-  // Print Comprehensive A4 Report & Final Closing Accounts for a Project
   function openProjectFullA4(projectNameOverride) {
     const selectedProj = projectNameOverride || document.getElementById('reportProjectSelect').value;
     const proj = appData.projects.find(p => p.name === selectedProj);
@@ -2215,7 +2783,6 @@
     document.getElementById('voucherModal').style.display = 'block';
   }
 
-  // Print Individual Sponsorship Report A4
   function openSponsorReportA4(sponsorId) {
     const sp = appData.sponsors.find(s => s.id === sponsorId);
     if (!sp) return;
@@ -2750,11 +3317,9 @@
   }
 
   function saveSettings() {
+    if (!currentSession || currentSession.role !== 'admin') return;
     appData.settings.orgName = document.getElementById('setOrgName').value.trim() || 'مؤسسة اليم للتنمية المستدامة';
     appData.settings.rate100 = parseFloat(document.getElementById('setExchangeRate').value) || 150000;
-    const pinVal = toEnDigits(document.getElementById('setPinCode').value.trim());
-    if (pinVal && pinVal.length !== 4) return alert('رمز PIN يجب أن يتكون من 4 أرقام أو يترك فارغاً');
-    appData.settings.pin = pinVal;
 
     appData.settings.tiers.diamond.USD = parseFloat(document.getElementById('setDiamondUSD').value) || 0;
     appData.settings.tiers.diamond.IQD = parseFloat(document.getElementById('setDiamondIQD').value) || 0;
@@ -2790,6 +3355,8 @@
         const parsed = JSON.parse(e.target.result);
         if (parsed.transactions && parsed.settings) {
           if (!parsed.theme) parsed.theme = appData.theme || 'light';
+          if (!parsed.accountantUsers) parsed.accountantUsers = appData.accountantUsers || [];
+          if (!parsed.syncConfig) parsed.syncConfig = appData.syncConfig || structuredClone(defaultState.syncConfig);
           appData = parsed;
           saveData();
           alert('تمت استعادة النسخة الاحتياطية بنجاح!');
@@ -2829,6 +3396,25 @@
     document.getElementById('displayOrgName').textContent = appData.settings.orgName;
     document.title = `${appData.settings.orgName} - النظام المحاسبي المتكامل`;
 
+    // Sync fields & status banner
+    const syncCfg = appData.syncConfig || {};
+    document.getElementById('syncRoomKeyInput').value = syncCfg.roomKey || '';
+    document.getElementById('syncProviderSelect').value = syncCfg.provider || 'kvdb';
+    document.getElementById('customSyncUrlInput').value = syncCfg.customUrl || '';
+    document.getElementById('customSyncUrlWrap').style.display = syncCfg.provider === 'custom_url' ? 'block' : 'none';
+    document.getElementById('settingsLastSyncText').textContent = syncCfg.lastSyncAt
+      ? `آخر مزامنة: ${syncCfg.lastSyncAt}`
+      : 'آخر مزامنة: لم تتم بعد';
+
+    if (syncCfg.roomKey || syncCfg.customUrl) {
+      setSyncVisualState('ready', syncCfg.lastSyncAt ? `آخر مزامنة: ${syncCfg.lastSyncAt}` : `الرمز: ${syncCfg.roomKey}`);
+    } else {
+      setSyncVisualState('unconfigured', 'اضبط رمز المزامنة من الإعدادات أو استخدم ملف JSON');
+    }
+
+    document.getElementById('headerSyncLabel').textContent =
+      (currentSession && currentSession.role === 'accountant') ? 'مزامنة للابتوب' : 'مزامنة';
+
     if (appData.displayCurrency === 'USD') {
       document.getElementById('totalBalanceDisplay').textContent =
         totals.netUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -2848,7 +3434,6 @@
 
     document.getElementById('setOrgName').value = appData.settings.orgName;
     document.getElementById('setExchangeRate').value = appData.settings.rate100;
-    document.getElementById('setPinCode').value = appData.settings.pin || '';
     document.getElementById('setDiamondUSD').value = appData.settings.tiers.diamond.USD;
     document.getElementById('setDiamondIQD').value = appData.settings.tiers.diamond.IQD;
     document.getElementById('setGoldUSD').value = appData.settings.tiers.gold.USD;
@@ -2858,7 +3443,26 @@
     updateSponsorPreview();
     previewConversion();
 
-    // Render Projects & Populate Project Dropdowns
+    const accUsersContainer = document.getElementById('accountantUsersList');
+    const accUsers = appData.accountantUsers || [];
+    accUsersContainer.innerHTML = accUsers.length
+      ? ''
+      : '<div class="empty-msg" style="padding:10px;">لا يوجد محاسبون مضافون حالياً. أضف حساب محاسب أعلاه.</div>';
+
+    accUsers.forEach(u => {
+      accUsersContainer.innerHTML += `
+        <div class="list-item" style="padding:10px 12px; margin-bottom:8px;">
+          <div class="list-row" style="align-items:center;">
+            <div>
+              <div class="item-title" style="font-size:0.88rem;">📱 ${u.name}</div>
+              <div class="item-sub en-num" style="text-align:right;">${u.email} | السري: <strong>${u.password}</strong></div>
+            </div>
+            <button class="btn-danger" onclick="deleteAccountantUser(${u.id})">حذف</button>
+          </div>
+        </div>
+      `;
+    });
+
     const projList = document.getElementById('projectsList');
     const expProjSelect = document.getElementById('expProject');
     const revProjSelect = document.getElementById('revProject');
@@ -2903,7 +3507,6 @@
             </div>
           </div>
 
-          <!-- Project Core Equation: Total Sponsorships - Expenses = Remaining -->
           <div class="proj-mini-grid">
             <div class="proj-mini-cell">
               <small>رعايات المشروع الكلية</small>
@@ -2937,7 +3540,6 @@
     });
     if (prevRepVal) repProjSelect.value = prevRepVal;
 
-    // Sponsors Section
     let spGrandUSD = 0, spPaidUSD = 0;
     let spGrandIQD = 0, spPaidIQD = 0;
 
@@ -2993,7 +3595,6 @@
       `;
     });
 
-    // Expenses Section
     const expList = document.getElementById('expensesList');
     const expenses = appData.transactions.filter(t => t.type === 'OUT');
     expList.innerHTML = expenses.length ? '' : '<div class="empty-msg">لا توجد مصاريف مسجلة</div>';
@@ -3020,7 +3621,6 @@
       `;
     });
 
-    // Revenues Section
     document.getElementById('revTotalUSD').textContent = formatMoney(totals.inUSD, 'USD');
     document.getElementById('revTotalIQD').textContent = formatMoney(totals.inIQD, 'IQD');
     const revList = document.getElementById('revenuesList');
@@ -3048,7 +3648,6 @@
       `;
     });
 
-    // Employees Section
     const empList = document.getElementById('employeesList');
     empList.innerHTML = appData.employees.length ? '' : '<div class="empty-msg">لا يوجد موظفون مسجلون</div>';
     appData.employees.forEach(emp => {
@@ -3084,7 +3683,6 @@
       `;
     });
 
-    // Accounts Section
     document.getElementById('accBoxUSD').textContent = formatMoney(totals.netUSD, 'USD');
     document.getElementById('accBoxIQD').textContent = formatMoney(totals.netIQD, 'IQD');
     const accList = document.getElementById('accountsList');
@@ -3146,7 +3744,6 @@
         remEl.style.color = fin.remainingFromTotalSponsors >= 0 ? 'var(--accent-teal)' : 'var(--danger)';
         document.getElementById('pRepCashRem').textContent = formatMoney(fin.actualCashRemaining, projObj.currency);
 
-        // Detailed Project Sponsors List
         document.getElementById('pRepSponsorsCount').textContent = fin.projSponsors.length + ' شركة';
         const spBox = document.getElementById('pRepSponsorsList');
         spBox.innerHTML = fin.projSponsors.length ? '' : '<div class="empty-msg">لا توجد شركات راعية لهذا المشروع</div>';
@@ -3166,7 +3763,6 @@
           `;
         });
 
-        // Detailed Project Expenses List
         document.getElementById('pRepTxCount').textContent = fin.projExpenses.length + ' مصروف';
         const txBox = document.getElementById('pRepTxList');
         txBox.innerHTML = fin.projExpenses.length ? '' : '<div class="empty-msg">لا توجد مصاريف مسجلة لهذا المشروع</div>';
@@ -3186,7 +3782,6 @@
           `;
         });
 
-        // Final Closing Summary Box
         document.getElementById('pRepFinalClosing').innerHTML = `
           <h4>📑 الحسابات الختامية للمشروع (${projObj.name})</h4>
           <div class="closing-line">
@@ -3273,8 +3868,21 @@
     });
   }
 
-  checkPinLock();
-  renderAll();
+  document.getElementById('syncProviderSelect').addEventListener('change', (e) => {
+    document.getElementById('customSyncUrlWrap').style.display = e.target.value === 'custom_url' ? 'block' : 'none';
+  });
+
+  (function initSession() {
+    try {
+      const savedSess = sessionStorage.getItem(SESSION_KEY);
+      if (savedSess) {
+        currentSession = JSON.parse(savedSess);
+        applySessionUI();
+        return;
+      }
+    } catch (e) {}
+    applyTheme();
+  })();
 </script>
 </body>
 </html>
